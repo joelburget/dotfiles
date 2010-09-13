@@ -1,0 +1,7 @@
+h1. My Dotfiles
+
+Check this out people, This is some space age s**t.
+
+!http://picasaweb.google.com/lh/photo/jFRnXVoPsQuwLJ2QKe6rOg?feat=directlink!
+
+How sweet does that look? Notice the nice looking background, the status bar along the top, and how pretty vim looks.
