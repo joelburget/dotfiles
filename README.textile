@@ -2,6 +2,6 @@ h1. My Dotfiles
 
 Check this out people, This is some space age s**t.
 
-!http://lh4.ggpht.com/_dWmEGftCtRY/TI7duiITCAI/AAAAAAAAASQ/wPz2BvVTBOw/s400/desktop_1009131825.png!
+!http://lh4.ggpht.com/_dWmEGftCtRY/TI7duiITCAI/AAAAAAAAASQ/wPz2BvVTBOw/s800/desktop_1009131825.png!
 
 How sweet does that look? Notice the nice looking background, the status bar along the top, and how pretty vim looks.
