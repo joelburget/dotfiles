@@ -2,6 +2,10 @@
 " Copyright  : (c) Joel Burget 2010
 "
 
+" Enable 256 colors on laptop
+" This should not be necessary...
+set t_Co=256
+
 set nocompatible
 " lang en_US.UTF-8
 " 
@@ -107,6 +111,11 @@ nmap <silent> <leader>t :TlistToggle<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 " Reload .vimrc
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" Automatically reload vimrc if it has been saved
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
 
 " Clear highlighted searches with ,/ instead of /sdfjlafl
 nmap <silent> <leader>/ :let @/=""<CR>
