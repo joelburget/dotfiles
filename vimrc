@@ -22,7 +22,8 @@ if has("win32")
   "this fixes it
   set backspace=2
 else
-  colorscheme fruidle
+  "colorscheme fruidle
+  colorscheme mustang
 endif
 
 setglobal fileencoding=utf-8
