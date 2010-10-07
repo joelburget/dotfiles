@@ -26,6 +26,10 @@ else
   colorscheme mustang
 endif
 
+" Set up pathogen
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 setglobal fileencoding=utf-8
 " Hide buffers instead of closing them.
 set hidden
@@ -40,6 +44,13 @@ set wildignore="*.swp,*.class,*.log,*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.jpg,*.gi
 set ignorecase
 set smartcase
 
+" Make it so we can use a forward slash for path names on windows
+set shellslash
+
+" Wait less time for commands that have the same first characters
+" eg ,s and ,sv
+set timeoutlen=400
+
 " Change the terminal's title
 set title
 
@@ -47,12 +58,18 @@ set title
 set number
 
 " set it so we always have a few lines below the cursor
-set scrolloff=3
+set scrolloff=5
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
 " show the current line position
 set ruler
+
+" Awesome status line
+set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
+
+" Make it visible at all times
+set laststatus=2
 
 " Give 80 column warnings
 :au BufWinEnter * let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
@@ -130,6 +147,50 @@ cmap w!! w !sudo tee % >/dev/null
 " <leader>lb lusty buffer explorer
 " <leader>lg lusty buffer grep
 
+" Here are a bunch of awesome commands from Derek Wyatt
+" (www.derekwyatt.org) for window navigation
+
+" Move the cursor to the window left of the current one
+noremap <silent> <leader>h :wincmd h<cr>
+
+" Move the cursor to the window below the current one
+noremap <silent> <leader>j :wincmd j<cr>
+
+" Move the cursor to the window above the current one
+noremap <silent> <leader>k :wincmd k<cr>
+
+" Move the cursor to the window right of the current one
+noremap <silent> <leader>l :wincmd l<cr>
+
+" Close the window below this one
+noremap <silent> <leader>cj :wincmd j<cr>:close<cr>
+
+" Close the window above this one
+noremap <silent> <leader>ck :wincmd k<cr>:close<cr>
+
+" Close the window to the left of this one
+noremap <silent> <leader>ch :wincmd h<cr>:close<cr>
+
+" Close the window to the right of this one
+noremap <silent> <leader>cl :wincmd l<cr>:close<cr>
+
+" Close the current window
+noremap <silent> <leader>cc :close<cr>
+
+" Move the current window to the right of the main Vim window
+noremap <silent> <leader>ml <C-W>L
+
+" Move the current window to the top of the main Vim window
+noremap <silent> <leader>mk <C-W>K
+
+" Move the current window to the left of the main Vim window
+" (unmap because showmarks defines the same keymap)
+" unmap! <leader>mh             
+" noremap <silent> <leader>mh <C-W>H
+
+" Move the current window to the bottom of the main Vim window
+noremap <silent> <leader>mj <C-W>J
+
 " Endcommands
 
 set visualbell
@@ -159,10 +220,6 @@ set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=1
-
-" Set up pathogen
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
 
 " haskell mode
 let g:haddoc_browser = "chromium"
