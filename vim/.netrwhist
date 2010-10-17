@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/home/joel'
 let g:netrw_dirhist_2='/home/joel/.fontconfig'
 let g:netrw_dirhist_3='/home/joel'
@@ -8,3 +8,4 @@ let g:netrw_dirhist_5='/home/joel/.adobe/Flash_Player'
 let g:netrw_dirhist_6='/home/joel/.adobe'
 let g:netrw_dirhist_7='/home/joel'
 let g:netrw_dirhist_8='/home/joel/mainline/contrib'
+let g:netrw_dirhist_9='/home/joel/website/media'

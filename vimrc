@@ -96,6 +96,12 @@ set expandtab
 
 set autoindent
 
+" Fix supertab so it doesn't try to complete a word when you just want a tab
+let g:SuperTabLeadingSpaceCompletion = 0
+
+" Don't enable showmarks by default
+let g:showmarks_enable=0
+
 " Show matching parens, braces
 set showmatch
 

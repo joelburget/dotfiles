@@ -139,10 +139,10 @@ if g:showmarks_enable == 1
 endif
 
 " Highlighting: Setup some nice colours to show the mark positions.
-hi default ShowMarksHLl ctermfg=darkblue ctermbg=blue cterm=bold guifg=blue guibg=lightblue gui=bold
-hi default ShowMarksHLu ctermfg=darkblue ctermbg=blue cterm=bold guifg=blue guibg=lightblue gui=bold
-hi default ShowMarksHLo ctermfg=darkblue ctermbg=blue cterm=bold guifg=blue guibg=lightblue gui=bold
-hi default ShowMarksHLm ctermfg=darkblue ctermbg=blue cterm=bold guifg=blue guibg=lightblue gui=bold
+hi default ShowMarksHLl cterm=NONE
+hi default ShowMarksHLu cterm=NONE
+hi default ShowMarksHLo cterm=NONE
+hi default ShowMarksHLm cterm=NONE
 
 " Function: IncludeMarks()
 " Description: This function returns the list of marks (in priority order) to
