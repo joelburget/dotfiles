@@ -1,5 +1,5 @@
 " vimrc
-" Copyright  : (c) Joel Burget 2010
+" Copyright: (c) Joel Burget 2010, 2011
 "
 
 " Enable 256 colors on laptop
@@ -26,9 +26,18 @@ else
   colorscheme mustang
 endif
 
+" session settings  
+set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
+
+"Automatically change current directory to that of the file in the buffer  
+autocmd BufEnter * cd %:p:h
+
 " Set up pathogen
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+
+" Map escape to jj
+imap jj <Esc>
 
 setglobal fileencoding=utf-8
 " Hide buffers instead of closing them.
@@ -62,6 +71,11 @@ set scrolloff=5
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
+nnoremap j gj
+nnoremap k gk
+
+"let g:sparkupExecuteMapping = '<c-i>'
+
 " show the current line position
 set ruler
 
@@ -72,8 +86,33 @@ set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
 set laststatus=2
 
 " Give 80 column warnings
-:au BufWinEnter * let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
-:au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+" :au BufWinEnter * let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
+" :au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+
+nnoremap <silent> <Leader>p
+      \ :if exists('w:long_line_match') <Bar>
+      \   silent! call matchdelete(w:long_line_match) <Bar>
+      \   unlet w:long_line_match <Bar>
+      \ elseif &textwidth > 0 <Bar>
+      \   let w:long_line_match = matchadd('ErrorMsg', '\%>'.&tw.'v.\+', -1) <Bar>
+      \ else <Bar>
+      \   let w:long_line_match = matchadd('ErrorMsg', '\%>80v.\+', -1) <Bar>
+      \ endif<CR>
+
+" This tabularizes when you insert a '|'
+" Very experimental
+" Source: https://gist.github.com/287147
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
 if has("macunix")
   set transparency=7
@@ -102,11 +141,31 @@ let g:SuperTabLeadingSpaceCompletion = 0
 " Don't enable showmarks by default
 let g:showmarks_enable=0
 
+function! ToggleVimTips()
+  if getwinvar(bufwinnr('~/vimtips'), '&previewwindow')
+    let g:MyVimTips="off"
+    pclose
+  else
+    let g:MyVimTips="on"
+    pedit ~/vimtips
+  endif
+endfunction
+
+nnoremap <F4> :call ToggleVimTips()<CR>
+
 " Show matching parens, braces
 set showmatch
 
 if has('autocmd')
-autocmd FileType make set noexpandtab
+  autocmd FileType make set noexpandtab
+
+  autocmd BufWriteCmd *.html,*.css,*.haml :call Refresh_browser()
+  function! Refresh_browser()
+    if &modified
+      write
+      silent !xdotool search --class chromium key ctrl+r
+    endif
+  endfunction
 endif
 
 set hlsearch
@@ -137,7 +196,7 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Automatically reload vimrc if it has been saved
-if has("autocmd")
+if has('autocmd')
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 

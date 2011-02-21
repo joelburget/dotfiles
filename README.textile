@@ -1,9 +1,9 @@
 h1. My Dotfiles
 
-Check this out people, This is some space age s**t.
+Check this out!
 
 !http://lh6.ggpht.com/_dWmEGftCtRY/TJVY-eAjZYI/AAAAAAAAASY/WQ4gpfmDy70/s800/1284825213.png!
 
 How sweet does that look? Notice the nice looking background, the status bar along the top, and how pretty vim looks.
 
-These are my dotfiles for vim, my terminal, and tmux. XMonad configs coming.
+These are my dotfiles for vim, my terminal, tmux, and XMonad.
