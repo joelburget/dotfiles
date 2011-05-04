@@ -151,7 +151,19 @@ function! ToggleVimTips()
   endif
 endfunction
 
+function! ToggleNotepad()
+  if getwinvar(bufwinnr('~/notes.org'), '&previewwindow')
+    let g:NotePad="off"
+    pclose
+  else
+    let g:NotePad="on"
+    pedit ~/notes.org
+  endif
+endfunction
+
 nnoremap <F4> :call ToggleVimTips()<CR>
+nnoremap <F5> :call ToggleNotepad()<CR>
+nnoremap <F6> :GundoToggle<CR>
 
 " Show matching parens, braces
 set showmatch
@@ -174,6 +186,41 @@ syntax on
 filetype on
 filetype plugin on
 filetype indent on
+
+" Next two things thanks to John Resig: https://gist.github.com/955547
+" Tell vim to remember certain things when we exit
+"  '10 : marks will be remembered for up to 10 previously edited files
+"  "100 : will save up to 100 lines for each register
+"  :20 : up to 20 lines of command-line history will be remembered
+"  % : saves and restores the buffer list
+"  n... : where to save the viminfo files
+set viminfo='10,\"100,:20,%,n~/.viminfo
+
+" when we reload, tell vim to restore the cursor to the saved position
+augroup JumpCursorOnEdit
+ au!
+ autocmd BufReadPost *
+ \ if expand("<afile>:p:h") !=? $TEMP |
+ \ if line("'\"") > 1 && line("'\"") <= line("$") |
+ \ let JumpCursorOnEdit_foo = line("'\"") |
+ \ let b:doopenfold = 1 |
+ \ if (foldlevel(JumpCursorOnEdit_foo) > foldlevel(JumpCursorOnEdit_foo - 1)) |
+ \ let JumpCursorOnEdit_foo = JumpCursorOnEdit_foo - 1 |
+ \ let b:doopenfold = 2 |
+ \ endif |
+ \ exe JumpCursorOnEdit_foo |
+ \ endif |
+ \ endif
+ " Need to postpone using "zv" until after reading the modelines.
+ autocmd BufWinEnter *
+ \ if exists("b:doopenfold") |
+ \ exe "normal zv" |
+ \ if(b:doopenfold > 1) |
+ \ exe "+".1 |
+ \ endif |
+ \ unlet b:doopenfold |
+ \ endif
+augroup END
 
 " Commands
 " In the commands,
@@ -205,6 +252,19 @@ nmap <silent> <leader>/ :let @/=""<CR>
 
 " For those times you forgot to sudo
 cmap w!! w !sudo tee % >/dev/null
+
+" Tabs!
+" set showtabline=2               " File tabs always visible
+" :nmap <C-S-tab> :tabprevious<cr>
+" :nmap <C-tab> :tabnext<cr>
+" :nmap <C-t> :tabnew<cr>
+" :map <C-t> :tabnew<cr>
+" :map <C-S-tab> :tabprevious<cr>
+" :map <C-tab> :tabnext<cr>
+" :map <C-w> :tabclose<cr>
+" :imap <C-S-tab> <ESC>:tabprevious<cr>i
+" :imap <C-tab> <ESC>:tabnext<cr>i
+" :imap <C-t> <ESC>:tabnew<cr>
 
 " Lusty reminders
 " <leader>lf lusty file explorer
@@ -286,14 +346,54 @@ set foldnestmax=10
 set nofoldenable
 set foldlevel=1
 
+" So hsc files are interpreted as haskell source
+au BufRead,BufNewFile *.hsc setfiletype haskell
+
 " haskell mode
-let g:haddoc_browser = "chromium"
-let g:haddoc_browser_callformat = "%s %s"
 au Bufenter *.hs compiler ghc
 if has("macunix")
   let g:haddock_browser = "open"
-  let g:haddoc_browser_callformat = "%s %s"
+  let g:haddock_browser_callformat = "%s %s"
 else 
-  let g:haddoc_browser = "chromium"
-  let g:haddoc_browser_callformat = "%s %s"
+  let g:haddock_browser = "chromium"
+  let g:haddock_browser_callformat = "%s %s"
 endif
+
+" VimOrganizer
+
+" vars below are used to define default Todo list and
+" default Tag list.  Will be changed in near future so
+" that these are defined by config lines in each .org
+" file itself, but now these are where you can change things:
+let g:org_todo_setup='TODO | DONE'
+" while g:org_tag_setup is itself a string
+let g:org_tag_setup='{@home(h) @work(w) @tennisclub(t)} \n {easy(e) hard(d)} \n {computer(c) phone(p)}'
+
+" leave these as is:
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
+au BufRead,BufNewFile *.org            call org#SetOrgFileType()
+au BufRead *.org :PreLoadTags
+au BufWrite *.org :PreWriteTags
+au BufWritePost *.org :PostWriteTags
+
+" below are two examples of Org-mode "hook" functions
+" These present opportunities for end-user customization
+" of how VimOrganizer works.  For more info see the 
+" documentation for hooks in Emacs' Org-mode documentation:
+" http://orgmode.org/worg/org-configs/org-hooks.php#sec-1_40
+
+" These two hooks are currently the only ones enabled in 
+" the VimOrganizer codebase, but they are easy to add so if
+" there's a particular hook you want go ahead and request it
+" or look for where these hooks are implemented in 
+" /ftplugin/org.vim and use them as example for placing your
+" own hooks in VimOrganizer:
+function! Org_property_changed_functions(line,key, val)
+        "call confirm("prop changed: ".a:line."--key:".a:key." val:".a:val)
+endfunction
+function! Org_after_todo_state_change_hook(line,state1, state2)
+        "call ConfirmDrawer("LOGBOOK")
+        "let str = ": - State: " . Pad(a:state2,10) . "   from: " . Pad(a:state1,10) .
+        "            \ '    [' . Timestamp() . ']'
+        "call append(line("."), repeat(' ',len(matchstr(getline(line(".")),'^\s*'))) . str)
+endfunction

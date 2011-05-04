@@ -24,6 +24,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH=:/home/joel/bin:/bin:/usr/bin:/sbin:/usr/sbin:/opt/java/bin:/opt/java/jre/bin:/usr/lib/perl5/site_perl/bin:/usr/bin/perlbin/vendor:/usr/lib/perl5/core_perl/bin:/home/joel/.gem/ruby/1.9.1/bin:/home/joel/.cabal/bin:/home/joel/.gem/ruby/1.9.1/bin
 
 export EDITOR='vim'
+export GREP_OPTIONS='--color=auto --exclude=*.pyc --exclude-dir=.git'
 
 setopt AUTO_CD
 setopt AUTO_PUSHD

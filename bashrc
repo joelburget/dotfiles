@@ -11,7 +11,7 @@
 #export TERM=xterm-color
 
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
-export PATH=$PATH:~/.gem/ruby/1.9.1/bin:~/.cabal/bin:~/.bin:~/startup/depot_tools
+export PATH=$PATH:~/.gem/ruby/1.9.1/bin:~/.cabal/bin:~/bin:~/startup/depot_tools
 export shots_dir=~/shots
 export NACL_ROOT=~/startup/nativeclient
 
