@@ -8,7 +8,7 @@
 -- Stability   :  unstable
 -- Portability :  unportable
 --
--- Up to date [testing], using -darcs, last modified September 16, 2010
+-- Up to date [testing], using -darcs, last modified September 13, 2011
 --
 -- vim:foldmethod=marker foldmarker={{{,}}}
 -------------------------------------------------------------------------------
@@ -18,15 +18,9 @@
 --   Battery Meter
 --   Single Dzen bar
 --   Dzen on both screens
+--   Look at bluetile, copy their title bars / other things
 --
 -- Links:
---   Dzen multiplexer: 
---     http://dzen.geekmode.org/dwiki/doku.php?id=dzen:multiplexer
---     implemented as dmhplex in .bin
---   guide on setting up: https://bbs.archlinux.org/viewtopic.php?id=55673
---   battery meter:
---     http://dzen.geekmode.org/dwiki/doku.php?id=dzen:battery-meter
---     icons in .xmonad/dzen_bitmaps
 --   This is nice:  http://phollow.fr/2009/03/la-config-du-mois-mars-2009/
 --   Brightness adjustment
 --   Notification of volume, brightness, etc. would be nice
@@ -46,12 +40,12 @@ import qualified XMonad.StackSet as W
 import XMonad.Actions.CycleWS            (toggleWS)
 import XMonad.Actions.FindEmptyWorkspace (tagToEmptyWorkspace, viewEmptyWorkspace)
 import XMonad.Actions.WithAll            (killAll)
-import XMonad.Actions.GridSelect
-import XMonad.Hooks.DynamicLog
+import XMonad.Actions.GridSelect         (goToSelected, defaultGSConfig)
+import XMonad.Hooks.DynamicLog           (wrap, dynamicLogWithPP, defaultPP, pad, dzenStrip, ppWsSep, ppTitle, ppLayout, ppOutput, ppVisible, ppHidden, ppHiddenNoWindows, ppUrgent, shorten, ppSep, ppCurrent)
 import XMonad.Hooks.EwmhDesktops         (ewmh)
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.ManageHelpers        (doCenterFloat, isDialog, isFullscreen, doFullFloat, (/=?))
+import XMonad.Hooks.ManageDocks          (avoidStruts, manageDocks)
+import XMonad.Hooks.UrgencyHook          (withUrgencyHookC, UrgencyHook, UrgencyConfig (UrgencyConfig), SuppressWhen (OnScreen), RemindWhen (Repeatedly), focusUrgent, clearUrgents, urgencyHook)
 import XMonad.Layout.IM                  (Property(..), withIM)
 import XMonad.Layout.LayoutCombinators   ((|||), JumpToLayout(..))
 import XMonad.Layout.LayoutHints         (layoutHintsWithPlacement)
@@ -62,6 +56,9 @@ import XMonad.Layout.SimpleFloat         (simpleFloat')
 import XMonad.Layout.SimpleDecoration    (defaultTheme)
 import XMonad.Layout.Decoration          (shrinkText)
 import XMonad.Util.EZConfig              (additionalKeysP)
+import XMonad.Util.Run                   (spawnPipe)
+
+import Graphics.X11.Xinerama (getScreenInfo)
 
 -- haskell stuff
 import Data.List      (isPrefixOf)
@@ -69,19 +66,23 @@ import System.IO      (Handle, hPutStrLn, hGetContents)
 import System.Process (runInteractiveCommand)
 import System.FilePath.Posix
 import System.Time
+import DBus.Client.Simple
+import System.Taffybar.XMonadLog (dbusLog)
 
 -- }}}
+
+taffyBarColor :: String -> String -> String -> String
+taffyBarColor fg bg = wrap (fg1++bg1) (fg2++bg2)
+ where (fg1,fg2) | null fg = ("","")
+                 | otherwise = ("<span fgcolor=\"" ++ fg ++ "\">","</span>")
+       (bg1,bg2) | null bg = ("","")
+                 | otherwise = ("<span bgcolor=\"" ++ bg ++ "\">","</span>")
 
 -- Main {{{
 main :: IO ()
 main = do
-    d <- spawnDzen myLeftBar
-
-    spawn "conky"
-    spawn $ "conky -c ~/.dzen_conkyrc | " ++ show myRightBar
-
-    -- ewmh just makes wmctrl work
-    xmonad $ ewmh $ withUrgencyHookC myUrgencyHook myUrgencyConfig $ defaultConfig
+    client <- connectSession
+    xmonad $ withUrgencyHookC myUrgencyHook myUrgencyConfig $ defaultConfig
         { terminal           = myTerminal
         , modMask            = mod4Mask
         , workspaces         = myWorkspaces
@@ -90,8 +91,31 @@ main = do
         , focusedBorderColor = myFocusedBorderColor
         , layoutHook         = myLayout
         , manageHook         = myManageHook
-        , logHook            = myLogHook d
+        , logHook            = dbusLog client pp
         } `additionalKeysP` myKeys
+  where namedOnly    ws = if any (`elem` ws) ['a'..'z'] then pad ws else ""
+        noScratchPad ws = if ws /= "NSP"                then pad ws else ""
+        dzenFG  c = taffyBarColor c ""
+        renameLayouts s = case s of
+            "Hinted ResizableTall"          -> "/ /-/"
+            "Mirror Hinted ResizableTall"   -> "/-,-/"
+            "Hinted Full"                   -> "/   /"
+            "Simple Float"                  -> "/.../"
+            _                               -> s
+        stripIM s = if "IM " `isPrefixOf` s then drop (length "IM ") s else s
+
+        pp = defaultPP
+          { ppCurrent         = taffyBarColor "#303030" "#909090" . pad
+          , ppVisible         = dzenFG colorFG2 . pad
+          , ppHidden          = dzenFG colorFG2 . noScratchPad
+          , ppHiddenNoWindows = namedOnly
+          , ppUrgent          = dzenFG colorFG4 . pad . dzenStrip
+          , ppSep             = replicate 2 ' '
+          , ppWsSep           = []
+          , ppTitle           = shorten 70 
+          , ppLayout          = dzenFG colorFG2 . renameLayouts . stripIM
+          }
+
 
 -- }}}
 
@@ -99,13 +123,13 @@ main = do
 myTerminal           = "urxvtc"
 myBorderWidth        = 2
 myNormalBorderColor  = colorFG
-myFocusedBorderColor = "#5eb050"
+myFocusedBorderColor = colorFoc
 
 -- if you change workspace names, be sure to update them throughout
-myWorkspaces = clickable . (map dzenEscape) $ "web" : (map show [2..6]) ++ ["mail", "chat", "hidden"]
-  where clickable l = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
-                        (i,ws) <- zip [1..] l,
-                        let n = i ]
+myWorkspaces = {-clickable . (map dzenEscape) $-} "web" : (map show [2..6]) ++ ["mail", "chat", "hidden"]
+  -- where clickable l = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
+  --                       (i,ws) <- zip [1..] l,
+  --                       let n = i ]
 
 -- aur/dzen2-svn is required for an xft font
 --myFont = "terminus 8"
@@ -121,10 +145,7 @@ colorFG3 = "#c4df90"
 colorFG4 = "#cc896d"
 colorFG5 = "#c4df90"
 colorFG6 = "#ffffba"
-
--- status bar sizes
-leftBarWidth  = 670
-rightBarWidth = 560
+colorFoc = "#5eb050"
 
 -- }}}
 
@@ -149,6 +170,15 @@ myLayout = avoidStruts $ onWorkspace "8-chat" imLayout $ standardLayouts
         -- custom hintedTile
         hinted l = layoutHintsWithPlacement (0,0) l
 
+-- screenCount :: X Int
+-- screenCount = withDisplay (io.fmap length.getScreenInfo)
+-- 
+-- spawnBars :: X [Handle] -- loads two xmobars per screen, one top & one bottom
+-- spawnBars = Main.screenCount >>= (io . mapM spawnPipe . commandHandles)
+--   where
+--     commandHandles n = map ((\x -> "xmobar -x " ++ x) . unwords) $ commandNames n
+--     commandNames n = sequence [map show [0..n], map (\x -> "~/.xmobarrc" ++ x) ["Top", "Bottom"]]
+-- 
 -- }}}
 
 -- ManageHook {{{
@@ -189,70 +219,6 @@ myManageHook = mainManageHook <+> manageDocks <+> manageFullScreen <+> manageScr
 
 -- }}}
 
--- StatusBars {{{
---
--- See http://pbrisbin.com:8080/xmonad/docs/Dzen.html
---
-myLeftBar :: DzenConf
-myLeftBar = defaultDzen
-    { width       = leftBarWidth
-    , font        = myFont
-    , fg_color    = colorFG
-    , bg_color    = colorBG
-    }
-
-myRightBar :: DzenConf
-myRightBar = myLeftBar
-    { x_position = leftBarWidth
-    , width      = rightBarWidth
-    , alignment  = RightAlign
-    }
-
--- }}}
-
--- LogHook {{{
---
--- todo: refactor this
---
-myLogHook :: Handle -> X ()
-myLogHook h = do 
-    dynamicLogWithPP $ defaultPP
-        { ppCurrent         = dzenColor "#303030" "#909090" . pad
-        , ppVisible         = dzenFG colorFG2 . pad
-        , ppHidden          = dzenFG colorFG2 . noScratchPad
-        , ppHiddenNoWindows = namedOnly
-        , ppUrgent          = dzenFG colorFG4 . pad . dzenStrip
-        , ppSep             = replicate 4 ' '
-        , ppWsSep           = []
-        , ppTitle           = shorten 100 
-        , ppLayout          = dzenFG colorFG2 . renameLayouts . stripIM
-        -- myUpdates is too slow. when webkit starts throwing X events
-        -- like it's on crack, the whole WM becomes unusable for a few
-        -- seconds. feel free to use it if you don't run one of them
-        -- new-fangled minimal webkit browsers :)
-        , ppOutput          = hPutStrLn h
-        }
-
-    where
-
-        namedOnly    ws = if any (`elem` ws) ['a'..'z'] then pad ws else ""
-        noScratchPad ws = if ws /= "NSP"                then pad ws else ""
-
-        -- L needed for loggers
-        dzenFG  c = dzenColor  c ""
-
-        renameLayouts s = case s of
-            "Hinted ResizableTall"          -> "/ /-/"
-            "Mirror Hinted ResizableTall"   -> "/-,-/"
-            "Hinted Full"                   -> "/   /"
-            "Simple Float"                  -> "/.../"
-            _                               -> s
-
-        stripIM s = if "IM " `isPrefixOf` s then drop (length "IM ") s else s
-
-
--- }}}
-
 -- SpawnHook {{{
 --
 -- Spawn any arbitrary command on urgent
@@ -273,7 +239,6 @@ myUrgencyConfig = UrgencyConfig OnScreen (Repeatedly 1 30)
 -- KeyBindings {{{
 myKeys :: [(String, X())]
 myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu app launcher
-         , ("M-S-p"                 , spawn "bashrun"    ) -- gmrun replacement
 
          -- opening apps with Win
          , ("M-m"                  , myMail             ) -- open mail client
@@ -283,7 +248,8 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("M-r"                  , myTorrents         ) -- open/attach rtorrent in screen 
 
          -- some custom hotkeys
-         , ("<Print>"               , spawn "sshot"        ) -- take a screenshot
+         -- , ("<Print>"               , sshot1        ) -- take a screenshot
+         -- , ("S-<Print>"               , sshot2        ) -- take a screenshot
 
          -- extended workspace navigations
          , ("M-`"                   , toggleWS           ) -- switch to the most recently viewed ws
@@ -302,8 +268,8 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("<XF86AudioLowerVolume>", spawn "amixer -c 0 sset Master 1-") -- volume down 
          , ("<XF86AudioRaiseVolume>", spawn "amixer -c 0 sset Master 1+") -- volume up
          -- kill, reconfigure, exit commands
-         , ("M-q"                   , myRestart          ) -- restart xmonad
-         , ("M-S-q"                 , spawn "leave"      ) -- logout menu
+         -- , ("M-q"                   , myRestart          ) -- restart xmonad
+         -- , ("M-S-q"                 , spawn "leave"      ) -- logout menu
 
          -- See http://pbrisbin.com:8080/xmonad/docs/ScratchPadKeys.html
          ] ++ scratchPadKeys scratchPadList
@@ -349,8 +315,8 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
         mplayer s = spawn $ unwords [ "echo", s, "> $HOME/.mplayer_fifo" ]
 
         -- kill all conky/dzen2 before executing default restart command
-        myRestart = spawn $ "for pid in `pgrep conky`; do kill -9 $pid; done && " ++
-                            "for pid in `pgrep dzen2`; do kill -9 $pid; done && " ++
-                            "xmonad --recompile && xmonad --restart"
+        -- myRestart = spawn $ "for pid in `pgrep conky`; do kill -9 $pid; done && " ++
+        --                     "for pid in `pgrep dzen2`; do kill -9 $pid; done && " ++
+        --                     "xmonad --recompile && xmonad --restart"
 
--- }}}
+-- }}}detect

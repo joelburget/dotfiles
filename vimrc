@@ -36,8 +36,8 @@ autocmd BufEnter * cd %:p:h
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-" Map escape to jj
-imap jj <Esc>
+" Map escape to jk
+imap jk <Esc>
 
 setglobal fileencoding=utf-8
 " Hide buffers instead of closing them.
@@ -86,18 +86,7 @@ set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
 set laststatus=2
 
 " Give 80 column warnings
-" :au BufWinEnter * let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
-" :au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-
-nnoremap <silent> <Leader>p
-      \ :if exists('w:long_line_match') <Bar>
-      \   silent! call matchdelete(w:long_line_match) <Bar>
-      \   unlet w:long_line_match <Bar>
-      \ elseif &textwidth > 0 <Bar>
-      \   let w:long_line_match = matchadd('ErrorMsg', '\%>'.&tw.'v.\+', -1) <Bar>
-      \ else <Bar>
-      \   let w:long_line_match = matchadd('ErrorMsg', '\%>80v.\+', -1) <Bar>
-      \ endif<CR>
+set colorcolumn=80
 
 " This tabularizes when you insert a '|'
 " Very experimental
@@ -132,7 +121,6 @@ set tabstop=2
 set shiftwidth=2
 set smarttab
 set expandtab
-
 set autoindent
 
 " Fix supertab so it doesn't try to complete a word when you just want a tab
@@ -221,6 +209,8 @@ augroup JumpCursorOnEdit
  \ unlet b:doopenfold |
  \ endif
 augroup END
+
+autocmd FileType c,cpp,h,hpp,java,hs,hsc,py,js autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " Commands
 " In the commands,
