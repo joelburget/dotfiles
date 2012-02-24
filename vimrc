@@ -7,9 +7,17 @@
 set t_Co=256
 
 set nocompatible
-" lang en_US.UTF-8
-" 
-" Windows:
+
+" session settings  
+set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
+
+"Automatically change current directory to that of the file in the buffer  
+autocmd BufEnter * cd %:p:h
+
+" Set up pathogen
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 if has("win32")
   "set guifont=Consolas:h10
   set guifont=ProggyCleanTT:h11
@@ -24,16 +32,6 @@ if has("win32")
 else
   colorscheme badwolf
 endif
-
-" session settings  
-set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
-
-"Automatically change current directory to that of the file in the buffer  
-autocmd BufEnter * cd %:p:h
-
-" Set up pathogen
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
 
 " Map escape to jk
 imap jk <Esc>
