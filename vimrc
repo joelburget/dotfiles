@@ -22,8 +22,7 @@ if has("win32")
   "this fixes it
   set backspace=2
 else
-  "colorscheme fruidle
-  colorscheme mustang
+  colorscheme badwolf
 endif
 
 " session settings  
@@ -73,6 +72,15 @@ nnoremap <C-y> 3<C-y>
 
 nnoremap j gj
 nnoremap k gk
+
+" Yank from cursor to end of line
+nnoremap Y y$
+
+" Search and replace word under cursor (,*)
+:nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
+
+" Rainbow Parenthesis
+nnoremap <leader>rp :RainbowParenthesesToggle<CR>
 
 "let g:sparkupExecuteMapping = '<c-i>'
 
@@ -210,7 +218,7 @@ augroup JumpCursorOnEdit
  \ endif
 augroup END
 
-autocmd FileType c,cpp,h,hpp,java,hs,hsc,py,js autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType c,cpp,h,hpp,java,hs,hsc,lhs,cabal,py,js autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " Commands
 " In the commands,
@@ -348,6 +356,15 @@ else
   let g:haddock_browser = "chromium"
   let g:haddock_browser_callformat = "%s %s"
 endif
+
+" syntastic
+let g:syntastic_check_on_open=1
+let g:syntastic_echo_current_error=1
+let g:syntastic_enable_signs=1
+let g:syntastic_enable_highlighting=1
+let g:syntastic_auto_jump=0
+let g:syntastic_auto_loc_list=1
+let g:syntastic_loc_list_height=10
 
 " VimOrganizer
 

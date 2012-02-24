@@ -12,6 +12,7 @@
 
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export PATH=$PATH:~/.gem/ruby/1.9.1/bin:~/.cabal/bin:~/bin:~/startup/depot_tools
+export PYTHONPATH=/opt/google_appengine:/opt/google_appengine/lib
 export shots_dir=~/shots
 export NACL_ROOT=~/startup/nativeclient
 
@@ -58,3 +59,9 @@ parse_git_branch() {
 }
 
 export PS1="\[\033[00m\]\u@\h\[\033[01;34m\] \W \[\033[31m\]\$(parse_git_branch) \[\033[00m\]$\[\033[00m\] "
+
+export PERL_LOCAL_LIB_ROOT="/home/joel/perl5";
+export PERL_MB_OPT="--install_base /home/joel/perl5";
+export PERL_MM_OPT="INSTALL_BASE=/home/joel/perl5";
+export PERL5LIB="/home/joel/perl5/lib/perl5/x86_64-linux-thread-multi:/home/joel/perl5/lib/perl5";
+export PATH="/home/joel/perl5/bin:$PATH";

@@ -244,6 +244,7 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("M-m"                  , myMail             ) -- open mail client
          , ("M-b"                  , myBrowser          ) -- open web client
          , ("M-S-l"                , myLock             ) -- W-l to lock screen
+         , ("M-C-l"                , spawn "sudo pm-suspend")
          , ("M-i"                  , myIRC              ) -- open/attach IRC client in screen
          , ("M-r"                  , myTorrents         ) -- open/attach rtorrent in screen 
 

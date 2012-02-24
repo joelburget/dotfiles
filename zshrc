@@ -3,7 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-export ZSH_THEME="joelb"
+export ZSH_THEME="candy"
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -22,6 +22,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=:/home/joel/bin:/bin:/usr/bin:/sbin:/usr/sbin:/opt/java/bin:/opt/java/jre/bin:/usr/lib/perl5/site_perl/bin:/usr/bin/perlbin/vendor:/usr/lib/perl5/core_perl/bin:/home/joel/.gem/ruby/1.9.1/bin:/home/joel/.cabal/bin:/home/joel/.gem/ruby/1.9.1/bin
+export PYTHONPATH=/opt/google_appengine:/opt/google_appengine/lib
+export SERVER_SOFTWARE=Development
 
 export EDITOR='vim'
 export GREP_OPTIONS='--color=auto --exclude=*.pyc --exclude-dir=.git'
@@ -32,3 +34,8 @@ setopt AUTO_PUSHD
 alias -s pdf=evince
 alias sz='source ~/.zshrc'
 alias ez='vim ~/.zshrc'
+
+function server() {
+    local port="${1:-8000}"
+    mimeopen "http://localhost:${port}/" && python -m SimpleHTTPServer "$port"
+}
