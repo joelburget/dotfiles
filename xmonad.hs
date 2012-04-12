@@ -242,10 +242,10 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("<XF86MonBrightnessUp>"  , spawn "/home/joel/bin/brightness up"  )
          , ("<XF86MonBrightnessDown>", spawn "/home/joel/bin/brightness down")
 
-         , ("M-1", spawn "disper -d DFP-0,CRT-0 -t top -e; /home/joel/bin/brightness") -- both screens
-         , ("M-2", spawn "disper -d CRT-0 -s; /home/joel/bin/brightness"             ) -- external monitor only
-         , ("M-3", spawn "disper -d DFP-0 -s; /home/joel/bin/brightness"             ) -- built-in monitor only
-         , ("M-0", spawn "/home/joel/bin/brightness"                                 ) -- reset brightness
+         , ("M-C-1", spawn "disper -d DFP-0,CRT-0 -t top -e; /home/joel/bin/brightness") -- both screens
+         , ("M-C-2", spawn "disper -d CRT-0 -s; /home/joel/bin/brightness"             ) -- external monitor only
+         , ("M-C-3", spawn "disper -d DFP-0 -s; /home/joel/bin/brightness"             ) -- built-in monitor only
+         , ("M-C-0", spawn "/home/joel/bin/brightness"                                 ) -- reset brightness
 
          -- See http://pbrisbin.com:8080/xmonad/docs/ScratchPadKeys.html
          ] ++ scratchPadKeys scratchPadList
