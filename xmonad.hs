@@ -22,7 +22,6 @@
 --
 -- Links:
 --   This is nice:  http://phollow.fr/2009/03/la-config-du-mois-mars-2009/
---   Brightness adjustment
 --   Notification of volume, brightness, etc. would be nice
 
 
@@ -45,16 +44,17 @@ import XMonad.Hooks.DynamicLog           (wrap, dynamicLogWithPP, defaultPP, pad
 import XMonad.Hooks.EwmhDesktops         (ewmh)
 import XMonad.Hooks.ManageHelpers        (doCenterFloat, isDialog, isFullscreen, doFullFloat, (/=?))
 import XMonad.Hooks.ManageDocks          (avoidStruts, manageDocks)
-import XMonad.Hooks.UrgencyHook          (withUrgencyHookC, UrgencyHook, UrgencyConfig (UrgencyConfig), SuppressWhen (OnScreen), RemindWhen (Repeatedly), focusUrgent, clearUrgents, urgencyHook)
+import XMonad.Hooks.UrgencyHook          (withUrgencyHook, UrgencyHook, UrgencyConfig (UrgencyConfig), SuppressWhen (OnScreen), RemindWhen (Repeatedly), focusUrgent, clearUrgents, urgencyHook, NoUrgencyHook(NoUrgencyHook))
 import XMonad.Layout.IM                  (Property(..), withIM)
 import XMonad.Layout.LayoutCombinators   ((|||), JumpToLayout(..))
 import XMonad.Layout.LayoutHints         (layoutHintsWithPlacement)
-import XMonad.Layout.NoBorders           (Ambiguity(..), With(..), lessBorders)
+import XMonad.Layout.NoBorders           (noBorders)
 import XMonad.Layout.PerWorkspace        (onWorkspace)
 import XMonad.Layout.ResizableTile       (ResizableTall(..), MirrorResize(..))
 import XMonad.Layout.SimpleFloat         (simpleFloat')
 import XMonad.Layout.SimpleDecoration    (defaultTheme)
 import XMonad.Layout.Decoration          (shrinkText)
+import XMonad.Layout.Fullscreen          (fullscreenFull)
 import XMonad.Util.EZConfig              (additionalKeysP)
 import XMonad.Util.Run                   (spawnPipe)
 
@@ -82,7 +82,7 @@ taffyBarColor fg bg = wrap (fg1++bg1) (fg2++bg2)
 main :: IO ()
 main = do
     client <- connectSession
-    xmonad $ withUrgencyHookC myUrgencyHook myUrgencyConfig $ defaultConfig
+    xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig
         { terminal           = myTerminal
         , modMask            = mod4Mask
         , workspaces         = myWorkspaces
@@ -91,7 +91,7 @@ main = do
         , focusedBorderColor = myFocusedBorderColor
         , layoutHook         = myLayout
         , manageHook         = myManageHook
-        , logHook            = dbusLog client pp
+        , logHook            = dbusLog client
         } `additionalKeysP` myKeys
   where namedOnly    ws = if any (`elem` ws) ['a'..'z'] then pad ws else ""
         noScratchPad ws = if ws /= "NSP"                then pad ws else ""
@@ -116,7 +116,6 @@ main = do
           , ppLayout          = dzenFG colorFG2 . renameLayouts . stripIM
           }
 
-
 -- }}}
 
 -- Options {{{
@@ -126,7 +125,7 @@ myNormalBorderColor  = colorFG
 myFocusedBorderColor = colorFoc
 
 -- if you change workspace names, be sure to update them throughout
-myWorkspaces = {-clickable . (map dzenEscape) $-} "web" : (map show [2..6]) ++ ["mail", "chat", "hidden"]
+myWorkspaces = {-clickable . (map dzenEscape) $-} "web" : map show [2..6] ++ ["mail", "chat", "hidden"]
   -- where clickable l = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
   --                       (i,ws) <- zip [1..] l,
   --                       let n = i ]
@@ -135,7 +134,6 @@ myWorkspaces = {-clickable . (map dzenEscape) $-} "web" : (map show [2..6]) ++ [
 --myFont = "terminus 8"
 --myFont = "-*-terminus-*-r-normal-*-*-120-*-*-*-*-iso8859-*"
 myFont = "xft:Bitstream Vera Sans Mono:pixelsize=11:antialias=true"
-
 
 -- background/foreground and various levels of emphasis
 colorBG  = "#303030"
@@ -150,40 +148,30 @@ colorFoc = "#5eb050"
 -- }}}
 
 -- Layouts {{{
---
--- See http://pbrisbin.com:8080/pages/im-layout.html#update
---
-myLayout = avoidStruts $ onWorkspace "8-chat" imLayout $ standardLayouts
+myLayout = avoidStruts standardLayouts
 
     where
-        -- gajim's roster on left tenth, standardLayouts in the rest
-        imLayout = withIM (1/10) (Role "roster") standardLayouts
-
-        standardLayouts = tiled {-||| Mirror tiled-} ||| (simpleFloat' shrinkText defaultTheme) ||| full
+        standardLayouts = tiled ||| simpleFloat' shrinkText defaultTheme ||| full
 
         tiled = hinted $ ResizableTall 1 (1/100) golden []
-        full  = hinted $ Full
+        full = noBorders $ fullscreenFull Full
 
         -- golden ratio
-        golden = toRational $ 2/(1 + sqrt 5 :: Double)
+        golden = toRational $ 1 - 2/(1 + sqrt 5 :: Double)
 
         -- custom hintedTile
-        hinted l = layoutHintsWithPlacement (0,0) l
+        hinted = layoutHintsWithPlacement (0, 0)
 
 -- screenCount :: X Int
 -- screenCount = withDisplay (io.fmap length.getScreenInfo)
--- 
--- spawnBars :: X [Handle] -- loads two xmobars per screen, one top & one bottom
--- spawnBars = Main.screenCount >>= (io . mapM spawnPipe . commandHandles)
---   where
---     commandHandles n = map ((\x -> "xmobar -x " ++ x) . unwords) $ commandNames n
---     commandNames n = sequence [map show [0..n], map (\x -> "~/.xmobarrc" ++ x) ["Top", "Bottom"]]
--- 
 -- }}}
 
 -- ManageHook {{{
 myManageHook :: ManageHook
-myManageHook = mainManageHook <+> manageDocks <+> manageFullScreen <+> manageScratchPads scratchPadList
+myManageHook = mainManageHook 
+           <+> manageDocks 
+           <+> manageFullScreen 
+           <+> manageScratchPads scratchPadList
 
     where
         -- the main managehook
@@ -219,23 +207,6 @@ myManageHook = mainManageHook <+> manageDocks <+> manageFullScreen <+> manageScr
 
 -- }}}
 
--- SpawnHook {{{
---
--- Spawn any arbitrary command on urgent
---
-data MySpawnHook = MySpawnHook String deriving (Read, Show)
-
-instance UrgencyHook MySpawnHook where
-    urgencyHook (MySpawnHook s) w = spawn s
-
-myUrgencyHook :: MySpawnHook
-myUrgencyHook = MySpawnHook "ossplay -q /usr/share/gajim/data/sounds/message2.wav" 
-
-myUrgencyConfig :: UrgencyConfig
-myUrgencyConfig = UrgencyConfig OnScreen (Repeatedly 1 30)
-
--- }}}
-
 -- KeyBindings {{{
 myKeys :: [(String, X())]
 myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu app launcher
@@ -249,8 +220,8 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("M-r"                  , myTorrents         ) -- open/attach rtorrent in screen 
 
          -- some custom hotkeys
-         -- , ("<Print>"               , sshot1        ) -- take a screenshot
-         -- , ("S-<Print>"               , sshot2        ) -- take a screenshot
+         , ("<Print>"              , sshot1             ) -- take a screenshot
+         , ("S-<Print>"            , sshot2             ) -- take a screenshot
 
          -- extended workspace navigations
          , ("M-`"                   , toggleWS           ) -- switch to the most recently viewed ws
@@ -265,12 +236,16 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("M-f"                   , jumpToFull         ) -- jump to full layout
          , ("M-s"                   , goToSelected defaultGSConfig)
 
-         , ("<XF86AudioMute>"       , spawn "amixer -c 0 sset Master toggle") -- toggle mute
-         , ("<XF86AudioLowerVolume>", spawn "amixer -c 0 sset Master 1-") -- volume down 
-         , ("<XF86AudioRaiseVolume>", spawn "amixer -c 0 sset Master 1+") -- volume up
-         -- kill, reconfigure, exit commands
-         -- , ("M-q"                   , myRestart          ) -- restart xmonad
-         -- , ("M-S-q"                 , spawn "leave"      ) -- logout menu
+         , ("<XF86AudioMute>"        , spawn "amixer -c 0 sset Master toggle") -- toggle mute
+         , ("<XF86AudioLowerVolume>" , spawn "amixer -c 0 sset Master 1-"    ) -- volume down 
+         , ("<XF86AudioRaiseVolume>" , spawn "amixer -c 0 sset Master 1+"    ) -- volume up
+         , ("<XF86MonBrightnessUp>"  , spawn "/home/joel/bin/brightness up"  )
+         , ("<XF86MonBrightnessDown>", spawn "/home/joel/bin/brightness down")
+
+         , ("M-1", spawn "disper -d DFP-0,CRT-0 -t top -e; /home/joel/bin/brightness") -- both screens
+         , ("M-2", spawn "disper -d CRT-0 -s; /home/joel/bin/brightness"             ) -- external monitor only
+         , ("M-3", spawn "disper -d DFP-0 -s; /home/joel/bin/brightness"             ) -- built-in monitor only
+         , ("M-0", spawn "/home/joel/bin/brightness"                                 ) -- reset brightness
 
          -- See http://pbrisbin.com:8080/xmonad/docs/ScratchPadKeys.html
          ] ++ scratchPadKeys scratchPadList
@@ -278,11 +253,11 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
     where
 
         shotsDir = "~/shots"
-        sshot1 = do
+        sshot1 = io $ do
           t <- getClockTime
           t2 <- (\(TOD sec _) -> return sec) t
           spawn $ "scrot " ++ addExtension (combine shotsDir (show t2)) ".png"
-        sshot2 = do
+        sshot2 = io $ do
           t <- getClockTime
           t2 <- (\(TOD sec _) -> return sec) t
           spawn $ "scrot -s " ++ addExtension (combine shotsDir (show t2)) ".png"
@@ -314,10 +289,5 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
 
         -- see http://pbrisbin.com:8080/pages/mplayer-control.html
         mplayer s = spawn $ unwords [ "echo", s, "> $HOME/.mplayer_fifo" ]
-
-        -- kill all conky/dzen2 before executing default restart command
-        -- myRestart = spawn $ "for pid in `pgrep conky`; do kill -9 $pid; done && " ++
-        --                     "for pid in `pgrep dzen2`; do kill -9 $pid; done && " ++
-        --                     "xmonad --recompile && xmonad --restart"
 
 -- }}}detect
