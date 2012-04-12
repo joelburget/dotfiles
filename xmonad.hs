@@ -1,14 +1,12 @@
 -------------------------------------------------------------------------------
 -- |
 -- Module      :  xmonad.hs
--- Copyright   :  (c) Patrick Brisbin 2010, Joel Burget 2010, 2011
+-- Copyright   :  (c) Patrick Brisbin 2010, Joel Burget 2010-2012
 -- License     :  BSD3
 --
 -- Maintainer  :  joelburget@gmail.com
 -- Stability   :  unstable
 -- Portability :  unportable
---
--- Up to date [testing], using -darcs, last modified September 13, 2011
 --
 -- vim:foldmethod=marker foldmarker={{{,}}}
 -------------------------------------------------------------------------------
@@ -67,7 +65,7 @@ import System.Process (runInteractiveCommand)
 import System.FilePath.Posix
 import System.Time
 import DBus.Client.Simple
-import System.Taffybar.XMonadLog (dbusLog)
+import System.Taffybar.XMonadLog (dbusLogWithPP)
 
 -- }}}
 
@@ -91,23 +89,22 @@ main = do
         , focusedBorderColor = myFocusedBorderColor
         , layoutHook         = myLayout
         , manageHook         = myManageHook
-        , logHook            = dbusLog client
+        , logHook            = dbusLogWithPP client pp
         } `additionalKeysP` myKeys
   where namedOnly    ws = if any (`elem` ws) ['a'..'z'] then pad ws else ""
         noScratchPad ws = if ws /= "NSP"                then pad ws else ""
-        dzenFG  c = taffyBarColor c ""
+        dzenFG c = taffyBarColor c ""
         renameLayouts s = case s of
-            "Hinted ResizableTall"          -> "/ /-/"
-            "Mirror Hinted ResizableTall"   -> "/-,-/"
-            "Hinted Full"                   -> "/   /"
-            "Simple Float"                  -> "/.../"
+            "Hinted ResizableTall"          -> "\9704"--"/ /-/"
+            "Full"                          -> "\9608"--"/   /"
+            "Simple Float"                  -> "\9630"--"/.../"
             _                               -> s
         stripIM s = if "IM " `isPrefixOf` s then drop (length "IM ") s else s
 
         pp = defaultPP
-          { ppCurrent         = taffyBarColor "#303030" "#909090" . pad
-          , ppVisible         = dzenFG colorFG2 . pad
-          , ppHidden          = dzenFG colorFG2 . noScratchPad
+          { ppCurrent         = taffyBarColor colorFG6 colorFG2 . pad
+          , ppVisible         = taffyBarColor colorFG3 colorFG2 . pad
+          , ppHidden          = taffyBarColor colorFG2 colorBG . noScratchPad
           , ppHiddenNoWindows = namedOnly
           , ppUrgent          = dzenFG colorFG4 . pad . dzenStrip
           , ppSep             = replicate 2 ' '
@@ -125,10 +122,7 @@ myNormalBorderColor  = colorFG
 myFocusedBorderColor = colorFoc
 
 -- if you change workspace names, be sure to update them throughout
-myWorkspaces = {-clickable . (map dzenEscape) $-} "web" : map show [2..6] ++ ["mail", "chat", "hidden"]
-  -- where clickable l = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
-  --                       (i,ws) <- zip [1..] l,
-  --                       let n = i ]
+myWorkspaces = "web" : map show [2..6] ++ ["mail", "chat", "hidden"]
 
 -- aur/dzen2-svn is required for an xft font
 --myFont = "terminus 8"
