@@ -44,8 +44,8 @@
     path = vim/bundle/badwolf
     url = https://github.com/sjl/badwolf.git
 [submodule "vim/bundle/supertab"]
-    path = vim/bundle/supertab
-    url = https://github.com/tsaleh/supertab.git
+	  path = vim/bundle/supertab
+	  url = https://github.com/ervandew/supertab.git
 [submodule "vim/bundle/vimproc"]
     path = vim/bundle/vimproc
     url = https://github.com/Shougo/vimproc.git
@@ -55,3 +55,12 @@
 [submodule "vim/bundle/nerdtree"]
     path = vim/bundle/nerdtree
     url = https://github.com/scrooloose/nerdtree
+[submodule "vim/bundle/vim-powerline"]
+	path = vim/bundle/vim-powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule "vim/bundle/tagbar"]
+	path = vim/bundle/tagbar
+	url = git://github.com/majutsushi/tagbar
+[submodule "vim/bundle/haskellmode-vim"]
+	path = vim/bundle/haskellmode-vim
+	url = https://github.com/lukerandall/haskellmode-vim.git

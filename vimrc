@@ -15,7 +15,7 @@ set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 autocmd BufEnter * cd %:p:h
 
 " Set up pathogen
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 call pathogen#helptags()
 
 if has("win32")
@@ -30,7 +30,14 @@ if has("win32")
   "this fixes it
   set backspace=2
 else
+  "let g:Powerline_symbols = 'fancy'
   colorscheme badwolf
+endif
+
+if has("macunix")
+  set transparency=7
+  "set guifont=Monaco:h10
+  set guifont=Menlo\ Regular:h11
 endif
 
 " Map escape to jk
@@ -109,10 +116,6 @@ function! s:align()
   endif
 endfunction
 
-if has("macunix")
-  set transparency=7
-endif
-
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
@@ -123,14 +126,11 @@ set pastetoggle=<F2>
 set mouse=a
 
 " don't use tabs, instead insert 2 spaces
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set smarttab
 set expandtab
 set autoindent
-
-" Fix supertab so it doesn't try to complete a word when you just want a tab
-let g:SuperTabLeadingSpaceCompletion = 0
 
 " Don't enable showmarks by default
 let g:showmarks_enable=0
@@ -158,28 +158,21 @@ endfunction
 nnoremap <F4> :call ToggleVimTips()<CR>
 nnoremap <F5> :call ToggleNotepad()<CR>
 nnoremap <F6> :GundoToggle<CR>
+nnoremap <F7> :TagbarToggle<CR>
+
+let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 
 " Show matching parens, braces
 set showmatch
 
 if has('autocmd')
   autocmd FileType make set noexpandtab
-
-  autocmd BufWriteCmd *.html,*.css,*.haml :call Refresh_browser()
-  function! Refresh_browser()
-    if &modified
-      write
-      silent !xdotool search --class chromium key ctrl+r
-    endif
-  endfunction
 endif
 
 set hlsearch
 set incsearch
 syntax on
-filetype on
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
 " Next two things thanks to John Resig: https://gist.github.com/955547
 " Tell vim to remember certain things when we exit
