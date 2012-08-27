@@ -1,5 +1,5 @@
 " vimrc
-" Copyright: (c) Joel Burget 2010, 2011
+" Copyright: (c) Joel Burget 2010 - 2012
 "
 
 " Enable 256 colors on laptop
@@ -7,6 +7,7 @@
 set t_Co=256
 
 set nocompatible
+set shell=/bin/bash
 
 " session settings  
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
@@ -85,7 +86,7 @@ nnoremap Y y$
 :nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
 
 " Rainbow Parenthesis
-nnoremap <leader>rp :RainbowParenthesesToggle<CR>
+"nnoremap <leader>rp :RainbowParenthesesToggle<CR>
 
 "let g:sparkupExecuteMapping = '<c-i>'
 
@@ -93,28 +94,13 @@ nnoremap <leader>rp :RainbowParenthesesToggle<CR>
 set ruler
 
 " Awesome status line
-set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
+"set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
 
 " Make it visible at all times
 set laststatus=2
 
 " Give 80 column warnings
 set colorcolumn=80
-
-" This tabularizes when you insert a '|'
-" Very experimental
-" Source: https://gist.github.com/287147
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-function! s:align()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
 
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
@@ -336,7 +322,8 @@ set nofoldenable
 set foldlevel=1
 
 " So hsc files are interpreted as haskell source
-au BufRead,BufNewFile *.hsc setfiletype haskell
+au BufRead,BufNewFile *.hsc set filetype=haskell
+au BufRead,BufNewFile *.md set filetype=markdown
 
 " haskell mode
 au Bufenter *.hs compiler ghc

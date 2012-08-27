@@ -64,3 +64,12 @@
 [submodule "vim/bundle/haskellmode-vim"]
 	path = vim/bundle/haskellmode-vim
 	url = https://github.com/lukerandall/haskellmode-vim.git
+[submodule "vim/bundle/vim-mercenary"]
+	path = vim/bundle/vim-mercenary
+	url = https://github.com/phleet/vim-mercenary.git
+[submodule "vim/bundle/neocomplecache"]
+    path = vim/bundle/neocomplecache
+	url = https://github.com/Shougo/neocomplcache.git
+[submodule "vim/bundle/vim-arcanist"]
+	path = vim/bundle/vim-arcanist
+	url = https://github.com/phleet/vim-arcanist
