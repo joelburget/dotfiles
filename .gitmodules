@@ -73,3 +73,6 @@
 [submodule "vim/bundle/vim-arcanist"]
 	path = vim/bundle/vim-arcanist
 	url = https://github.com/phleet/vim-arcanist
+[submodule "vim/bundle/ctrlp"]
+	path = vim/bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim

@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/lib/initcpio/hooks'
-let g:netrw_dirhist_2='/mnt/storage/ghc-7.4.0.20111219/ghc'
-let g:netrw_dirhist_3='/home/joel/khanacademy/backup-and-analytics/src/py'

@@ -31,7 +31,7 @@ if has("win32")
   "this fixes it
   set backspace=2
 else
-  "let g:Powerline_symbols = 'fancy'
+  let g:Powerline_symbols = 'fancy'
   colorscheme badwolf
 endif
 
