@@ -61,9 +61,6 @@
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar
-[submodule "vim/bundle/haskellmode-vim"]
-	path = vim/bundle/haskellmode-vim
-	url = https://github.com/lukerandall/haskellmode-vim.git
 [submodule "vim/bundle/vim-mercenary"]
 	path = vim/bundle/vim-mercenary
 	url = https://github.com/phleet/vim-mercenary.git
