@@ -103,9 +103,9 @@ set laststatus=2
 set colorcolumn=80
 
 set winwidth=84
-set winheight=5
-set winminheight=5
+set winminwidth=10
 set winheight=999
+set winminheight=0
 
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
