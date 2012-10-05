@@ -102,6 +102,11 @@ set laststatus=2
 " Give 80 column warnings
 set colorcolumn=80
 
+set winwidth=84
+set winheight=5
+set winminheight=5
+set winheight=999
+
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
@@ -327,16 +332,10 @@ au BufRead,BufNewFile *.md set filetype=markdown
 
 " haskell mode
 au Bufenter *.hs compiler ghc
-if has("macunix")
-  let g:haddock_browser = "open"
-  let g:haddock_browser_callformat = "%s %s"
-else 
-  let g:haddock_browser = "chromium"
-  let g:haddock_browser_callformat = "%s %s"
-endif
+autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 
 " syntastic
-let g:syntastic_check_on_open=1
+let g:syntastic_check_on_open=0
 let g:syntastic_echo_current_error=1
 let g:syntastic_enable_signs=1
 let g:syntastic_enable_highlighting=1
