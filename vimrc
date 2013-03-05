@@ -104,8 +104,6 @@ set colorcolumn=80
 
 set winwidth=84
 set winminwidth=10
-set winheight=999
-set winminheight=0
 
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
@@ -331,8 +329,12 @@ au BufRead,BufNewFile *.hsc set filetype=haskell
 au BufRead,BufNewFile *.md set filetype=markdown
 
 " haskell mode
-au Bufenter *.hs compiler ghc
-autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+" au Bufenter *.hs compiler ghc
+" autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+
+" ctrlp
+nmap ; :CtrlPBuffer<CR>
+let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
 
 " syntastic
 let g:syntastic_check_on_open=0

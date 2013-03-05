@@ -1,0 +1,48 @@
+[core]
+  # Global .gitignore file
+  excludesfile = ~/.gitignore_global
+
+[user]
+	name = Joel Burget
+  email = joelburget@gmail.com
+
+[color]
+  status = auto
+  branch = auto
+  diff = auto
+  interactive = auto
+
+[branch]
+  # auto-adds the --track flag to git branch. Helps out arc (for Phabricator).
+  autosetupmerge = always
+
+[alias]
+  graph = log --graph --decorate --oneline --pretty=format:"%h%x20%Cgreen%d%x20%Cred%an%x20%Cblue%ad%x20%Creset%s" --all --full-history --date=short
+  ls-ignored = ls-files --exclude-standard --ignored --others
+  co = checkout
+  st = status
+  s  = status --short
+  ci = commit
+  br = branch
+  df = diff
+  dfs = diff --staged
+  ix = diff --cached # same as dfs
+  lp = log -p
+  outgoing = log origin/master..HEAD
+  incoming = "!git fetch $1; git log HEAD..$1/master"
+  lg = log --graph --pretty=format:'%Cred%h%Creset %Creset%Cblue%an%Creset %s %Cgreen(%cr)%Cred%d%Creset' --abbrev-commit --date=relative
+
+  # Ignore whitespace changes
+  bw = blame -w
+  lg = log --graph --pretty=format:'%Cred%h%Creset %Creset%Cblue%an%Creset %s %Cgreen(%cr)%Cred%d%Creset' --abbrev-commit --date=relative
+
+[merge]
+  # Always show a diffstat at the end of a merge
+  stat = true
+
+[diff]
+  # Use mnemonic prefixes (index, work tree, commit, object) instead of the standard a and b notation
+  mnemonicprefix = true
+
+  # Detect renames as well as copies
+  renames = copies
