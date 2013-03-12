@@ -211,6 +211,9 @@ let mapleader = ","
 set listchars=tab:>-,trail:·,eol:$
 nmap <silent> <leader>s :set nolist!<CR>
 
+" Strip trailing whitespace on write
+autocmd BufWritePre * :%s/\s\+$//e
+
 nmap <silent> <leader>d :NERDTreeToggle<CR>
 
 nmap <silent> <leader>t :TlistToggle<CR>
