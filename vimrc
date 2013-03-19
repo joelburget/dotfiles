@@ -9,10 +9,10 @@ set t_Co=256
 set nocompatible
 set shell=/bin/bash
 
-" session settings  
+" session settings
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 
-"Automatically change current directory to that of the file in the buffer  
+"Automatically change current directory to that of the file in the buffer
 autocmd BufEnter * cd %:p:h
 
 " Set up pathogen
@@ -26,7 +26,7 @@ if has("win32")
   colorscheme molokai
   "colorscheme kib_darktango
   "colorscheme fruidle
-  
+
   "for some reason backspace works weird on the laptop
   "this fixes it
   set backspace=2
@@ -84,6 +84,9 @@ nnoremap Y y$
 
 " Search and replace word under cursor (,*)
 :nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
+
+" I prefer to stay on the selection over jumping to the next match
+:nnoremap * *``
 
 " Rainbow Parenthesis
 "nnoremap <leader>rp :RainbowParenthesesToggle<CR>
@@ -291,7 +294,7 @@ noremap <silent> <leader>mk <C-W>K
 
 " Move the current window to the left of the main Vim window
 " (unmap because showmarks defines the same keymap)
-" unmap! <leader>mh             
+" unmap! <leader>mh
 " noremap <silent> <leader>mh <C-W>H
 
 " Move the current window to the bottom of the main Vim window
@@ -308,7 +311,7 @@ set visualbell
 " then deleting the old file and changing the name of the new one. It just
 " writes the new file
 " set nowritebackup
-" 
+"
 " Swap files contain undo/redo history and anything else in case of a crash
 " set noswapfile
 
@@ -359,7 +362,7 @@ let g:org_todo_setup='TODO | DONE'
 let g:org_tag_setup='{@home(h) @work(w) @tennisclub(t)} \n {easy(e) hard(d)} \n {computer(c) phone(p)}'
 
 " leave these as is:
-au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufRead,BufNewFile *.org            call org#SetOrgFileType()
 au BufRead *.org :PreLoadTags
 au BufWrite *.org :PreWriteTags
@@ -367,14 +370,14 @@ au BufWritePost *.org :PostWriteTags
 
 " below are two examples of Org-mode "hook" functions
 " These present opportunities for end-user customization
-" of how VimOrganizer works.  For more info see the 
+" of how VimOrganizer works.  For more info see the
 " documentation for hooks in Emacs' Org-mode documentation:
 " http://orgmode.org/worg/org-configs/org-hooks.php#sec-1_40
 
-" These two hooks are currently the only ones enabled in 
+" These two hooks are currently the only ones enabled in
 " the VimOrganizer codebase, but they are easy to add so if
 " there's a particular hook you want go ahead and request it
-" or look for where these hooks are implemented in 
+" or look for where these hooks are implemented in
 " /ftplugin/org.vim and use them as example for placing your
 " own hooks in VimOrganizer:
 function! Org_property_changed_functions(line,key, val)
