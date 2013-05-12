@@ -25,10 +25,6 @@
 
 -- Imports {{{
 
--- my lib
-import Dzen           -- http://pbrisbin.com/xmonad/docs/Dzen.html
-import ScratchPadKeys -- http://pbrisbin.com/xmonad/docs/ScratchPadKeys.html
-
 -- xmonad
 import XMonad hiding ((|||))
 import qualified XMonad.StackSet as W
@@ -38,7 +34,6 @@ import XMonad.Actions.CycleWS            (toggleWS)
 import XMonad.Actions.FindEmptyWorkspace (tagToEmptyWorkspace, viewEmptyWorkspace)
 import XMonad.Actions.WithAll            (killAll)
 import XMonad.Actions.GridSelect         (goToSelected, defaultGSConfig)
-import XMonad.Hooks.DynamicLog           (wrap, dynamicLogWithPP, defaultPP, pad, dzenStrip, ppWsSep, ppTitle, ppLayout, ppOutput, ppVisible, ppHidden, ppHiddenNoWindows, ppUrgent, shorten, ppSep, ppCurrent)
 import XMonad.Hooks.EwmhDesktops         (ewmh)
 import XMonad.Hooks.ManageHelpers        (doCenterFloat, isDialog, isFullscreen, doFullFloat, (/=?))
 import XMonad.Hooks.ManageDocks          (avoidStruts, manageDocks)
@@ -64,23 +59,12 @@ import System.IO      (Handle, hPutStrLn, hGetContents)
 import System.Process (runInteractiveCommand)
 import System.FilePath.Posix
 import System.Time
-import DBus.Client.Simple
-import System.Taffybar.XMonadLog (dbusLogWithPP)
 
 -- }}}
 
-taffyBarColor :: String -> String -> String -> String
-taffyBarColor fg bg = wrap (fg1++bg1) (fg2++bg2)
- where (fg1,fg2) | null fg = ("","")
-                 | otherwise = ("<span fgcolor=\"" ++ fg ++ "\">","</span>")
-       (bg1,bg2) | null bg = ("","")
-                 | otherwise = ("<span bgcolor=\"" ++ bg ++ "\">","</span>")
-
 -- Main {{{
 main :: IO ()
-main = do
-    client <- connectSession
-    xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig
+main = xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig
         { terminal           = myTerminal
         , modMask            = mod4Mask
         , workspaces         = myWorkspaces
@@ -89,29 +73,7 @@ main = do
         , focusedBorderColor = myFocusedBorderColor
         , layoutHook         = myLayout
         , manageHook         = myManageHook
-        , logHook            = dbusLogWithPP client pp
         } `additionalKeysP` myKeys
-  where namedOnly    ws = if any (`elem` ws) ['a'..'z'] then pad ws else ""
-        noScratchPad ws = if ws /= "NSP"                then pad ws else ""
-        dzenFG c = taffyBarColor c ""
-        renameLayouts s = case s of
-            "Hinted ResizableTall"          -> "\9704"--"/ /-/"
-            "Full"                          -> "\9608"--"/   /"
-            "Simple Float"                  -> "\9630"--"/.../"
-            _                               -> s
-        stripIM s = if "IM " `isPrefixOf` s then drop (length "IM ") s else s
-
-        pp = defaultPP
-          { ppCurrent         = taffyBarColor colorFG6 colorFG2 . pad
-          , ppVisible         = taffyBarColor colorFG3 colorFG2 . pad
-          , ppHidden          = taffyBarColor colorFG2 colorBG . noScratchPad
-          , ppHiddenNoWindows = namedOnly
-          , ppUrgent          = dzenFG colorFG4 . pad . dzenStrip
-          , ppSep             = replicate 2 ' '
-          , ppWsSep           = []
-          , ppTitle           = shorten 70 
-          , ppLayout          = dzenFG colorFG2 . renameLayouts . stripIM
-          }
 
 -- }}}
 
@@ -165,7 +127,6 @@ myManageHook :: ManageHook
 myManageHook = mainManageHook 
            <+> manageDocks 
            <+> manageFullScreen 
-           <+> manageScratchPads scratchPadList
 
     where
         -- the main managehook
@@ -240,9 +201,7 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("M-C-2", spawn "disper -d CRT-0 -s; /home/joel/bin/brightness"             ) -- external monitor only
          , ("M-C-3", spawn "disper -d DFP-0 -s; /home/joel/bin/brightness"             ) -- built-in monitor only
          , ("M-C-0", spawn "/home/joel/bin/brightness"                                 ) -- reset brightness
-
-         -- See http://pbrisbin.com:8080/xmonad/docs/ScratchPadKeys.html
-         ] ++ scratchPadKeys scratchPadList
+         ]
 
     where
 
