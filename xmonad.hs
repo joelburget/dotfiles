@@ -11,7 +11,7 @@
 -- vim:foldmethod=marker foldmarker={{{,}}}
 -------------------------------------------------------------------------------
 --
--- TODO: 
+-- TODO:
 --   Make Dzen bar translucent, have trayer match
 --   Battery Meter
 --   Single Dzen bar
@@ -38,6 +38,9 @@ import XMonad.Hooks.EwmhDesktops         (ewmh)
 import XMonad.Hooks.ManageHelpers        (doCenterFloat, isDialog, isFullscreen, doFullFloat, (/=?))
 import XMonad.Hooks.ManageDocks          (avoidStruts, manageDocks)
 import XMonad.Hooks.UrgencyHook          (withUrgencyHook, UrgencyHook, UrgencyConfig (UrgencyConfig), SuppressWhen (OnScreen), RemindWhen (Repeatedly), focusUrgent, clearUrgents, urgencyHook, NoUrgencyHook(NoUrgencyHook))
+import XMonad.Layout                     (ChangeLayout(NextLayout))
+import XMonad.Layout.Decoration          (shrinkText)
+import XMonad.Layout.Fullscreen          (fullscreenFull)
 import XMonad.Layout.IM                  (Property(..), withIM)
 import XMonad.Layout.LayoutCombinators   ((|||), JumpToLayout(..))
 import XMonad.Layout.LayoutHints         (layoutHintsWithPlacement)
@@ -46,8 +49,7 @@ import XMonad.Layout.PerWorkspace        (onWorkspace)
 import XMonad.Layout.ResizableTile       (ResizableTall(..), MirrorResize(..))
 import XMonad.Layout.SimpleFloat         (simpleFloat')
 import XMonad.Layout.SimpleDecoration    (defaultTheme)
-import XMonad.Layout.Decoration          (shrinkText)
-import XMonad.Layout.Fullscreen          (fullscreenFull)
+-- import XMonad.Layout.ToggleLayouts       (ToggleLayout(ToggleLayout))
 import XMonad.Util.EZConfig              (additionalKeysP)
 import XMonad.Util.Run                   (spawnPipe)
 
@@ -66,7 +68,7 @@ import System.Time
 main :: IO ()
 main = xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig
         { terminal           = myTerminal
-        , modMask            = mod4Mask
+        -- , modMask            = mod4Mask
         , workspaces         = myWorkspaces
         , borderWidth        = myBorderWidth
         , normalBorderColor  = myNormalBorderColor
@@ -124,9 +126,9 @@ myLayout = avoidStruts standardLayouts
 
 -- ManageHook {{{
 myManageHook :: ManageHook
-myManageHook = mainManageHook 
-           <+> manageDocks 
-           <+> manageFullScreen 
+myManageHook = mainManageHook
+           <+> manageDocks
+           <+> manageFullScreen
 
     where
         -- the main managehook
@@ -165,6 +167,7 @@ myManageHook = mainManageHook
 -- KeyBindings {{{
 myKeys :: [(String, X())]
 myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu app launcher
+         , ("M-l"                  , sendMessage NextLayout)
 
          -- opening apps with Win
          , ("M-m"                  , myMail             ) -- open mail client
@@ -172,7 +175,7 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("M-S-l"                , myLock             ) -- W-l to lock screen
          , ("M-C-l"                , spawn "sudo pm-suspend")
          , ("M-i"                  , myIRC              ) -- open/attach IRC client in screen
-         , ("M-r"                  , myTorrents         ) -- open/attach rtorrent in screen 
+         , ("M-r"                  , myTorrents         ) -- open/attach rtorrent in screen
 
          -- some custom hotkeys
          , ("<Print>"              , sshot1             ) -- take a screenshot
@@ -192,7 +195,7 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
          , ("M-s"                   , goToSelected defaultGSConfig)
 
          , ("<XF86AudioMute>"        , spawn "amixer -c 0 sset Master toggle") -- toggle mute
-         , ("<XF86AudioLowerVolume>" , spawn "amixer -c 0 sset Master 1-"    ) -- volume down 
+         , ("<XF86AudioLowerVolume>" , spawn "amixer -c 0 sset Master 1-"    ) -- volume down
          , ("<XF86AudioRaiseVolume>" , spawn "amixer -c 0 sset Master 1+"    ) -- volume up
          , ("<XF86MonBrightnessUp>"  , spawn "/home/joel/bin/brightness up"  )
          , ("<XF86MonBrightnessDown>", spawn "/home/joel/bin/brightness down")
@@ -214,7 +217,7 @@ myKeys = [ ("M-p"                   , spawn "$(echo | yeganesh)"   ) -- dmenu ap
           t <- getClockTime
           t2 <- (\(TOD sec _) -> return sec) t
           spawn $ "scrot -s " ++ addExtension (combine shotsDir (show t2)) ".png"
-            
+
 
         shrink = sendMessage Shrink
         expand = sendMessage Expand
