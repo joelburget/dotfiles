@@ -69,13 +69,7 @@
 	url = https://github.com/kien/ctrlp.vim
 [submodule "vim/bundle/vim2hs"]
 	path = vim/bundle/vim2hs
-	url = git://github.com/dag/vim2hs.git
-[submodule "bin/friendly-find"]
-	path = bin/friendly-find
-	url = https://github.com/sjl/friendly-find.git
-[submodule "bin/peat"]
-	path = bin/peat
-	url = https://github.com/sjl/peat.git
+	url = https://github.com/joelburget/vim2hs.git
 [submodule "irssi-config"]
 	path = irssi-config
 	url = https://github.com/pbrisbin/irssi-config.git
