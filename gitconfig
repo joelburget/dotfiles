@@ -3,8 +3,8 @@
   excludesfile = ~/.gitignore_global
 
 [user]
-  name = Joel Burget
-  email = joelburget@gmail.com
+	name = Joel Burget
+	email = joel@khanacademy.org
 
 [color]
   status = auto
@@ -19,7 +19,8 @@
 [alias]
   graph = log --graph --decorate --oneline --pretty=format:"%h%x20%Cgreen%d%x20%Cred%an%x20%Cblue%ad%x20%Creset%s" --all --full-history --date=short
   ls-ignored = ls-files --exclude-standard --ignored --others
-  co = "!f() { git checkout $* && git submodule update --init --recursive; }; f"
+  co = !sh -c 'git checkout $* && git submodule update --init --recursive' --
+  p = !sh -c 'git pull $* && git submodule update --init --recursive' --
   st = status
   s  = status --short
   ci = commit
@@ -33,12 +34,13 @@
   lg = log --graph --pretty=format:'%Cred%h%Creset %Creset%Cblue%an%Creset %s %Cgreen(%cr)%Cred%d%Creset' --abbrev-commit --date=relative
   amnd = commit --amend --no-edit
   amnda = commit --amend --no-edit --all
-  ff = pull --ff-only
-  gprs='run git pull --rebase && run git submodule update --init --recursive'
+  ff = !sh -c 'git pull $* --ff-only && git submodule update --init --recursive' --
+  gprs = "!f() { git pull --rebase && git submodule update --init --recursive; }; f"
 
   # Ignore whitespace changes
   bw = blame -w
   lg = log --graph --pretty=format:'%Cred%h%Creset %Creset%Cblue%an%Creset %s %Cgreen(%cr)%Cred%d%Creset' --abbrev-commit --date=relative
+  shw = show --stat
 
 [merge]
   # Always show a diffstat at the end of a merge
@@ -54,3 +56,7 @@
 	default = simple
 [credential]
 	helper = osxkeychain
+[init]
+	templatedir = /Users/joelburget/.git_template
+[commit]
+	template = /Users/joelburget/.git_template/commit_template
