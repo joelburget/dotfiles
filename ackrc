@@ -24,6 +24,7 @@
 --type-set=json=.json
 --type-set=markdown=.md,.mkd,.markdown
 --type-set=haskell=.hs,.lhs,.hsc,.chs
+--type-set=jsx=.jsx
 
 ################################################################################
 # Khan Academy specific
