@@ -33,16 +33,22 @@ if has("win32")
 else
   let g:Powerline_symbols = 'fancy'
   colorscheme badwolf
+  set backspace=indent,eol,start
 endif
 
 if has("macunix")
-  set transparency=7
+    if has("gui")
+      set transparency=7
+    endif
   "set guifont=Monaco:h10
   set guifont=Menlo\ Regular:h11
 endif
 
-" Map escape to jk
+" Map jk to escape
 imap jk <Esc>
+
+" :W saves
+cnoreabbrev W w
 
 setglobal fileencoding=utf-8
 " Hide buffers instead of closing them.
@@ -83,7 +89,7 @@ nnoremap k gk
 nnoremap Y y$
 
 " Search and replace word under cursor (,*)
-:nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
+nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
 
 " Rainbow Parenthesis
 "nnoremap <leader>rp :RainbowParenthesesToggle<CR>
@@ -123,6 +129,9 @@ set autoindent
 
 " Don't enable showmarks by default
 let g:showmarks_enable=0
+
+" Count the number of occurrences of the currently highlighted word
+nnoremap <leader>ct :%s///gn<CR>
 
 function! ToggleVimTips()
   if getwinvar(bufwinnr('~/vimtips'), '&previewwindow')
@@ -297,8 +306,6 @@ noremap <silent> <leader>mk <C-W>K
 " Move the current window to the bottom of the main Vim window
 noremap <silent> <leader>mj <C-W>J
 
-" Endcommands
-
 set visualbell
 
 " The backup file contains the file as it was before you edited it
@@ -312,8 +319,24 @@ set visualbell
 " Swap files contain undo/redo history and anything else in case of a crash
 " set noswapfile
 
-set grepprg=ack
-set grepformat=%f:%l:%m
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" bind \ (backward slash) to grep shortcut
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
 
 if has("macunix")
   let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
@@ -338,6 +361,8 @@ au BufRead,BufNewFile *.md set filetype=markdown
 " ctrlp
 nmap ; :CtrlPBuffer<CR>
 let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+" Enable cross-session caching
+let g:ctrlp_clear_cache_on_exit = 0
 
 " syntastic
 let g:syntastic_check_on_open=0
