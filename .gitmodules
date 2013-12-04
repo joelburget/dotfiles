@@ -49,9 +49,6 @@
 [submodule "vim/bundle/VimOrganizer"]
     path = vim/bundle/VimOrganizer
     url = https://github.com/hsitz/VimOrganizer.git
-[submodule "vim/bundle/nerdtree"]
-    path = vim/bundle/nerdtree
-    url = https://github.com/scrooloose/nerdtree
 [submodule "vim/bundle/vim-powerline"]
 	path = vim/bundle/vim-powerline
 	url = https://github.com/Lokaltog/vim-powerline.git
@@ -82,3 +79,9 @@
 [submodule "irssi-config"]
 	path = irssi-config
 	url = https://github.com/pbrisbin/irssi-config.git
+[submodule "friendly-find"]
+    path = bin/friendly-find
+    url = https://github.com/sjl/friendly-find.git
+[submodule "peat"]
+    path = bin/peat
+    url = https://github.com/sjl/peat.git
