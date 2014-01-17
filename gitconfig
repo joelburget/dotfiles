@@ -41,6 +41,7 @@
   bw = blame -w
   lg = log --graph --pretty=format:'%Cred%h%Creset %Creset%Cblue%an%Creset %s %Cgreen(%cr)%Cred%d%Creset' --abbrev-commit --date=relative
   shw = show --stat
+  tmp = commit -anm tmp
 
 [merge]
   # Always show a diffstat at the end of a merge
