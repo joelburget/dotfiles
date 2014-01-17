@@ -44,6 +44,8 @@ if has("macunix")
   set guifont=Menlo\ Regular:h11
 endif
 
+let mapleader = ","
+
 " Map jk to escape
 imap jk <Esc>
 
@@ -214,8 +216,6 @@ autocmd FileType c,cpp,h,hpp,java,hs,hsc,lhs,cabal,py,js autocmd BufWritePre <bu
 " <silent> prevents a message from being printed
 " <CR> prevents us having to type enter
 
-let mapleader = ","
-
 " Show whitespace
 set listchars=tab:>-,trail:·,eol:$
 nmap <silent> <leader>s :set nolist!<CR>
@@ -350,7 +350,7 @@ set foldnestmax=10
 set nofoldenable
 set foldlevel=1
 
-" So hsc files are interpreted as haskell source
+au BufRead,BufNewFile *.less set filetype=less
 au BufRead,BufNewFile *.hsc set filetype=haskell
 au BufRead,BufNewFile *.md set filetype=markdown
 
@@ -374,13 +374,16 @@ let g:syntastic_auto_loc_list=1
 let g:syntastic_loc_list_height=10
 let g:syntastic_gjslint_conf=" --nojsdoc"
 
+autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
+autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
+
 " VimOrganizer
 
 " vars below are used to define default Todo list and
 " default Tag list.  Will be changed in near future so
 " that these are defined by config lines in each .org
 " file itself, but now these are where you can change things:
-let g:org_todo_setup='TODO | DONE'
+let g:org_todo_setup='TODO | DONE | STOPSHIP'
 " while g:org_tag_setup is itself a string
 let g:org_tag_setup='{@home(h) @work(w) @tennisclub(t)} \n {easy(e) hard(d)} \n {computer(c) phone(p)}'
 
