@@ -468,3 +468,111 @@ hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
 " }}}
+
+" `:R` jumps to the definition of the class you're currently in
+" `:R <code>` jumps to the method for that code (ex. `:R gdp`)
+" `:R! <code>` jumps to the method, and creates it if it doesn't already exist
+
+function! s:CodeToFunctionName(code)
+  if a:code == "cdm"
+    return "componentDidMount"
+  elseif a:code == "cdup"
+    return "componentDidUpdate"
+  elseif a:code == "cwm"
+    return "componentWillMount"
+  elseif a:code == "cwr"
+    return "componentWillReceiveProps"
+  elseif a:code == "cwun"
+    return "componentWillUnmount"
+  elseif a:code == "cwu"
+    return "componentWillUpdate"
+  elseif a:code == "gdp"
+    return "getDefaultProps"
+  elseif a:code == "gis"
+    return "getInitialState"
+  elseif a:code == "pt"
+    return "propTypes"
+  elseif a:code == "r"
+    return "render"
+  elseif a:code == "scu"
+    return "shouldComponentUpdate"
+  endif
+endfunction
+
+" so sophisticated
+function! s:IsFunction(name)
+  return !(a:name == "propTypes")
+endfunction
+
+function! s:CreateMethod(name)
+  if s:IsFunction(a:name)
+    exec "normal! o" . a:name . ": function() {"
+  else
+    exec "normal! o" . a:name . ": {"
+  endif
+  normal! o},
+  normal! o
+  normal! k
+  call feedkeys("O", 'n')
+endfunction
+
+function! s:React(...)
+  " assume happy path for now...
+  let argCount = a:0
+  let l:winview = winsaveview()
+  normal! m'
+  normal! +
+  keepjumps call search("React.createClass", "b")
+  if argCount == 1
+    " no args means go to the definition
+    return
+  endif
+  let startingLine = line(".")
+  keepjumps normal! $%
+  let endingLine = line(".")
+  keepjumps normal! %
+
+  let isBang = a:1
+  let requestedCode = a:2
+
+  let functionName = s:CodeToFunctionName(requestedCode)
+  let found = search(functionName . ":", "c", endingLine)
+  if found == 0
+    if isBang
+      call s:CreateMethod(functionName)
+    else
+      keepjumps normal! ''
+      call winrestview(l:winview)
+      echo "This class does not have " . functionName . ", call with ! to create"
+    endif
+  else
+    normal! zz
+  endif
+endfunction
+
+
+command! -nargs=* -bang R call s:React("<bang>"=="!", <f-args>)
+
+" not very smart yet...
+function! s:ReactExtract(start, end)
+  call inputsave()
+  let name = input('Extract to component named: ')
+  call inputrestore()
+  echo a:start
+  echo a:end
+endfunction
+
+
+command! -range Rex call s:ReactExtract(<line1>, <line2>)
+
+" enable % to jump to matching JSX tags (if you have matchit enabled)
+runtime macros/matchit.vim
+
+function! s:SetupJsxMatching()
+  let b:match_ignorecase = 0
+  let b:match_words = '(:),\[:\],{:},<:>,' .
+        \ '<\@<=\([^/][^ \t>]*\)[^>]*\%(>\|$\):<\@<=/\1>'
+
+endfunction
+
+autocmd FileType javascript call s:SetupJsxMatching()
