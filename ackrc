@@ -25,6 +25,7 @@
 --type-set=markdown=.md,.mkd,.markdown
 --type-set=haskell=.hs,.lhs,.hsc,.chs
 --type-set=jsx=.jsx
+--type-set=idris=.idr
 
 ################################################################################
 # Khan Academy specific
