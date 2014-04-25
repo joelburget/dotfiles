@@ -57,7 +57,6 @@
 	default = simple
 [credential]
 	helper = osxkeychain
-[init]
-	templatedir = /Users/joelburget/.git_template
-[commit]
-	template = /Users/joelburget/.git_template/commit_template
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
