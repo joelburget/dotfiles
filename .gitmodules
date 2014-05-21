@@ -34,9 +34,9 @@
 [submodule "vim/bundle/syntastic"]
     path = vim/bundle/syntastic
     url = https://github.com/scrooloose/syntastic.git
-[submodule "vim/bundle/vim-colors-solarized"]
-    path = vim/bundle/vim-colors-solarized
-    url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "vim/bundle/solarized"]
+	path = vim/bundle/solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
 [submodule "vim/bundle/badwolf"]
     path = vim/bundle/badwolf
     url = https://github.com/sjl/badwolf.git
@@ -94,6 +94,3 @@
 [submodule "vim/bundle/vim-addon-mw-utils"]
 	path = vim/bundle/vim-addon-mw-utils
 	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
-[submodule "vim/bundle/solarized"]
-	path = vim/bundle/solarized
-	url = git://github.com/altercation/vim-colors-solarized.git

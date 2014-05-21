@@ -1,10 +1,14 @@
 " vimrc
-" Copyright: (c) Joel Burget 2010 - 2012
+" Copyright: (c) Joel Burget 2010 - 2014
 "
 
-" Enable 256 colors on laptop
-" This should not be necessary...
-" set t_Co=256
+" http://stackoverflow.com/a/7278548/2121468
+set background=dark
+let g:solarized_termtrans = 1
+let g:solarized_termcolors = 16
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+colorscheme solarized
 
 set nocompatible
 set shell=/bin/bash
@@ -19,9 +23,6 @@ autocmd BufEnter * cd %:p:h
 call pathogen#infect()
 call pathogen#helptags()
 
-let g:solarized_termcolors=16
-set background=light
-colorscheme solarized
 
 let g:Powerline_symbols = 'fancy'
 set backspace=indent,eol,start
