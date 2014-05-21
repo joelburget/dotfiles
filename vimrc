@@ -4,7 +4,7 @@
 
 " Enable 256 colors on laptop
 " This should not be necessary...
-set t_Co=256
+" set t_Co=256
 
 set nocompatible
 set shell=/bin/bash
@@ -19,28 +19,17 @@ autocmd BufEnter * cd %:p:h
 call pathogen#infect()
 call pathogen#helptags()
 
-if has("win32")
-  "set guifont=Consolas:h10
-  set guifont=ProggyCleanTT:h11
-  "set guifont=
-  colorscheme molokai
-  "colorscheme kib_darktango
-  "colorscheme fruidle
+let g:solarized_termcolors=16
+set background=light
+colorscheme solarized
 
-  "for some reason backspace works weird on the laptop
-  "this fixes it
-  set backspace=2
-else
-  let g:Powerline_symbols = 'fancy'
-  colorscheme badwolf
-  set backspace=indent,eol,start
-endif
+let g:Powerline_symbols = 'fancy'
+set backspace=indent,eol,start
 
 if has("macunix")
     if has("gui")
       set transparency=7
     endif
-  "set guifont=Monaco:h10
   set guifont=Menlo\ Regular:h11
 endif
 
@@ -460,6 +449,7 @@ nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
 " }}}
 " Default Highlights {{{
 
+" TODO - figure out how this was broken by solarized
 hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
 hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
 hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
