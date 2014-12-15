@@ -26,13 +26,15 @@
 --type-set=haskell=.hs,.lhs,.hsc,.chs
 --type-set=jsx=.jsx
 --type-set=idris=.idr
+--type-set=she=.hers
+
+--ignore-dir=node_modules
+--ignore-dir=__tests__
+
+--noshe
 
 ################################################################################
 # Khan Academy specific
-
-# Ignore files matching the following regex
---invert-file-match
--G(hashed-\w+.(js|css)|combined\.(js|css)|compressed\.(js|css)|\.handlebars\.js$)
 
 # Directories to ignore at any level
 --ignore-dir=third_party

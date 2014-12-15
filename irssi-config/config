@@ -12,10 +12,11 @@ servers = (
   }
 );
 
-chatnets = { freenode = { type = "IRC"; nick = "joelb"; }; };
+chatnets = { freenode = { type = "IRC"; nick = "dino_joel"; }; };
 
 channels = (
   { name = "#haskell"; chatnet = "freenode"; autojoin = "Yes"; },
+  { name = "#epigram"; chatnet = "freenode"; autojoin = "Yes"; },
   { name = "#diagrams"; chatnet = "freenode"; autojoin = "Yes"; },
   { name = "#haskell-lens"; chatnet = "freenode"; autojoin = "Yes"; },
   { name = "#phabricator"; chatnet = "freenode"; autojoin = "Yes"; },
@@ -24,7 +25,11 @@ channels = (
   { name = "##hott"; chatnet = "freenode"; autojoin = "Yes"; },
   { name = "#agda"; chatnet = "freenode"; autojoin = "Yes"; },
   { name = "#idris"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#ghc"; chatnet = "freenode"; autojoin = "Yes"; }
+  { name = "#ghc"; chatnet = "freenode"; autojoin = "Yes"; },
+  { name = "#pigment"; chatnet = "freenode"; autojoin = "Yes"; },
+  { name = "#epigram"; chatnet = "freenode"; autojoin = "Yes"; },
+  { name = "#haskell-haste"; chatnet = "freenode"; autojoin = "Yes"; },
+  { name = "#flowtype"; chatnet = "freenode"; autojoin = "Yes"; }
 );
 
 aliases = {
@@ -100,14 +105,21 @@ statusbar = {
         barend = { priority = "100"; alignment = "right"; };
       };
     };
+    awl_1 = {
+      items = {
+        barstart = { priority = "100"; };
+        awl_1 = { };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
   };
 };
 
 settings = {
   core = {
     real_name = "Joel Burget";
-    user_name = "joelb";
-    nick = "joelb";
+    user_name = "dino_joel";
+    nick = "dino_joel";
     awaylog_file = "/dev/null";
     recode_autodetect_utf8 = "yes";
     recode_fallback = "CP1252";
@@ -256,6 +268,46 @@ windows = {
         type = "CHANNEL";
         chat_type = "IRC";
         name = "#ghc";
+        tag = "freenode";
+      }
+    );
+  };
+  13 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#pigment";
+        tag = "freenode";
+      }
+    );
+  };
+  14 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#epigram";
+        tag = "freenode";
+      }
+    );
+  };
+  15 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#haskell-haste";
+        tag = "freenode";
+      }
+    );
+  };
+  16 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#flowtype";
         tag = "freenode";
       }
     );

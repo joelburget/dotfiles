@@ -73,9 +73,6 @@
 [submodule "irssi-config"]
 	path = irssi-config
 	url = https://github.com/pbrisbin/irssi-config.git
-[submodule "friendly-find"]
-    path = bin/friendly-find
-    url = https://github.com/sjl/friendly-find.git
 [submodule "peat"]
     path = bin/peat
     url = https://github.com/sjl/peat.git
@@ -94,3 +91,15 @@
 [submodule "vim/bundle/vim-addon-mw-utils"]
 	path = vim/bundle/vim-addon-mw-utils
 	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
+[submodule "vim/bundle/vim-copy-as-rtf"]
+	path = vim/bundle/vim-copy-as-rtf
+	url = https://github.com/zerowidth/vim-copy-as-rtf.git
+[submodule "vim/bundle/vim-jsx"]
+	path = vim/bundle/vim-jsx
+	url = https://github.com/mxw/vim-jsx.git
+[submodule "vim/bundle/vim-javascript"]
+	path = vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule "vim/bundle/vim-commentary"]
+	path = vim/bundle/vim-commentary
+	url = https://github.com/tpope/vim-commentary

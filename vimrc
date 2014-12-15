@@ -3,7 +3,7 @@
 "
 
 " http://stackoverflow.com/a/7278548/2121468
-set background=dark
+set background=light
 let g:solarized_termtrans = 1
 let g:solarized_termcolors = 16
 let g:solarized_visibility = "high"
@@ -52,7 +52,7 @@ set wildmenu
 set wildmode=list:longest
 
 " don't show these filetypes, we won't edit them
-set wildignore="*.swp,*.class,*.log,*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.jpg,*.gif,*.png"
+set wildignore=*.swp,*.class,*.log,*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.jpg,*.gif,*.png,*.hi,*.jsmod,*.hers
 set ignorecase
 set smartcase
 
@@ -76,6 +76,9 @@ nnoremap <C-y> 3<C-y>
 
 nnoremap j gj
 nnoremap k gk
+
+nnoremap ' `
+nnoremap ` '
 
 " Yank from cursor to end of line
 nnoremap Y y$
@@ -112,7 +115,7 @@ set pastetoggle=<F2>
 " Enable better mouse support
 set mouse=a
 
-" don't use tabs, instead insert 2 spaces
+" don't use tabs, instead insert 4 spaces
 set tabstop=4
 set shiftwidth=4
 set smarttab
@@ -125,28 +128,6 @@ let g:showmarks_enable=0
 " Count the number of occurrences of the currently highlighted word
 nnoremap <leader>ct :%s///gn<CR>
 
-function! ToggleVimTips()
-  if getwinvar(bufwinnr('~/vimtips'), '&previewwindow')
-    let g:MyVimTips="off"
-    pclose
-  else
-    let g:MyVimTips="on"
-    pedit ~/vimtips
-  endif
-endfunction
-
-function! ToggleNotepad()
-  if getwinvar(bufwinnr('~/notes.org'), '&previewwindow')
-    let g:NotePad="off"
-    pclose
-  else
-    let g:NotePad="on"
-    pedit ~/notes.org
-  endif
-endfunction
-
-nnoremap <F4> :call ToggleVimTips()<CR>
-nnoremap <F5> :call ToggleNotepad()<CR>
 nnoremap <F6> :GundoToggle<CR>
 nnoremap <F7> :TagbarToggle<CR>
 
@@ -154,10 +135,6 @@ let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 
 " Show matching parens, braces
 set showmatch
-
-if has('autocmd')
-  autocmd FileType make set noexpandtab
-endif
 
 set hlsearch
 set incsearch
@@ -350,7 +327,7 @@ au BufRead,BufNewFile *.md set filetype=markdown
 
 " ctrlp
 nmap ; :CtrlPBuffer<CR>
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|class|log|dll|obj|bak|exe|jpg|gif|png|hi|jsmod|hers|hspp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
 " Enable cross-session caching
 let g:ctrlp_clear_cache_on_exit = 0
 
@@ -366,45 +343,6 @@ let g:syntastic_gjslint_conf=" --nojsdoc"
 
 autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
 autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
-
-" VimOrganizer
-
-" vars below are used to define default Todo list and
-" default Tag list.  Will be changed in near future so
-" that these are defined by config lines in each .org
-" file itself, but now these are where you can change things:
-let g:org_todo_setup='TODO | DONE | STOPSHIP'
-" while g:org_tag_setup is itself a string
-let g:org_tag_setup='{@home(h) @work(w) @tennisclub(t)} \n {easy(e) hard(d)} \n {computer(c) phone(p)}'
-
-" leave these as is:
-au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
-au BufRead,BufNewFile *.org            call org#SetOrgFileType()
-au BufRead *.org :PreLoadTags
-au BufWrite *.org :PreWriteTags
-au BufWritePost *.org :PostWriteTags
-
-" below are two examples of Org-mode "hook" functions
-" These present opportunities for end-user customization
-" of how VimOrganizer works.  For more info see the
-" documentation for hooks in Emacs' Org-mode documentation:
-" http://orgmode.org/worg/org-configs/org-hooks.php#sec-1_40
-
-" These two hooks are currently the only ones enabled in
-" the VimOrganizer codebase, but they are easy to add so if
-" there's a particular hook you want go ahead and request it
-" or look for where these hooks are implemented in
-" /ftplugin/org.vim and use them as example for placing your
-" own hooks in VimOrganizer:
-function! Org_property_changed_functions(line,key, val)
-        "call confirm("prop changed: ".a:line."--key:".a:key." val:".a:val)
-endfunction
-function! Org_after_todo_state_change_hook(line,state1, state2)
-        "call ConfirmDrawer("LOGBOOK")
-        "let str = ": - State: " . Pad(a:state2,10) . "   from: " . Pad(a:state1,10) .
-        "            \ '    [' . Timestamp() . ']'
-        "call append(line("."), repeat(' ',len(matchstr(getline(line(".")),'^\s*'))) . str)
-endfunction
 
 " Highlight Word {{{
 "

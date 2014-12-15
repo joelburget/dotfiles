@@ -1,7 +1,7 @@
 # bashrc
 # Copyright  : (c) Joel Burget 2010
 #
-# I stole most of this stuff from here: 
+# I stole most of this stuff from here:
 # http://blog.infinitered.com/entries/show/4
 
 # Check for an interactive session
@@ -20,15 +20,15 @@ export NACL_ROOT=~/startup/nativeclient
 export HISTCONTROL=ignoredups
 
 # After each command, checks the windows size and changes lines and columns
-shopt -s checkwinsize 
+shopt -s checkwinsize
 
 # bash completion settings (actually, these are readline settings)
 # note: bind used instead of sticking these in .inputrc
-bind "set completion-ignore-case on" 
+bind "set completion-ignore-case on"
 bind "set bell-style none"
 bind "set show-all-if-ambiguous On"
 
-# Turn on advanced bash completion if the file exists 
+# Turn on advanced bash completion if the file exists
 #(get it here: http://www.caliban.org/bash/index.shtml#completion)
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
@@ -36,11 +36,9 @@ fi
 
 # Misc
 # Lists folders and files sizes in the current folder
-alias ducks='du -cksh * | sort -rn|head -11' 
+alias ducks='du -cksh * | sort -rn|head -11'
 
-alias ls='ls --color=auto'
-
-# Shows most used commands, cool script I got this from: 
+# Shows most used commands, cool script I got this from:
 # http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
 alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
 
