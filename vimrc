@@ -23,8 +23,7 @@ autocmd BufEnter * cd %:p:h
 call pathogen#infect()
 call pathogen#helptags()
 
-
-let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts = 1
 set backspace=indent,eol,start
 
 if has("macunix")
