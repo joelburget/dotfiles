@@ -1,6 +1,7 @@
 [core]
   # Global .gitignore file
   excludesfile = ~/.gitignore_global
+	precomposeunicode = true
 
 [user]
 	name = Joel Burget
@@ -60,6 +61,7 @@
   update-submodule = !bash -c 'git co master && git pull --no-rebase && pushd $1 && git co master && git pull && popd && git commit ${1%/} -m Substate -m Test\\ plan: -m None && git push && git co -' --
   weekly = "!git log --author=$USER --since=`date -d last\\ monday +%Y/%m/%d`"
   findreviewers = "!~/khan/webapp/tools/findreviewers.py \"$@\""
+	conflicts = diff --name-only --diff-filter=U
 
 [merge]
   # Always show a diffstat at the end of a merge
@@ -79,3 +81,11 @@
 	required = true
 	clean = git media clean %f
 	smudge = git media smudge %f
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
