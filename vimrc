@@ -197,8 +197,16 @@ let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 " Show matching parens, braces
 set showmatch
 
+" highlight results, act like 'modern browser' search
 set hlsearch
 set incsearch
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" For regular expressions turn magic on
+set magic
+
 syntax on
 filetype plugin indent on
 
