@@ -1,5 +1,5 @@
 " vimrc
-" Copyright: (c) Joel Burget 2010 - 2014
+" Copyright: (c) Joel Burget 2010 - 2015
 "
 
 " http://stackoverflow.com/a/7278548/2121468
@@ -13,15 +13,77 @@ colorscheme solarized
 set nocompatible
 set shell=/bin/bash
 
+" set the runtime path to include Vundle and initialize
+filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" colors
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'sjl/badwolf'
+Plugin 'vim-scripts/Lucius'
+
+" taxt manipulation
+Plugin 'godlygeek/tabular' " *
+Plugin 'tpope/vim-unimpaired' " *
+Plugin 'tpope/vim-surround' " *
+Plugin 'tpope/vim-commentary' " *
+Plugin 'tpope/vim-repeat'
+
+
+" git
+Plugin 'tpope/vim-fugitive'
+Plugin 'int3/vim-extradite'
+
+" support
+Bundle 'nathanaelkane/vim-indent-guides'
+Plugin 'sjl/gundo.vim'
+Plugin 'Shougo/vimproc'
+Plugin 'Shougo/neocomplcache'
+Plugin 'scrooloose/syntastic'
+Plugin 'ervandew/supertab'
+Plugin 'kien/ctrlp.vim'
+Plugin 'bling/vim-airline'
+Plugin 'scrooloose/nerdtree'
+Plugin 'majutsushi/tagbar'
+
+" react stuff
+Plugin 'mxw/vim-jsx'
+Plugin 'justinj/vim-react-snippets'
+Plugin 'pangloss/vim-javascript'
+
+" haskell
+Bundle 'raichoo/haskell-vim'
+Bundle 'enomsg/vim-haskellConcealPlus'
+Bundle 'eagletmt/ghcmod-vim'
+Bundle 'eagletmt/neco-ghc'
+Bundle 'Twinside/vim-hoogle'
+
+" fast html authoring
+Plugin 'rstacruz/sparkup'
+
+" misc
+Plugin 'idris-hackers/idris-vim'
+Plugin 'zerowidth/vim-copy-as-rtf'
+
+" snipmate and dependencies
+Plugin 'garbas/vim-snipmate'
+Plugin 'tomtom/tlib_vim'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
 " session settings
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 
 "Automatically change current directory to that of the file in the buffer
 autocmd BufEnter * cd %:p:h
-
-" Set up pathogen
-call pathogen#infect()
-call pathogen#helptags()
 
 let g:airline_powerline_fonts = 1
 set backspace=indent,eol,start
@@ -320,9 +382,14 @@ au BufRead,BufNewFile *.less set filetype=less
 au BufRead,BufNewFile *.hsc set filetype=haskell
 au BufRead,BufNewFile *.md set filetype=markdown
 
+" automatically use leaders in literate haskell
+" http://stackoverflow.com/a/18572190
+autocmd FileType lhaskell setlocal formatoptions+=ro
+
 " haskell mode
 " au Bufenter *.hs compiler ghc
 " autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+" autocmd BufWritePost *.lhs GhcModCheckAndLintAsync
 
 " ctrlp
 nmap ; :CtrlPBuffer<CR>
