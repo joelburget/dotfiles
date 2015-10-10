@@ -2,6 +2,7 @@
   # Global .gitignore file
   excludesfile = ~/.gitignore_global
 	precomposeunicode = true
+	editor = /usr/local/bin/vim
 
 [user]
 	name = Joel Burget
