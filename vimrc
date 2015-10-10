@@ -56,10 +56,10 @@ Plugin 'justinj/vim-react-snippets'
 Plugin 'pangloss/vim-javascript'
 
 " haskell
-Bundle 'raichoo/haskell-vim'
+" Bundle 'raichoo/haskell-vim'
 Bundle 'enomsg/vim-haskellConcealPlus'
-Bundle 'eagletmt/ghcmod-vim'
-Bundle 'eagletmt/neco-ghc'
+" Bundle 'eagletmt/ghcmod-vim'
+" Bundle 'eagletmt/neco-ghc'
 Bundle 'Twinside/vim-hoogle'
 
 " fast html authoring
@@ -81,9 +81,6 @@ filetype plugin indent on    " required
 
 " session settings
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
-
-"Automatically change current directory to that of the file in the buffer
-autocmd BufEnter * cd %:p:h
 
 let g:airline_powerline_fonts = 1
 set backspace=indent,eol,start
@@ -245,8 +242,6 @@ augroup JumpCursorOnEdit
  \ endif
 augroup END
 
-autocmd FileType c,cpp,h,hpp,java,hs,hsc,lhs,cabal,py,js autocmd BufWritePre <buffer> :%s/\s\+$//e
-
 " Commands
 " In the commands,
 " <silent> prevents a message from being printed
@@ -255,9 +250,6 @@ autocmd FileType c,cpp,h,hpp,java,hs,hsc,lhs,cabal,py,js autocmd BufWritePre <bu
 " Show whitespace
 set listchars=tab:>-,trail:·,eol:$
 nmap <silent> <leader>s :set nolist!<CR>
-
-" Strip trailing whitespace on write
-autocmd BufWritePre * :%s/\s\+$//e
 
 nmap <silent> <leader>d :NERDTreeToggle<CR>
 
@@ -268,10 +260,33 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 " Reload .vimrc
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
-" Automatically reload vimrc if it has been saved
-if has('autocmd')
+augroup configgroup
+  " clear all autocmds for the current group
+  autocmd!
+
+  "Automatically change current directory to that of the file in the buffer
+  autocmd BufEnter * cd %:p:h
+
+  " strip trailing whitespace on save
+  autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+  " Strip trailing whitespace on write
+  autocmd BufWritePre * :%s/\s\+$//e
+
+  " Automatically reload vimrc if it has been saved
   autocmd bufwritepost .vimrc source $MYVIMRC
-endif
+
+  " automatically use leaders in literate haskell
+  " http://stackoverflow.com/a/18572190
+  autocmd FileType lhaskell setlocal formatoptions+=ro
+
+  au BufRead,BufNewFile *.less set filetype=less
+  au BufRead,BufNewFile *.hsc set filetype=haskell
+  au BufRead,BufNewFile *.md set filetype=markdown
+
+  autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
+  autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
+augroup END
 
 " Clear highlighted searches with ,/ instead of /sdfjlafl
 nmap <silent> <leader>/ :let @/=""<CR>:call clearmatches()<CR>
@@ -371,7 +386,7 @@ endif
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " bind \ (backward slash) to grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>
 
 if has("macunix")
@@ -385,14 +400,6 @@ set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=1
-
-au BufRead,BufNewFile *.less set filetype=less
-au BufRead,BufNewFile *.hsc set filetype=haskell
-au BufRead,BufNewFile *.md set filetype=markdown
-
-" automatically use leaders in literate haskell
-" http://stackoverflow.com/a/18572190
-autocmd FileType lhaskell setlocal formatoptions+=ro
 
 " haskell mode
 " au Bufenter *.hs compiler ghc
@@ -413,10 +420,8 @@ let g:syntastic_enable_highlighting=1
 let g:syntastic_auto_jump=0
 let g:syntastic_auto_loc_list=1
 let g:syntastic_loc_list_height=10
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_gjslint_conf=" --nojsdoc"
-
-autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
-autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
 
 " Highlight Word {{{
 "
