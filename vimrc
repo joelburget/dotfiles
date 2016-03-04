@@ -15,7 +15,7 @@ set shell=/bin/bash
 
 " set the runtime path to include Vundle and initialize
 filetype off                  " required
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle
 call vundle#begin()
 
 " let Vundle manage Vundle, required

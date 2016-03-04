@@ -7,3 +7,6 @@
 [submodule "cabal-install-bin"]
 	path = cabal-install-bin
 	url = git@github.com:quchen/cabal-install-bin.git
+[submodule "vim/bundle/Vundle"]
+	path = vim/bundle/Vundle
+	url = git@github.com:VundleVim/Vundle.vim.git
