@@ -25,7 +25,8 @@ export PATH=:/home/joel/bin:/bin:/usr/bin:/sbin:/usr/sbin:/opt/java/bin:/opt/jav
 export PYTHONPATH=/opt/google_appengine:/opt/google_appengine/lib
 export SERVER_SOFTWARE=Development
 
-export EDITOR='vim'
+export VISUAL='vim'
+export EDITOR="$VISUAL"
 export GREP_OPTIONS='--color=auto --exclude=*.pyc --exclude-dir=.git'
 
 setopt AUTO_CD

@@ -1,12 +1,11 @@
 [core]
   # Global .gitignore file
   excludesfile = ~/.gitignore_global
-	precomposeunicode = true
-	editor = vim
+  precomposeunicode = true
 
 [user]
-	name = Joel Burget
-	email = joelburget@gmail.com
+  name = Joel Burget
+  email = joelburget@gmail.com
 
 [color]
   status = auto
@@ -46,23 +45,12 @@
   tmp = commit -anm tmp
   recommit = commit --template=.git/commit.save
 
-  # Branch management for dealing with phabricator and github-style deploys.
-  ## git deploy-branch <branchname>
-  deploy-branch = "!f() { git fetch origin; if git show-ref -q --verify refs/remotes/origin/$1; then git co -t origin/$1; echo \"WARNING: using already existing branch origin/$1\"; else git branch --no-track $1 ${2-master} && git co $1 && git push -u origin $1; fi; }; f"
-  ## git review-branch <branchname> [parent -- defaults to current branch]
-  review-branch = "!f() { if [ -n \"$2\" ]; then git co $2; fi && if grep refs/heads/master$ .git/HEAD; then echo \"Review branches must not be based off master\"; false; fi && git co --track -b $1; }; f"
-  phabricator-branch = !git review-branch
-  db = !git deploy-branch
-  rb = !git review-branch
-  pb = !git review-branch       ; short for 'phabricator branch'
-
   # Other useful commands.
   outgoing = "!git fetch >/dev/null 2>&1; git log @{upstream}..HEAD"
   incoming = "!git fetch >/dev/null 2>&1; git log HEAD..@{upstream}"
   update-submodule = !bash -c 'git co master && git pull --no-rebase && pushd $1 && git co master && git pull && popd && git commit ${1%/} -m Substate -m Test\\ plan: -m None && git push && git co -' --
   weekly = "!git log --author=$USER --since=`date -d last\\ monday +%Y/%m/%d`"
-  findreviewers = "!~/khan/webapp/tools/findreviewers.py \"$@\""
-	conflicts = diff --name-only --diff-filter=U
+  conflicts = diff --name-only --diff-filter=U
 
 [merge]
   # Always show a diffstat at the end of a merge
@@ -75,18 +63,18 @@
   # Detect renames as well as copies
   renames = copies
 [push]
-	default = simple
+  default = simple
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
 [filter "media"]
-	required = true
-	clean = git media clean %f
-	smudge = git media smudge %f
+  required = true
+  clean = git media clean %f
+  smudge = git media smudge %f
 [filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true
+  clean = git lfs clean %f
+  smudge = git lfs smudge %f
+  required = true

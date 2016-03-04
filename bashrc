@@ -42,8 +42,8 @@ alias ducks='du -cksh * | sort -rn|head -11'
 # http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
 alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
 
-# Editors ----------------------------------------------------------
-export EDITOR='vim'  #Command line
+export VISUAL='vim'
+export EDITOR="$VISUAL"
 
 # COLOR_BROWN='\e[0;33m'
 # COLOR_GRAY='\e[0;30m'
