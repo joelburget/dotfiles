@@ -18,6 +18,8 @@ antigen theme robbyrussell
 VISUAL='vim'
 EDITOR='vim'
 
+path+=/Users/joel/.local/bin
+
 alias gg='git grep'
 
 # Lines configured by zsh-newuser-install
