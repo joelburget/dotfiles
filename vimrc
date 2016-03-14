@@ -94,8 +94,9 @@ endif
 
 let mapleader = ","
 
-" Map jk to escape
+" Map jk / fd to escape
 imap jk <Esc>
+imap fd <Esc>
 
 " :W saves
 cnoreabbrev W w
