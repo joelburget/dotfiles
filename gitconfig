@@ -32,7 +32,6 @@
   dfs = diff --staged
   ix = diff --cached # same as dfs
   lp = log -p
-  lg = log --graph --pretty=format:'%Cred%h%Creset %Creset%Cblue%an%Creset %s %Cgreen(%cr)%Cred%d%Creset' --abbrev-commit --date=relative
   amnd = commit --amend --no-edit
   amnda = commit --amend --no-edit --all
   ff = !sh -c 'git pull $* --ff-only && git submodule update --init --recursive' --
@@ -40,6 +39,7 @@
   # Ignore whitespace changes
   bw = blame -w
   lg = log --graph --pretty=format:'%Cred%h%Creset %Creset%Cblue%an%Creset %s %Cgreen(%cr)%Cred%d%Creset' --abbrev-commit --date=relative
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
   shw = show --stat
   tmp = commit -anm tmp
   recommit = commit --template=.git/commit.save

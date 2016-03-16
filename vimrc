@@ -25,14 +25,14 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'sjl/badwolf'
 Plugin 'vim-scripts/Lucius'
+Plugin 'robertmeta/nofrils'
 
-" taxt manipulation
+" text manipulation
 Plugin 'godlygeek/tabular' " *
 Plugin 'tpope/vim-unimpaired' " *
 Plugin 'tpope/vim-surround' " *
 Plugin 'tpope/vim-commentary' " *
 Plugin 'tpope/vim-repeat'
-
 
 " git
 Plugin 'tpope/vim-fugitive'
@@ -46,7 +46,8 @@ Plugin 'Shougo/neocomplcache'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'kien/ctrlp.vim'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 
@@ -174,9 +175,9 @@ set pastetoggle=<F2>
 " Enable better mouse support
 set mouse=a
 
-" don't use tabs, instead insert 4 spaces
-set tabstop=4
-set shiftwidth=4
+" don't use tabs, instead insert 2 spaces
+set tabstop=2
+set shiftwidth=2
 set smarttab
 set expandtab
 set autoindent
@@ -287,6 +288,7 @@ augroup configgroup
 
   autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
   autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
+  autocmd Syntax * call matchadd('Underlined', 'joel', 9)
 augroup END
 
 " Clear highlighted searches with ,/ instead of /sdfjlafl
@@ -409,7 +411,6 @@ set foldlevel=1
 
 " ctrlp
 nmap ; :CtrlPBuffer<CR>
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|class|log|dll|obj|bak|exe|jpg|gif|png|hi|jsmod|hers|hspp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
 " Enable cross-session caching
 let g:ctrlp_clear_cache_on_exit = 0
 
@@ -421,7 +422,7 @@ let g:syntastic_enable_highlighting=1
 let g:syntastic_auto_jump=0
 let g:syntastic_auto_loc_list=1
 let g:syntastic_loc_list_height=10
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint', 'flow']
 let g:syntastic_gjslint_conf=" --nojsdoc"
 
 " Highlight Word {{{

@@ -2,12 +2,12 @@
 
 servers = (
   {
-    address = "irc.freenode.net";
+    address = "chat.freenode.net";
     chatnet = "freenode";
     port = "6697";
     use_ssl = "yes";
     ssl_verify = "yes";
-    ssl_capath = "/etc/ssl/certs/";
+    ssl_cert = "/Users/joel/.ssh/ca-certificates.crt";
     autoconnect = "yes";
   }
 );
@@ -102,13 +102,6 @@ statusbar = {
       items = {
         barstart = { priority = "100"; };
         awl_0 = { };
-        barend = { priority = "100"; alignment = "right"; };
-      };
-    };
-    awl_1 = {
-      items = {
-        barstart = { priority = "100"; };
-        awl_1 = { };
         barend = { priority = "100"; alignment = "right"; };
       };
     };
