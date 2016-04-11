@@ -5,6 +5,7 @@
 [user]
   name = Joel Burget
   email = joelburget@gmail.com
+	signingkey = 075F8C88
 
 [color]
   status = auto
@@ -77,3 +78,5 @@
   clean = git lfs clean %f
   smudge = git lfs smudge %f
   required = true
+[commit]
+	gpgsign = true
