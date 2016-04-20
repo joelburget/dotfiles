@@ -22,6 +22,9 @@ path+=/Users/joel/.local/bin
 
 alias gg='git grep'
 
+# we don't want history shared among different terminals
+setopt no_share_history
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
