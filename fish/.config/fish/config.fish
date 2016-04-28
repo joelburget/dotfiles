@@ -10,3 +10,4 @@ source $OMF_PATH/init.fish
 alias gg "git grep"
 alias wifion "networksetup -setairportpower en0 on"
 alias wifioff "networksetup -setairportpower en0 off"
+alias sleep "pmset sleepnow"
