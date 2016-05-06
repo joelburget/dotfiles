@@ -58,7 +58,7 @@ Plugin 'pangloss/vim-javascript'
 
 " haskell
 " Bundle 'raichoo/haskell-vim'
-Bundle 'enomsg/vim-haskellConcealPlus'
+" Bundle 'enomsg/vim-haskellConcealPlus'
 " Bundle 'eagletmt/ghcmod-vim'
 " Bundle 'eagletmt/neco-ghc'
 Bundle 'Twinside/vim-hoogle'
@@ -422,7 +422,8 @@ let g:syntastic_enable_highlighting=1
 let g:syntastic_auto_jump=0
 let g:syntastic_auto_loc_list=1
 let g:syntastic_loc_list_height=10
-let g:syntastic_javascript_checkers = ['eslint', 'flow']
+" let g:syntastic_javascript_checkers = ['eslint', 'flow']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_gjslint_conf=" --nojsdoc"
 
 " Highlight Word {{{
