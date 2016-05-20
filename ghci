@@ -1,0 +1,5 @@
+:set -Wall
+:set -XOverloadedStrings
+:set -XNoMonomorphismRestriction
+:set -XRankNTypes
+:set -XScopedTypeVariables
