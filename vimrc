@@ -191,6 +191,16 @@ nnoremap <leader>ct :%s///gn<CR>
 nnoremap <F6> :GundoToggle<CR>
 nnoremap <F7> :TagbarToggle<CR>
 
+" overwrite default yank commands so they default to the system keyboard,
+" unless another register is explicitly given.
+"
+" http://stackoverflow.com/a/13381286
+nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
+nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 
 " Show matching parens, braces
