@@ -599,3 +599,4 @@ function! s:SetupJsxMatching()
 endfunction
 
 autocmd FileType javascript call s:SetupJsxMatching()
+autocmd BufRead,BufNewFile *.md setlocal spell
