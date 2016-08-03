@@ -4,6 +4,10 @@ set -gx OMF_PATH "/Users/joel/.local/share/omf"
 # Customize Oh My Fish configuration path.
 #set -gx OMF_CONFIG "/Users/joel/.config/omf"
 
+set -gx GOPATH /Users/joel/go
+
+set -x PATH $GOPATH/bin $PATH
+
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
 
