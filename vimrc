@@ -71,6 +71,8 @@ Plugin 'idris-hackers/idris-vim'
 Plugin 'raichoo/purescript-vim'
 Plugin 'ElmCast/elm-vim'
 Plugin 'zerowidth/vim-copy-as-rtf'
+Plugin 'raichoo/purescript-vim'
+Plugin 'tomlion/vim-solidity'
 
 " snipmate and dependencies
 Plugin 'garbas/vim-snipmate'
