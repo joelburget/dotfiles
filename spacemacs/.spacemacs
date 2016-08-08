@@ -47,6 +47,12 @@ values."
      html
      (syntax-checking
       syntax-checking-enable-tooltips nil)
+     purescript
+     react
+     coq
+     elm
+     spell-checking
+     version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -63,6 +69,8 @@ values."
    neo-theme 'nerd))
 
 (defun dotspacemacs/init ()
+  (setq-default js2-basic-offset 2
+                js-indent-level 2)
   "Initialization function.
 This function is called at the very startup of Spacemacs initialization
 before layers configuration.
@@ -109,10 +117,10 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
-                         solarized-light
+   dotspacemacs-themes '(solarized-light
                          solarized-dark
+                         spacemacs-light
+                         spacemacs-dark
                          leuven
                          monokai
                          zenburn)
@@ -246,8 +254,6 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
-
-
    ))
 
 (defun dotspacemacs/user-init ()
