@@ -20,4 +20,4 @@ alias sleep "pmset sleepnow"
 # OPAM configuration
 source /Users/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
-source ~/.config/fish/gnupg.fish
+gpg-agent --daemon
