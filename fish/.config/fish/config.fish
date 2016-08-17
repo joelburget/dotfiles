@@ -21,4 +21,5 @@ alias diff "git diff --no-index"
 # OPAM configuration
 source /Users/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
-gpg-agent --daemon
+# silence "gpg-agent: a gpg-agent is already running - not starting a new one"
+gpg-agent --daemon 2> /dev/null
