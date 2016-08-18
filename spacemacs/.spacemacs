@@ -29,18 +29,15 @@ values."
      osx
      markdown
      writeroom
-     (haskell
+     (intero
       :variables
       haskell-enable-hindent-support t
       haskell-enable-hindent-style "johan-tibell"
       haskell-indent-spaces 2
-      haskell-process-type 'stack-ghci
-      haskell-process-use-ghci t
-      haskell-process-args-ghci "ghci"
-      haskell-process-path-ghci "stack"
-      haskell-compile-cabal-build-command "cd %s && stack build"
+      haskell-compile-cabal-build-command "cd %s; stack build"
       )
      agda
+     eyebrowse
      javascript
      go
      dash
@@ -270,16 +267,6 @@ layers configuration. You are free to put any user code."
   (global-hl-line-mode -1);
   (global-linum-mode)
   (setq projectile-use-git-grep t)
-  (when (configuration-layer/layer-usedp 'haskell)
-    ; workaround to not move cursor back in ghci REPL
-    (add-hook 'haskell-interactive-mode-hook
-              (lambda ()
-                (setq-local evil-move-cursor-back nil)))
-
-    ; start ghci REPL in insert mode
-    (defadvice haskell-interactive-switch (after spacemacs/haskell-interactive-switch-advice activate)
-      (when (eq dotspacemacs-editing-style 'vim)
-        (call-interactively 'evil-insert))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
