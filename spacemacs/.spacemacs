@@ -267,6 +267,7 @@ layers configuration. You are free to put any user code."
   (global-hl-line-mode -1);
   (global-linum-mode)
   (setq projectile-use-git-grep t)
+  (turn-on-fci-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
