@@ -17,6 +17,7 @@ alias wifion "networksetup -setairportpower en0 on"
 alias wifioff "networksetup -setairportpower en0 off"
 alias sleep "pmset sleepnow"
 alias diff "git diff --no-index"
+alias e "emacsclient -n"
 
 # OPAM configuration
 source /Users/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
