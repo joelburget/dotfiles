@@ -7,11 +7,11 @@ set shell=/usr/local/bin/fish
 
 " set the runtime path to include Vundle and initialize
 filetype off                  " required
-set rtp+=~/.vim/bundle/Vundle
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " colors
 Plugin 'altercation/vim-colors-solarized'
@@ -99,13 +99,13 @@ if (empty($TMUX))
 endif
 
 " http://stackoverflow.com/a/7278548/2121468
-set background=light
 let g:solarized_termtrans = 1
 let g:solarized_termcolors = 16
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 let g:one_allow_italics = 1
 colorscheme one " solarized
+set background=dark
 
 let mapleader = ","
 
