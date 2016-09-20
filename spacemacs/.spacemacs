@@ -126,8 +126,8 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font '("Monaco"
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -265,6 +265,7 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  (spacemacs/toggle-fill-column-indicator)
   (global-hl-line-mode -1);
   (global-linum-mode)
   (setq projectile-use-git-grep t)
