@@ -3,7 +3,8 @@
 "
 
 set nocompatible
-set shell=/usr/local/bin/fish
+" set shell=/usr/local/bin/fish
+set shell=/bin/bash
 
 " set the runtime path to include Vundle and initialize
 filetype off                  " required
@@ -48,6 +49,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'mxw/vim-jsx'
 Plugin 'justinj/vim-react-snippets'
 Plugin 'pangloss/vim-javascript'
+Plugin 'ternjs/tern_for_vim'
 
 " haskell
 " Bundle 'raichoo/haskell-vim'
