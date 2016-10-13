@@ -10,7 +10,6 @@ set -x EDITOR /usr/local/bin/vim
 
 # omf theme agnoster
 
->>>>>>> Tweak fish config.
 alias gg "git grep"
 alias wifion "networksetup -setairportpower en0 on"
 alias wifioff "networksetup -setairportpower en0 off"
