@@ -1,14 +1,16 @@
-set -gx OMF_PATH "/Users/joel/.local/share/omf"
+set -x OMF_PATH "/Users/joel/.local/share/omf"
+set -x GOPATH /Users/joel/go
 source $OMF_PATH/init.fish
 
 set -g Z_SCRIPT_PATH (brew --prefix)/etc/profile.d/z.sh
-
-set -gx GOPATH /Users/joel/go
 
 set -x PATH "$HOME/.local/bin" $GOPATH/bin $PATH
 set -x PAGER most
 set -x EDITOR /usr/local/bin/vim
 
+# omf theme agnoster
+
+>>>>>>> Tweak fish config.
 alias gg "git grep"
 alias wifion "networksetup -setairportpower en0 on"
 alias wifioff "networksetup -setairportpower en0 off"
