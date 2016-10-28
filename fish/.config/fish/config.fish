@@ -1,10 +1,11 @@
+# must set this before sourcing OMF
+set -g Z_SCRIPT_PATH (brew --prefix)/etc/profile.d/z.sh
+
 set -x OMF_PATH "/Users/joel/.local/share/omf"
 set -x GOPATH /Users/joel/go
 source $OMF_PATH/init.fish
 
-set -g Z_SCRIPT_PATH (brew --prefix)/etc/profile.d/z.sh
-
-set -x PATH "$HOME/.local/bin" $GOPATH/bin $PATH
+set -x PATH "$HOME/.local/bin" $HOME/.yarn/bin $GOPATH/bin $PATH
 set -x PAGER most
 set -x EDITOR /usr/local/bin/vim
 
