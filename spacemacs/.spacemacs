@@ -29,15 +29,9 @@ values."
      osx
      markdown
      writeroom
-     (intero
-      :variables
-      haskell-enable-hindent-support t
-      haskell-enable-hindent-style "johan-tibell"
-      haskell-indent-spaces 2
-      haskell-compile-cabal-build-command "cd %s; stack build"
-      )
-     agda
-     eyebrowse
+     haskell
+     ;; agda
+     ;; eyebrowse
      javascript
      go
      dash
@@ -127,7 +121,7 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Monaco"
-                               :size 12
+                               :size 16
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
