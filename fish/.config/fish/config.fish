@@ -12,9 +12,7 @@ set -x EDITOR /usr/local/bin/vim
 # omf theme agnoster
 
 alias gg "git grep"
-alias wifion "networksetup -setairportpower en0 on"
-alias wifioff "networksetup -setairportpower en0 off"
-alias sleep "pmset sleepnow"
+alias ggi "git grep -i"
 alias diff "git diff --no-index"
 alias e "emacsclient -n"
 
