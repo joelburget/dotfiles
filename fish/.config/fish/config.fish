@@ -16,9 +16,6 @@ alias ggi "git grep -i"
 alias diff "git diff --no-index"
 alias e "emacsclient -n"
 
-# OPAM configuration
-source /Users/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
-
 # silence "gpg-agent: a gpg-agent is already running - not starting a new one"
 gpg-agent --daemon 2> /dev/null
 

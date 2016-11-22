@@ -1,4 +1,6 @@
+package osx
 package z
 theme agnoster
 theme chain
 theme default
+theme flash
