@@ -31,6 +31,9 @@
   "exception-reporting":
     userId: "4e7d8a34-125d-4756-3491-a8e7f0893423"
   nuclide:
+    "nuclide-definition-preview": {}
+    "nuclide-flow":
+      enableStructuredTypeHints: true
     "nuclide-home":
       showHome: false
   welcome:
