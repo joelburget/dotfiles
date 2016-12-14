@@ -17,6 +17,7 @@
       "tree-view"
     ]
     telemetryConsent: "no"
+    useCustomTitleBar: true
   editor:
     fontSize: 11
     invisibles: {}
