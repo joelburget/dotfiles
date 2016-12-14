@@ -1,0 +1,25 @@
+"*":
+  core:
+    customFileTypes:
+      "source.ini": [
+        ".buckconfig"
+        ".hgrc"
+        ".flowconfig"
+      ]
+      "source.json": [
+        ".arcconfig"
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUCK"
+      ]
+    disabledPackages: [
+      "tree-view"
+    ]
+    telemetryConsent: "no"
+  editor:
+    fontSize: 11
+  "exception-reporting":
+    userId: "bedc5f9b-ab1c-4855-8199-99a4001fb197"
+  welcome:
+    showOnStartup: false
