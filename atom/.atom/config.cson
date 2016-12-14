@@ -1,10 +1,11 @@
 "*":
+  "atom-ternjs": {}
   core:
     customFileTypes:
       "source.ini": [
         ".buckconfig"
-        ".hgrc"
         ".flowconfig"
+        ".hgrc"
       ]
       "source.json": [
         ".arcconfig"
@@ -17,12 +18,20 @@
       "tree-view"
     ]
     telemetryConsent: "no"
+    themes: [
+      "one-light-ui"
+      "flatwhite-syntax"
+    ]
     useCustomTitleBar: true
   editor:
-    fontSize: 11
+    fontFamily: "hack"
     invisibles: {}
+    lineHeight: 1.6
     showIndentGuide: true
   "exception-reporting":
-    userId: "bedc5f9b-ab1c-4855-8199-99a4001fb197"
+    userId: "4e7d8a34-125d-4756-3491-a8e7f0893423"
+  nuclide:
+    "nuclide-home":
+      showHome: false
   welcome:
     showOnStartup: false
