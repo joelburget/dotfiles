@@ -5,8 +5,8 @@ set -x OMF_PATH "/Users/joel/.local/share/omf"
 set -x GOPATH /Users/joel/go
 source $OMF_PATH/init.fish
 
-set -x PATH "$HOME/.local/bin" $HOME/.yarn/bin $GOPATH/bin $PATH
-set -x PAGER most
+set -x PATH "$HOME/.local/bin" (yarn global bin) $GOPATH/bin $PATH
+set -x PAGER less
 set -x EDITOR /usr/local/bin/vim
 
 # omf theme agnoster
