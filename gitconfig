@@ -1,6 +1,6 @@
 [core]
   precomposeunicode = true
-  editor = /usr/bin/vim
+  editor = vim
 
 [user]
   name = Joel Burget
