@@ -36,3 +36,4 @@ function fish_title
         echo $_
     end
 end
+set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
