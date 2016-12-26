@@ -36,5 +36,12 @@
       enableStructuredTypeHints: true
     "nuclide-home":
       showHome: false
+  "vim-mode-plus":
+    highlightSearch: true
+    incrementalSearch: true
+    useSmartcaseForSearch: true
   welcome:
     showOnStartup: false
+  zentabs:
+    maximumOpenedTabs: 6
+    neverCloseUnsaved: true
