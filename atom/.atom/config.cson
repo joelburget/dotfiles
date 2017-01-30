@@ -1,11 +1,10 @@
 "*":
-  "atom-ternjs": {}
   core:
     customFileTypes:
       "source.ini": [
         ".buckconfig"
-        ".flowconfig"
         ".hgrc"
+        ".flowconfig"
       ]
       "source.json": [
         ".arcconfig"
@@ -25,17 +24,23 @@
     useCustomTitleBar: true
   editor:
     fontFamily: "hack"
+    fontSize: 10
     invisibles: {}
     lineHeight: 1.6
     showIndentGuide: true
   "exception-reporting":
     userId: "4e7d8a34-125d-4756-3491-a8e7f0893423"
   nuclide:
-    "nuclide-definition-preview": {}
     "nuclide-flow":
       enableStructuredTypeHints: true
     "nuclide-home":
       showHome: false
+  "sync-settings":
+    _lastBackupHash: "30c8a368663485a381288fe54d6cc183cd735b7c"
+    gistId: "da83594bbad9548467e49fb259aa4425"
+    personalAccessToken: "e9b3346b29ea781211ce0322e7fc741a0071b308"
+  "tool-bar":
+    visible: false
   "vim-mode-plus":
     highlightSearch: true
     incrementalSearch: true
