@@ -30,14 +30,7 @@ function fish_user_key_bindings
     bind \cr peco_select_history
 end
 
-function fish_title
-    if [ $_ = 'fish' ]
-        echo (prompt_pwd)
-    else
-        echo $_
-    end
-end
-
+# TODO: remove duplication between fish_user_paths and PATH
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
 
 
