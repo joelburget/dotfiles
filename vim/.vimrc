@@ -8,77 +8,83 @@ set shell=/bin/bash
 
 " set the runtime path to include Vundle and initialize
 filetype off                  " required
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+set rtp+=~/.vim/bundle/neobundle.vim
+call neobundle#begin('~/.vim/bundle')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" let neobundle manage neobundle, required
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 " colors
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'sjl/badwolf'
-Plugin 'vim-scripts/Lucius'
-Plugin 'robertmeta/nofrils'
-Plugin 'rakr/vim-one'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'sjl/badwolf'
+NeoBundle 'vim-scripts/Lucius'
+NeoBundle 'robertmeta/nofrils'
+NeoBundle 'rakr/vim-one'
 
 " text manipulation
-Plugin 'godlygeek/tabular' " *
-Plugin 'tpope/vim-unimpaired' " *
-Plugin 'tpope/vim-surround' " *
-Plugin 'tpope/vim-commentary' " *
-Plugin 'tpope/vim-repeat'
+NeoBundle 'godlygeek/tabular' " *
+NeoBundle 'tpope/vim-unimpaired' " *
+NeoBundle 'tpope/vim-surround' " *
+NeoBundle 'tpope/vim-commentary' " *
+NeoBundle 'tpope/vim-repeat'
 
 " git
-Plugin 'tpope/vim-fugitive'
-Plugin 'int3/vim-extradite'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'int3/vim-extradite'
 
 " support
-Bundle 'nathanaelkane/vim-indent-guides'
-Plugin 'sjl/gundo.vim'
-Plugin 'Shougo/vimproc'
-Plugin 'Shougo/neocomplcache'
-" Plugin 'scrooloose/syntastic'
-Plugin 'ervandew/supertab'
-Plugin 'valloric/YouCompleteMe'
-Plugin 'kien/ctrlp.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/neocomplcache'
+" NeoBundle 'scrooloose/syntastic'
+NeoBundle 'ervandew/supertab'
+NeoBundle 'valloric/YouCompleteMe'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'majutsushi/tagbar'
 
 " react stuff
-Plugin 'mxw/vim-jsx'
-Plugin 'justinj/vim-react-snippets'
-Plugin 'pangloss/vim-javascript'
-Plugin 'ternjs/tern_for_vim'
+NeoBundle 'mxw/vim-jsx'
+NeoBundle 'justinj/vim-react-snippets'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'ternjs/tern_for_vim'
 
 " haskell
-" Bundle 'raichoo/haskell-vim'
-" Bundle 'enomsg/vim-haskellConcealPlus'
-" Bundle 'eagletmt/ghcmod-vim'
-" Bundle 'eagletmt/neco-ghc'
-Bundle 'Twinside/vim-hoogle'
+" NeoBundle 'raichoo/haskell-vim'
+" NeoBundle 'enomsg/vim-haskellConcealPlus'
+" NeoBundle 'eagletmt/ghcmod-vim'
+" NeoBundle 'eagletmt/neco-ghc'
+NeoBundle 'Twinside/vim-hoogle'
 
 " fast html authoring
-Plugin 'rstacruz/sparkup'
+NeoBundle 'rstacruz/sparkup'
+
+" rust
+NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'valloric/YouCompleteMe'
 
 " misc
-Plugin 'idris-hackers/idris-vim'
-Plugin 'ElmCast/elm-vim'
-Plugin 'zerowidth/vim-copy-as-rtf'
-Plugin 'raichoo/purescript-vim'
-Plugin 'tomlion/vim-solidity'
-Plugin 'derekelkins/agda-vim'
+NeoBundle 'idris-hackers/idris-vim'
+NeoBundle 'ElmCast/elm-vim'
+NeoBundle 'zerowidth/vim-copy-as-rtf'
+NeoBundle 'raichoo/purescript-vim'
+NeoBundle 'tomlion/vim-solidity'
+NeoBundle 'derekelkins/agda-vim'
 
 " snipmate and dependencies
-Plugin 'garbas/vim-snipmate'
-Plugin 'tomtom/tlib_vim'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-
+NeoBundle 'garbas/vim-snipmate'
+NeoBundle 'tomtom/tlib_vim'
+NeoBundle 'MarcWeber/vim-addon-mw-utils'
+NeoBundle 'reasonml/vim-reason-loader'
+NeoBundle 'derekelkins/agda-vim'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call neobundle#end()         " required
 filetype plugin indent on    " required
+NeoBundleCheck
 
 " session settings
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
@@ -606,8 +612,10 @@ function! s:SetupJsxMatching()
   let b:match_ignorecase = 0
   let b:match_words = '(:),\[:\],{:},<:>,' .
         \ '<\@<=\([^/][^ \t>]*\)[^>]*\%(>\|$\):<\@<=/\1>'
-
 endfunction
 
 autocmd FileType javascript call s:SetupJsxMatching()
 autocmd BufRead,BufNewFile *.md setlocal spell
+
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
