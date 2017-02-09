@@ -15,6 +15,7 @@ alias gg "git grep"
 alias ggi "git grep -i"
 alias diff "git diff --no-index"
 alias e "emacsclient -n"
+alias clone "hub clone"
 
 # silence "gpg-agent: a gpg-agent is already running - not starting a new one"
 gpg-agent --daemon 2> /dev/null
