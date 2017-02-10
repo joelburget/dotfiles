@@ -3,3 +3,4 @@
 :set -XNoMonomorphismRestriction
 :set -XRankNTypes
 :set -XScopedTypeVariables
+:set prompt "\ESC[34mλ> \ESC[m"
