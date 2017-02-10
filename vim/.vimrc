@@ -1,7 +1,3 @@
-" vimrc
-" Copyright: (c) Joel Burget 2010 - 2017
-"
-
 set nocompatible
 " set shell=/usr/local/bin/fish
 set shell=/bin/bash
