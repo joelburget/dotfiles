@@ -4,15 +4,9 @@
 [submodule "peat"]
     path = bin/peat
     url = https://github.com/sjl/peat.git
-[submodule "cabal-install-bin"]
-	path = cabal-install-bin
-	url = git@github.com:quchen/cabal-install-bin.git
-[submodule "vim/bundle/Vundle"]
-	path = vim/bundle/Vundle
-	url = git@github.com:VundleVim/Vundle.vim.git
-[submodule "antigen"]
-	path = antigen
-	url = https://github.com/zsh-users/antigen.git
 [submodule "vim/bundle/neobundle.vim"]
 	path = vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim
+[submodule "vim/.vim/bundle/neobundle.vim"]
+	path = vim/.vim/bundle/neobundle.vim
+	url = git@github.com:Shougo/neobundle.vim.git

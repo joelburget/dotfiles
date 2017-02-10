@@ -1,5 +1,5 @@
 " vimrc
-" Copyright: (c) Joel Burget 2010 - 2015
+" Copyright: (c) Joel Burget 2010 - 2017
 "
 
 set nocompatible
