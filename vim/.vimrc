@@ -120,7 +120,7 @@ set wildmenu
 set wildmode=list:longest
 
 " don't show these filetypes, we won't edit them
-set wildignore=*.swp,*.class,*.log,*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.jpg,*.gif,*.png,*.hi,*.jsmod,*.hers
+set wildignore=*.swp,*.class,*.log,*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.jpg,*.gif,*.png,*.hi,*.jsmod,*.hers,*.p_hi,*.p_o,*.dyn_o,*.dyn_hi
 set ignorecase
 set smartcase
 
