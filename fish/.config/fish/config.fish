@@ -1,3 +1,4 @@
+source ~/.iterm2_shell_integration.fish
 # must set this before sourcing OMF
 set -g Z_SCRIPT_PATH (brew --prefix)/etc/profile.d/z.sh
 
