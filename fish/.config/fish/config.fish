@@ -1,4 +1,8 @@
-source ~/.iterm2_shell_integration.fish
+# warning: this doesn't work well with multi-line prompts:
+# https://github.com/pborenstein/iterm2-fish-integration
+#
+# source ~/.iterm2_shell_integration.fish
+
 # must set this before sourcing OMF
 set -g Z_SCRIPT_PATH (brew --prefix)/etc/profile.d/z.sh
 
