@@ -69,6 +69,7 @@ NeoBundle 'zerowidth/vim-copy-as-rtf'
 NeoBundle 'raichoo/purescript-vim'
 NeoBundle 'tomlion/vim-solidity'
 NeoBundle 'derekelkins/agda-vim'
+NeoBundle 'ConradIrwin/vim-bracketed-paste'
 
 " snipmate and dependencies
 NeoBundle 'garbas/vim-snipmate'
@@ -176,9 +177,6 @@ set winminwidth=10
 
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-
-" Set this so we don't get messed up formatting when pasting
-set pastetoggle=<F2>
 
 " Enable better mouse support
 set mouse=a
