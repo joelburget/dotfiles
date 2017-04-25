@@ -271,7 +271,7 @@ nmap <silent> <leader>s :set nolist!<CR>
 
 nmap <silent> <leader>d :NERDTreeToggle<CR>
 
-nmap <silent> <leader>t :TlistToggle<CR>
+" nmap <silent> <leader>t :TlistToggle<CR>
 
 " Edit .vimrc
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -611,5 +611,6 @@ endfunction
 autocmd FileType javascript call s:SetupJsxMatching()
 autocmd BufRead,BufNewFile *.md setlocal spell
 
+let g:tern_map_keys=1
+
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
