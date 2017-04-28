@@ -4,3 +4,14 @@
 :set -XRankNTypes
 :set -XScopedTypeVariables
 :set prompt "\ESC[34mλ> \ESC[m"
+:set -fno-print-bind-result
+
+-- list surrounding lines at each breakpoint/step
+:set stop :list
+
+:def . readFile
+
+-- things i always want
+:m + Control.Monad Control.Applicative Debug.Trace Text.Printf System.IO.Unsafe Data.Maybe Data.List
+
+let tracify x = (trace $ "<pop "++show x++">") x
