@@ -12,24 +12,14 @@ servers = (
   }
 );
 
-chatnets = { freenode = { type = "IRC"; nick = "dino_joel"; }; };
+chatnets = { freenode = { type = "IRC"; nick = "joelburget"; }; };
 
 channels = (
   { name = "#haskell"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#epigram"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#diagrams"; chatnet = "freenode"; autojoin = "Yes"; },
   { name = "#haskell-lens"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#phabricator"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#hakyll"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#reactjs"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "##hott"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#agda"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#idris"; chatnet = "freenode"; autojoin = "Yes"; },
   { name = "#ghc"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#pigment"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#epigram"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#haskell-haste"; chatnet = "freenode"; autojoin = "Yes"; },
-  { name = "#flowtype"; chatnet = "freenode"; autojoin = "Yes"; }
+  { name = "##hott"; chatnet = "freenode"; autojoin = "Yes"; },
+  { name = "#ipfs"; chatnet = "freenode"; autojoin = "Yes"; }
 );
 
 aliases = {
@@ -111,8 +101,8 @@ statusbar = {
 settings = {
   core = {
     real_name = "Joel Burget";
-    user_name = "dino_joel";
-    nick = "dino_joel";
+    user_name = "joelburget";
+    nick = "joelburget";
     awaylog_file = "/dev/null";
     recode_autodetect_utf8 = "yes";
     recode_fallback = "CP1252";
@@ -122,12 +112,12 @@ settings = {
 
   "fe-common/core" = {
     emphasis = "OFF";
-    theme = "pbrisbin";
     beep_msg_level = "NOTICE MSGS HILIGHT";
     bell_beeps = "no";
     hilight_nick_matches = "no";
     autolog_path = "~/.irssi/logs/$tag/$0.log";
     autolog = "yes";
+    theme = "solarizedweed";
   };
 
   "perl/core/scripts" = {
@@ -152,7 +142,7 @@ ignores = (
 hilights = (
   { text = "joel"; nick = "no"; word = "yes"; fullword = "yes"; },
   { text = "burget"; nick = "no"; word = "yes"; fullword = "yes"; },
-  { text = "@dino_joel"; nick = "no"; word = "yes"; fullword = "yes"; },
+  { text = "@joelburget"; nick = "no"; word = "yes"; fullword = "yes"; },
   { 
     text = "joelburget.com";
     nick = "no";
@@ -180,7 +170,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#diagrams";
+        name = "#haskell-lens";
         tag = "freenode";
       }
     );
@@ -190,7 +180,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#haskell-lens";
+        name = "#ghc";
         tag = "freenode";
       }
     );
@@ -200,7 +190,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#phabricator";
+        name = "##hott";
         tag = "freenode";
       }
     );
@@ -210,97 +200,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#hakyll";
-        tag = "freenode";
-      }
-    );
-  };
-  8 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#reactjs";
-        tag = "freenode";
-      }
-    );
-  };
-  9 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "##hott";
-        tag = "freenode";
-      }
-    );
-  };
-  10 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#agda";
-        tag = "freenode";
-      }
-    );
-  };
-  11 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#idris";
-        tag = "freenode";
-      }
-    );
-  };
-  12 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#ghc";
-        tag = "freenode";
-      }
-    );
-  };
-  13 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#pigment";
-        tag = "freenode";
-      }
-    );
-  };
-  14 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#epigram";
-        tag = "freenode";
-      }
-    );
-  };
-  15 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#haskell-haste";
-        tag = "freenode";
-      }
-    );
-  };
-  16 = {
-    items = (
-      {
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#flowtype";
+        name = "#ipfs";
         tag = "freenode";
       }
     );
