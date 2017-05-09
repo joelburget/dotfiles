@@ -285,9 +285,6 @@ augroup configgroup
   "Automatically change current directory to that of the file in the buffer
   autocmd BufEnter * cd %:p:h
 
-  " strip trailing whitespace on save
-  autocmd BufWritePre <buffer> :%s/\s\+$//e
-
   " Strip trailing whitespace on write
   autocmd BufWritePre * :%s/\s\+$//e
 
