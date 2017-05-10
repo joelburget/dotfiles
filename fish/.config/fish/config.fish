@@ -36,7 +36,7 @@ function fish_user_key_bindings
 end
 
 # TODO: remove duplication between fish_user_paths and PATH
-set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
+set -g fish_user_paths "/usr/local/sbin" "/usr/local/opt/llvm/bin" $fish_user_paths
 
 
 setenv SSH_ENV $HOME/.ssh/environment
@@ -76,4 +76,3 @@ else
         start_agent
     end
 end
-rvm default
