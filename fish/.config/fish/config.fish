@@ -10,7 +10,7 @@ set -x OMF_PATH "/Users/joel/.local/share/omf"
 set -x GOPATH /Users/joel/go
 source $OMF_PATH/init.fish
 
-set -x PATH "$HOME/.local/bin" "$HOME/.cabal/bin" (yarn global bin) $GOPATH/bin $PATH
+set -x PATH "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/.cabal/bin" (yarn global bin) $GOPATH/bin $PATH
 set -x PAGER less
 set -x EDITOR /usr/local/bin/vim
 
