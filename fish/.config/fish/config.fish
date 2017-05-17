@@ -10,7 +10,19 @@ set -x OMF_PATH "/Users/joel/.local/share/omf"
 set -x GOPATH /Users/joel/go
 source $OMF_PATH/init.fish
 
-set -x PATH "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/.cabal/bin" (yarn global bin) $GOPATH/bin $PATH
+set -x PATH \
+  $HOME/.cargo/bin \
+  $HOME/.local/bin \
+  $HOME/.cabal/bin \
+  $GOPATH/bin \
+  (yarn global bin) \
+  /usr/local/sbin \
+  /usr/local/opt/llvm/bin \
+  /usr/local/bin \
+  /usr/bin \
+  /bin \
+  /usr/sbin \
+  /sbin
 set -x PAGER less
 set -x EDITOR /usr/local/bin/vim
 
@@ -34,10 +46,6 @@ function fish_user_key_bindings
 
     bind \cr peco_select_history
 end
-
-# TODO: remove duplication between fish_user_paths and PATH
-set -g fish_user_paths "/usr/local/sbin" "/usr/local/opt/llvm/bin" $fish_user_paths
-
 
 setenv SSH_ENV $HOME/.ssh/environment
 
