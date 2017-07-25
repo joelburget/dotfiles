@@ -5,6 +5,7 @@
 :set -XScopedTypeVariables
 :set prompt "\ESC[34mλ> \ESC[m"
 :set -fno-print-bind-result
+:set -freverse-errors
 
 -- list surrounding lines at each breakpoint/step
 :set stop :list
