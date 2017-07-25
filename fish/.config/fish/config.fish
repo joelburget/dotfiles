@@ -84,3 +84,6 @@ else
         start_agent
     end
 end
+
+# OPAM configuration
+# . /Users/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null or true
