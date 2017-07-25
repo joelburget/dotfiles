@@ -30,7 +30,7 @@ values."
      markdown
      writeroom
      haskell
-     ;; agda
+     agda
      ;; eyebrowse
      javascript
      go
@@ -264,6 +264,8 @@ layers configuration. You are free to put any user code."
   (global-linum-mode)
   (setq projectile-use-git-grep t)
   (turn-on-fci-mode)
+  (setq twelf-root "~/code/twelf/twelf/")
+  (load (concat twelf-root "emacs/twelf-init.el"))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
