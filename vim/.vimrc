@@ -11,7 +11,8 @@ call neobundle#begin('~/.vim/bundle')
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " colors
-NeoBundle 'altercation/vim-colors-solarized'
+" NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'lifepillar/vim-solarized8'
 NeoBundle 'sjl/badwolf'
 NeoBundle 'vim-scripts/Lucius'
 NeoBundle 'robertmeta/nofrils'
@@ -75,7 +76,7 @@ NeoBundle 'ConradIrwin/vim-bracketed-paste'
 NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'tomtom/tlib_vim'
 NeoBundle 'MarcWeber/vim-addon-mw-utils'
-NeoBundle 'reasonml/vim-reason-loader'
+" NeoBundle 'reasonml/vim-reason'
 NeoBundle 'derekelkins/agda-vim'
 
 " All of your Plugins must be added before the following line
@@ -99,8 +100,8 @@ let g:solarized_termcolors = 16
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 let g:one_allow_italics = 1
-colorscheme one " solarized
-set background=dark
+colorscheme solarized8_light
+set background=light
 
 let mapleader = ","
 
