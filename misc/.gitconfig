@@ -1,6 +1,6 @@
 [core]
   precomposeunicode = true
-  editor = vim
+  editor = nvim
 	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [user]
@@ -79,6 +79,7 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	required = true
+	process = git-lfs filter-process
 [commit]
 	gpgsign = true
 [gpg]
