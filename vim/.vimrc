@@ -420,7 +420,24 @@ set nofoldenable
 set foldlevel=1
 
 " fzf
-nmap ; :Buffers<CR>
+nmap ;b :Buffers<CR>
+nmap ;f :FZF<CR>
+nmap ;g :GFiles<CR>
+nmap ;t :Tags<CR>
+nmap ;c :Colors<CR>
+nmap ;h :Helptags<CR>
+nmap ;m :Commands<CR>
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " purescript
 let g:purescript_indent_if = 0
