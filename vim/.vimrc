@@ -1,88 +1,100 @@
-set nocompatible
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
+" Required:
+set runtimepath+=/Users/joel/.cache/dein/repos/github.com/Shougo/dein.vim
+
+" Required:
+if dein#load_state('/Users/joel/.cache/dein')
+  call dein#begin('/Users/joel/.cache/dein')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('/Users/joel/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+  " snippets
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
+
+  " colors
+  call dein#add('lifepillar/vim-solarized8')
+  call dein#add('rakr/vim-one')
+
+  " text manipulation
+  call dein#add('godlygeek/tabular') " *
+  call dein#add('tpope/vim-unimpaired') " *
+  call dein#add('tpope/vim-surround') " *
+  call dein#add('tpope/vim-commentary') " *
+  call dein#add('tpope/vim-repeat')
+
+  " git
+  call dein#add('airblade/vim-gitgutter')
+  call dein#add('Xuyuanp/nerdtree-git-plugin')
+  call dein#add('lambdalisue/gina.vim')
+
+  " support
+  call dein#add('nathanaelkane/vim-indent-guides')
+  " call dein#add('sjl/gundo.vim')
+  call dein#add('simnalamburt/vim-mundo')
+  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+  call dein#add('Shougo/neocomplcache')
+  call dein#add('w0rp/ale')
+  call dein#add('ervandew/supertab')
+  " call dein#add('ctrlpvim/ctrlp.vim')
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
+  call dein#add('scrooloose/nerdtree')
+  call dein#add('majutsushi/tagbar')
+  call dein#add('zerowidth/vim-copy-as-rtf')
+  call dein#add('ConradIrwin/vim-bracketed-paste')
+  call dein#add('ryanoasis/vim-devicons')
+  call dein#add('mhinz/vim-startify')
+  call dein#add('luochen1990/rainbow')
+
+  " call dein#add('valloric/YouCompleteMe')
+  call dein#add('Shougo/deoplete.nvim')
+
+  " haskell
+  call dein#add('neovimhaskell/haskell-vim')
+  call dein#add('enomsg/vim-haskellConcealPlus')
+  " call dein#add('eagletmt/ghcmod-vim')
+  " call dein#add('eagletmt/neco-ghc')
+  call dein#add('Twinside/vim-hoogle')
+  call dein#add('neovimhaskell/haskell-vim')
+
+  " rust
+  call dein#add('rust-lang/rust.vim')
+
+  " misc languages
+  call dein#add('idris-hackers/idris-vim')
+  call dein#add('ElmCast/elm-vim')
+  call dein#add('raichoo/purescript-vim')
+  call dein#add('derekelkins/agda-vim')
+  " call dein#add('reasonml/vim-reason')
+  call dein#add('derekelkins/agda-vim')
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+"End dein Scripts-------------------------
+
+" let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_refresh_always = 1
+" let g:necoghc_use_stack = 1
+
 " set shell=/usr/local/bin/fish
 set shell=/bin/bash
-
-" set the runtime path to include Vundle and initialize
-filetype off                  " required
-set rtp+=~/.vim/bundle/neobundle.vim
-call neobundle#begin('~/.vim/bundle')
-
-" let neobundle manage neobundle, required
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" colors
-" NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'lifepillar/vim-solarized8'
-NeoBundle 'sjl/badwolf'
-NeoBundle 'vim-scripts/Lucius'
-NeoBundle 'robertmeta/nofrils'
-NeoBundle 'rakr/vim-one'
-
-" text manipulation
-NeoBundle 'godlygeek/tabular' " *
-NeoBundle 'tpope/vim-unimpaired' " *
-NeoBundle 'tpope/vim-surround' " *
-NeoBundle 'tpope/vim-commentary' " *
-NeoBundle 'tpope/vim-repeat'
-
-" git
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'int3/vim-extradite'
-
-" support
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'Shougo/neocomplcache'
-" NeoBundle 'scrooloose/syntastic'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'valloric/YouCompleteMe'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'majutsushi/tagbar'
-
-" react stuff
-NeoBundle 'mxw/vim-jsx'
-NeoBundle 'justinj/vim-react-snippets'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'ternjs/tern_for_vim'
-
-" haskell
-" NeoBundle 'raichoo/haskell-vim'
-" NeoBundle 'enomsg/vim-haskellConcealPlus'
-" NeoBundle 'eagletmt/ghcmod-vim'
-" NeoBundle 'eagletmt/neco-ghc'
-NeoBundle 'Twinside/vim-hoogle'
-
-" fast html authoring
-NeoBundle 'rstacruz/sparkup'
-
-" rust
-NeoBundle 'rust-lang/rust.vim'
-NeoBundle 'valloric/YouCompleteMe'
-
-" misc
-NeoBundle 'idris-hackers/idris-vim'
-NeoBundle 'ElmCast/elm-vim'
-NeoBundle 'zerowidth/vim-copy-as-rtf'
-NeoBundle 'raichoo/purescript-vim'
-NeoBundle 'tomlion/vim-solidity'
-NeoBundle 'derekelkins/agda-vim'
-NeoBundle 'ConradIrwin/vim-bracketed-paste'
-
-" snipmate and dependencies
-NeoBundle 'garbas/vim-snipmate'
-NeoBundle 'tomtom/tlib_vim'
-NeoBundle 'MarcWeber/vim-addon-mw-utils'
-" NeoBundle 'reasonml/vim-reason'
-NeoBundle 'derekelkins/agda-vim'
-
-" All of your Plugins must be added before the following line
-call neobundle#end()         " required
-filetype plugin indent on    " required
-NeoBundleCheck
 
 " session settings
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
@@ -159,8 +171,6 @@ nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
 " Rainbow Parenthesis
 "nnoremap <leader>rp :RainbowParenthesesToggle<CR>
 
-"let g:sparkupExecuteMapping = '<c-i>'
-
 " show the current line position
 set ruler
 
@@ -223,9 +233,6 @@ set lazyredraw
 " For regular expressions turn magic on
 set magic
 
-syntax on
-filetype plugin indent on
-
 " Next two things thanks to John Resig: https://gist.github.com/955547
 " Tell vim to remember certain things when we exit
 "  '10 : marks will be remembered for up to 10 previously edited files
@@ -284,7 +291,7 @@ augroup configgroup
   autocmd!
 
   "Automatically change current directory to that of the file in the buffer
-  autocmd BufEnter * cd %:p:h
+  " autocmd BufEnter * cd %:p:h
 
   " Strip trailing whitespace on write
   autocmd BufWritePre * :%s/\s\+$//e
@@ -323,12 +330,6 @@ cmap w!! w !sudo tee % >/dev/null
 " :imap <C-S-tab> <ESC>:tabprevious<cr>i
 " :imap <C-tab> <ESC>:tabnext<cr>i
 " :imap <C-t> <ESC>:tabnew<cr>
-
-" Lusty reminders
-" <leader>lf lusty file explorer
-" <leader>lr lusty file explorer in current dir
-" <leader>lb lusty buffer explorer
-" <leader>lg lusty buffer grep
 
 " Here are a bunch of awesome commands from Derek Wyatt
 " (www.derekwyatt.org) for window navigation
@@ -393,10 +394,10 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
   " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
+  " let g:ctrlp_use_caching = 0
 endif
 
 " bind K to grep word under cursor
@@ -418,34 +419,12 @@ set foldnestmax=10
 set nofoldenable
 set foldlevel=1
 
-" haskell mode
-" au Bufenter *.hs compiler ghc
-" autocmd BufWritePost *.hs GhcModCheckAndLintAsync
-" autocmd BufWritePost *.lhs GhcModCheckAndLintAsync
-
-" ctrlp
-nmap ; :CtrlPBuffer<CR>
-" Enable cross-session caching
-let g:ctrlp_clear_cache_on_exit = 0
-
-" syntastic
-let g:syntastic_check_on_open=0
-let g:syntastic_echo_current_error=1
-let g:syntastic_enable_signs=1
-let g:syntastic_enable_highlighting=1
-let g:syntastic_auto_jump=0
-let g:syntastic_auto_loc_list=1
-let g:syntastic_loc_list_height=10
-" let g:syntastic_javascript_checkers = ['eslint', 'flow']
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_gjslint_conf=" --nojsdoc"
+" fzf
+nmap ; :Buffers<CR>
 
 " purescript
 let g:purescript_indent_if = 0
 let g:purescript_indent_case = 2
-
-" react
-let g:jsx_ext_required = 0
 
 " Highlight Word {{{
 "
@@ -491,7 +470,6 @@ nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
 " }}}
 " Default Highlights {{{
 
-" TODO - figure out how this was broken by solarized
 hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
 hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
 hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
@@ -501,114 +479,6 @@ hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
 " }}}
 
-" `:R` jumps to the definition of the class you're currently in
-" `:R <code>` jumps to the method for that code (ex. `:R gdp`)
-" `:R! <code>` jumps to the method, and creates it if it doesn't already exist
-
-function! s:CodeToFunctionName(code)
-  if a:code == "cdm"
-    return "componentDidMount"
-  elseif a:code == "cdup"
-    return "componentDidUpdate"
-  elseif a:code == "cwm"
-    return "componentWillMount"
-  elseif a:code == "cwr"
-    return "componentWillReceiveProps"
-  elseif a:code == "cwun"
-    return "componentWillUnmount"
-  elseif a:code == "cwu"
-    return "componentWillUpdate"
-  elseif a:code == "gdp"
-    return "getDefaultProps"
-  elseif a:code == "gis"
-    return "getInitialState"
-  elseif a:code == "pt"
-    return "propTypes"
-  elseif a:code == "r"
-    return "render"
-  elseif a:code == "scu"
-    return "shouldComponentUpdate"
-  endif
-endfunction
-
-" so sophisticated
-function! s:IsFunction(name)
-  return !(a:name == "propTypes")
-endfunction
-
-function! s:CreateMethod(name)
-  if s:IsFunction(a:name)
-    exec "normal! o" . a:name . ": function() {"
-  else
-    exec "normal! o" . a:name . ": {"
-  endif
-  normal! o},
-  normal! o
-  normal! k
-  call feedkeys("O", 'n')
-endfunction
-
-function! s:React(...)
-  " assume happy path for now...
-  let argCount = a:0
-  let l:winview = winsaveview()
-  normal! m'
-  normal! +
-  keepjumps call search("React.createClass", "b")
-  if argCount == 1
-    " no args means go to the definition
-    return
-  endif
-  let startingLine = line(".")
-  keepjumps normal! $%
-  let endingLine = line(".")
-  keepjumps normal! %
-
-  let isBang = a:1
-  let requestedCode = a:2
-
-  let functionName = s:CodeToFunctionName(requestedCode)
-  let found = search(functionName . ":", "c", endingLine)
-  if found == 0
-    if isBang
-      call s:CreateMethod(functionName)
-    else
-      keepjumps normal! ''
-      call winrestview(l:winview)
-      echo "This class does not have " . functionName . ", call with ! to create"
-    endif
-  else
-    normal! zz
-  endif
-endfunction
-
-
-command! -nargs=* -bang R call s:React("<bang>"=="!", <f-args>)
-
-" not very smart yet...
-function! s:ReactExtract(start, end)
-  call inputsave()
-  let name = input('Extract to component named: ')
-  call inputrestore()
-  echo a:start
-  echo a:end
-endfunction
-
-
-command! -range Rex call s:ReactExtract(<line1>, <line2>)
-
-" enable % to jump to matching JSX tags (if you have matchit enabled)
-runtime macros/matchit.vim
-
-function! s:SetupJsxMatching()
-  let b:match_ignorecase = 0
-  let b:match_words = '(:),\[:\],{:},<:>,' .
-        \ '<\@<=\([^/][^ \t>]*\)[^>]*\%(>\|$\):<\@<=/\1>'
-endfunction
-
-autocmd FileType javascript call s:SetupJsxMatching()
 autocmd BufRead,BufNewFile *.md setlocal spell
-
-let g:tern_map_keys=1
 
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')

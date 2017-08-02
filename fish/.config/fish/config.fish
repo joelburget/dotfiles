@@ -12,6 +12,9 @@ source $OMF_PATH/init.fish
 
 set -x PATH \
   $HOME/.cargo/bin \
+  $HOME/.installed-ghc/ghc-8.2.1-hq/bin \
+  $HOME/.installed-ghc/bin \
+  $HOME/code/kframework/k/k-distribution/target/release/k/bin \
   $HOME/.local/bin \
   $HOME/.cabal/bin \
   $GOPATH/bin \
@@ -24,7 +27,8 @@ set -x PATH \
   /usr/sbin \
   /sbin
 set -x PAGER less
-set -x EDITOR /usr/local/bin/vim
+set -x MANPAGER "nvim -c 'set ft=man' -"
+set -x EDITOR /usr/local/bin/nvim
 
 # omf theme agnoster
 
@@ -33,6 +37,8 @@ alias ggi "git grep -i"
 alias diff "git diff --no-index"
 alias e "emacsclient -n"
 alias clone "hub clone"
+alias vim nvim
+alias v nvim
 
 # silence "gpg-agent: a gpg-agent is already running - not starting a new one"
 gpg-agent --daemon 2> /dev/null
