@@ -23,7 +23,7 @@ if dein#load_state('/Users/joel/.cache/dein')
   call dein#add('rakr/vim-one')
 
   " text manipulation
-  call dein#add('godlygeek/tabular') " *
+  call dein#add('junegunn/vim-easy-align')
   call dein#add('tpope/vim-unimpaired') " *
   call dein#add('tpope/vim-surround') " *
   call dein#add('tpope/vim-commentary') " *
@@ -39,7 +39,6 @@ if dein#load_state('/Users/joel/.cache/dein')
   " call dein#add('sjl/gundo.vim')
   call dein#add('simnalamburt/vim-mundo')
   call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-  call dein#add('Shougo/neocomplcache')
   call dein#add('w0rp/ale')
   call dein#add('ervandew/supertab')
   " call dein#add('ctrlpvim/ctrlp.vim')
@@ -54,6 +53,14 @@ if dein#load_state('/Users/joel/.cache/dein')
   call dein#add('ryanoasis/vim-devicons')
   call dein#add('mhinz/vim-startify')
   call dein#add('luochen1990/rainbow')
+  call dein#add('tpope/vim-sensible')
+
+  " experimental:
+  " find and replace
+  call dein#add('junegunn/vim-pseudocl')
+  call dein#add('junegunn/vim-fnr')
+  call dein#add('junegunn/vim-slash')
+  call dein#add('junegunn/vim-peekaboo')
 
   " call dein#add('valloric/YouCompleteMe')
   call dein#add('Shougo/deoplete.nvim')
@@ -88,6 +95,18 @@ syntax enable
 
 "End dein Scripts-------------------------
 
+noremap <plug>(slash-after) zz
+nmap <Leader>r <Plug>(FNR)
+xmap <Leader>r <Plug>(FNR)
+nmap <Leader>R <Plug>(FNR%)
+xmap <Leader>R <Plug>(FNR%)
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 " let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_refresh_always = 1
@@ -115,7 +134,8 @@ let g:one_allow_italics = 1
 colorscheme solarized8_light
 set background=light
 
-let mapleader = ","
+let mapleader      = ","
+let maplocalleader = ","
 
 " Map jk / fd to escape
 imap jk <Esc>
@@ -125,6 +145,7 @@ imap fd <Esc>
 cnoreabbrev W w
 
 setglobal fileencoding=utf-8
+
 " Hide buffers instead of closing them.
 set hidden
 
@@ -135,8 +156,7 @@ set wildmode=list:longest
 
 " don't show these filetypes, we won't edit them
 set wildignore=*.swp,*.class,*.log,*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.jpg,*.gif,*.png,*.hi,*.jsmod,*.hers,*.p_hi,*.p_o,*.dyn_o,*.dyn_hi
-set ignorecase
-set smartcase
+set ignorecase smartcase
 
 " Make it so we can use a forward slash for path names on windows
 set shellslash
@@ -232,15 +252,6 @@ set lazyredraw
 
 " For regular expressions turn magic on
 set magic
-
-" Next two things thanks to John Resig: https://gist.github.com/955547
-" Tell vim to remember certain things when we exit
-"  '10 : marks will be remembered for up to 10 previously edited files
-"  "100 : will save up to 100 lines for each register
-"  :20 : up to 20 lines of command-line history will be remembered
-"  % : saves and restores the buffer list
-"  n... : where to save the viminfo files
-set viminfo='10,\"100,:20,%,n~/.viminfo
 
 " when we reload, tell vim to restore the cursor to the saved position
 augroup JumpCursorOnEdit
@@ -424,7 +435,8 @@ nmap ;b :Buffers<CR>
 nmap ;f :FZF<CR>
 nmap ;g :GFiles<CR>
 nmap ;t :Tags<CR>
-nmap ;c :Colors<CR>
+nmap ;r :Colors<CR>
+nmap ;c :Commands<CR>
 nmap ;h :Helptags<CR>
 nmap ;m :Commands<CR>
 
