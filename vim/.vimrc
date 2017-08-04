@@ -41,7 +41,6 @@ if dein#load_state('/Users/joel/.cache/dein')
   call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
   call dein#add('w0rp/ale')
   call dein#add('ervandew/supertab')
-  " call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
   call dein#add('vim-airline/vim-airline')
@@ -62,6 +61,10 @@ if dein#load_state('/Users/joel/.cache/dein')
   call dein#add('junegunn/vim-slash')
   call dein#add('junegunn/vim-peekaboo')
 
+  " writing mode
+  call dein#add('junegunn/goyo.vim')
+  call dein#add('junegunn/limelight.vim')
+
   " call dein#add('valloric/YouCompleteMe')
   call dein#add('Shougo/deoplete.nvim')
 
@@ -71,7 +74,6 @@ if dein#load_state('/Users/joel/.cache/dein')
   " call dein#add('eagletmt/ghcmod-vim')
   " call dein#add('eagletmt/neco-ghc')
   call dein#add('Twinside/vim-hoogle')
-  call dein#add('neovimhaskell/haskell-vim')
 
   " rust
   call dein#add('rust-lang/rust.vim')
@@ -110,7 +112,7 @@ nmap ga <Plug>(EasyAlign)
 " let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_refresh_always = 1
-" let g:necoghc_use_stack = 1
+let g:necoghc_use_stack = 1
 
 " set shell=/usr/local/bin/fish
 set shell=/bin/bash
@@ -454,6 +456,41 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " purescript
 let g:purescript_indent_if = 0
 let g:purescript_indent_case = 2
+
+" ----------------------------------------------------------------------------
+" goyo.vim + limelight.vim
+" ----------------------------------------------------------------------------
+let g:limelight_paragraph_span = 1
+let g:limelight_priority = -1
+
+function! s:goyo_enter()
+  if has('gui_running')
+    set fullscreen
+    set background=light
+    set linespace=7
+  elseif exists('$TMUX')
+    silent !tmux set status off
+  endif
+  Limelight
+  let &l:statusline = '%M'
+  hi StatusLine ctermfg=red guifg=red cterm=NONE gui=NONE
+endfunction
+
+function! s:goyo_leave()
+  if has('gui_running')
+    set nofullscreen
+    set background=dark
+    set linespace=0
+  elseif exists('$TMUX')
+    silent !tmux set status on
+  endif
+  Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+nnoremap <Leader>G :Goyo<CR>
 
 " Highlight Word {{{
 "
