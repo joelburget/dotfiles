@@ -1,103 +1,84 @@
-"dein Scripts-----------------------------
 if &compatible
   set nocompatible               " Be iMproved
 endif
 
-" Required:
-set runtimepath+=/Users/joel/.cache/dein/repos/github.com/Shougo/dein.vim
+call plug#begin('~/.vim/plugged')
 
-" Required:
-if dein#load_state('/Users/joel/.cache/dein')
-  call dein#begin('/Users/joel/.cache/dein')
+" snippets
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('/Users/joel/.cache/dein/repos/github.com/Shougo/dein.vim')
+" colors
+Plug 'lifepillar/vim-solarized8'
+Plug 'rakr/vim-one'
 
-  " snippets
-  call dein#add('Shougo/neosnippet.vim')
-  call dein#add('Shougo/neosnippet-snippets')
+" text manipulation
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
 
-  " colors
-  call dein#add('lifepillar/vim-solarized8')
-  call dein#add('rakr/vim-one')
+" git
+Plug 'airblade/vim-gitgutter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'lambdalisue/gina.vim'
+Plug 'tpope/vim-fugitive'
 
-  " text manipulation
-  call dein#add('junegunn/vim-easy-align')
-  call dein#add('tpope/vim-unimpaired') " *
-  call dein#add('tpope/vim-surround') " *
-  call dein#add('tpope/vim-commentary') " *
-  call dein#add('tpope/vim-repeat')
+" support
+Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'sjl/gundo.vim'
+Plug 'simnalamburt/vim-mundo'
+Plug 'Shougo/vimproc.vim', {'build' : 'make'}
+Plug 'w0rp/ale'
+Plug 'ervandew/supertab'
+Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
+Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'zerowidth/vim-copy-as-rtf'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'ryanoasis/vim-devicons'
+Plug 'mhinz/vim-startify'
+Plug 'luochen1990/rainbow'
+Plug 'tpope/vim-sensible'
 
-  " git
-  call dein#add('airblade/vim-gitgutter')
-  call dein#add('Xuyuanp/nerdtree-git-plugin')
-  call dein#add('lambdalisue/gina.vim')
+" experimental:
+Plug 'junegunn/vim-peekaboo'
 
-  " support
-  call dein#add('nathanaelkane/vim-indent-guides')
-  " call dein#add('sjl/gundo.vim')
-  call dein#add('simnalamburt/vim-mundo')
-  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-  call dein#add('w0rp/ale')
-  call dein#add('ervandew/supertab')
-  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-  call dein#add('vim-airline/vim-airline')
-  call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('majutsushi/tagbar')
-  call dein#add('zerowidth/vim-copy-as-rtf')
-  call dein#add('ConradIrwin/vim-bracketed-paste')
-  call dein#add('ryanoasis/vim-devicons')
-  call dein#add('mhinz/vim-startify')
-  call dein#add('luochen1990/rainbow')
-  call dein#add('tpope/vim-sensible')
+" writing mode
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 
-  " experimental:
-  " find and replace
-  call dein#add('junegunn/vim-pseudocl')
-  call dein#add('junegunn/vim-fnr')
-  call dein#add('junegunn/vim-slash')
-  call dein#add('junegunn/vim-peekaboo')
+" Plug 'valloric/YouCompleteMe'
+Plug 'Shougo/deoplete.nvim'
 
-  " writing mode
-  call dein#add('junegunn/goyo.vim')
-  call dein#add('junegunn/limelight.vim')
+" haskell
+Plug 'neovimhaskell/haskell-vim'
+" Plug 'eagletmt/ghcmod-vim'
+" Plug 'eagletmt/neco-ghc'
+Plug 'Twinside/vim-hoogle'
 
-  " call dein#add('valloric/YouCompleteMe')
-  call dein#add('Shougo/deoplete.nvim')
+" rust
+Plug 'rust-lang/rust.vim'
 
-  " haskell
-  call dein#add('neovimhaskell/haskell-vim')
-  call dein#add('enomsg/vim-haskellConcealPlus')
-  " call dein#add('eagletmt/ghcmod-vim')
-  " call dein#add('eagletmt/neco-ghc')
-  call dein#add('Twinside/vim-hoogle')
+" misc languages
+Plug 'idris-hackers/idris-vim'
+Plug 'ElmCast/elm-vim'
+Plug 'raichoo/purescript-vim'
+Plug 'derekelkins/agda-vim'
+" Plug 'reasonml/vim-reason'
+Plug 'derekelkins/agda-vim'
 
-  " rust
-  call dein#add('rust-lang/rust.vim')
-
-  " misc languages
-  call dein#add('idris-hackers/idris-vim')
-  call dein#add('ElmCast/elm-vim')
-  call dein#add('raichoo/purescript-vim')
-  call dein#add('derekelkins/agda-vim')
-  " call dein#add('reasonml/vim-reason')
-  call dein#add('derekelkins/agda-vim')
-
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
+call plug#end()
 
 " Required:
 filetype plugin indent on
 syntax enable
 
-"End dein Scripts-------------------------
-
-noremap <plug>(slash-after) zz
+" noremap <plug>(slash-after) zz
 nmap <Leader>r <Plug>(FNR)
 xmap <Leader>r <Plug>(FNR)
 nmap <Leader>R <Plug>(FNR%)
@@ -135,6 +116,7 @@ let g:solarized_contrast = "high"
 let g:one_allow_italics = 1
 colorscheme solarized8_light
 set background=light
+nnoremap <leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 let mapleader      = ","
 let maplocalleader = ","
