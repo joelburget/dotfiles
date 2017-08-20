@@ -19,6 +19,7 @@ set -x PATH \
   $HOME/.cabal/bin \
   $GOPATH/bin \
   (yarn global bin) \
+  /Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin \
   /usr/local/sbin \
   /usr/local/opt/llvm/bin \
   /usr/local/bin \
