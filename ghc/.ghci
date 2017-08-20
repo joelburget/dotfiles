@@ -1,8 +1,6 @@
 :set -Wall
 :set -XOverloadedStrings
 :set -XNoMonomorphismRestriction
-:set -XRankNTypes
-:set -XScopedTypeVariables
 :set prompt "\ESC[34mλ> \ESC[m"
 :set -fno-print-bind-result
 :set -freverse-errors
