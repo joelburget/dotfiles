@@ -71,6 +71,8 @@ Plug 'raichoo/purescript-vim'
 Plug 'derekelkins/agda-vim'
 " Plug 'reasonml/vim-reason'
 Plug 'derekelkins/agda-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
 
 call plug#end()
 
@@ -94,6 +96,8 @@ nmap ga <Plug>(EasyAlign)
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_refresh_always = 1
 let g:necoghc_use_stack = 1
+
+let g:haskell_indent_disable = 1
 
 " set shell=/usr/local/bin/fish
 set shell=/bin/bash
