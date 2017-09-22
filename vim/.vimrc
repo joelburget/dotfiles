@@ -73,6 +73,7 @@ Plug 'derekelkins/agda-vim'
 Plug 'derekelkins/agda-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
+Plug 'j16180339887/Global.vim'
 
 call plug#end()
 
