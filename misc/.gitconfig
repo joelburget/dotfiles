@@ -80,10 +80,8 @@
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
-[commit]
-	gpgsign = true
-[gpg]
-	program = gpg2
+# [commit]
+# 	gpgsign = true
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [color "diff-highlight"]
