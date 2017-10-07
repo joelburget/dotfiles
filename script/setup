@@ -1,0 +1,4 @@
+#!/bin/sh
+# Install all dotfiles into the home directory
+
+stow "atom" "fish" "ghc" "gpg" "misc" "spacemacs" "vifm" "vim"
