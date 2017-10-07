@@ -32,3 +32,5 @@ parse_git_branch() {
 }
 
 export PS1="\[\033[00m\]\u@\h\[\033[01;34m\] \W \[\033[31m\]\$(parse_git_branch) \[\033[00m\]$\[\033[00m\] "
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
