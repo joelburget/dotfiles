@@ -10,6 +10,8 @@ set -x OMF_PATH "/Users/joel/.local/share/omf"
 set -x GOPATH /Users/joel/go
 source $OMF_PATH/init.fish
 
+set -x HOLDIR $HOME/code/HOL
+
 set -x PATH \
   $HOME/.cargo/bin \
   $HOME/.installed-ghc/ghc-8.2.1-hq/bin \
@@ -17,6 +19,7 @@ set -x PATH \
   $HOME/code/kframework/k/k-distribution/target/release/k/bin \
   $HOME/.local/bin \
   $HOME/.cabal/bin \
+  $HOLDIR/bin \
   $GOPATH/bin \
   (yarn global bin) \
   /Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin \
