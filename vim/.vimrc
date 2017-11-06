@@ -11,6 +11,7 @@ Plug 'Shougo/neosnippet-snippets'
 " colors
 Plug 'lifepillar/vim-solarized8'
 Plug 'rakr/vim-one'
+Plug 'cocopon/iceberg.vim'
 
 " text manipulation
 Plug 'junegunn/vim-easy-align'
@@ -30,12 +31,11 @@ Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'sjl/gundo.vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'Shougo/vimproc.vim', {'build' : 'make'}
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
 Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'zerowidth/vim-copy-as-rtf'
@@ -44,9 +44,24 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sensible'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-eunuch'
+Plug 'rhysd/conflict-marker.vim'
+
+" basics
+" ,,f{char} -- jump to char
+" ,,w{char} -- jump to word
+" also has line motions (need to be mapped?)
+Plug 'easymotion/vim-easymotion'
 
 " experimental:
 Plug 'junegunn/vim-peekaboo'
+
+" flash yanked text
+Plug 'kana/vim-operator-user'
+Plug 'haya14busa/vim-operator-flashy'
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
 
 " writing mode
 Plug 'junegunn/goyo.vim'
@@ -57,8 +72,8 @@ Plug 'Shougo/deoplete.nvim'
 
 " haskell
 Plug 'neovimhaskell/haskell-vim'
-" Plug 'eagletmt/ghcmod-vim'
-" Plug 'eagletmt/neco-ghc'
+Plug 'eagletmt/ghcmod-vim'
+Plug 'eagletmt/neco-ghc'
 Plug 'Twinside/vim-hoogle'
 
 " rust
@@ -96,9 +111,19 @@ nmap ga <Plug>(EasyAlign)
 " let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_refresh_always = 1
-let g:necoghc_use_stack = 1
+" let g:necoghc_use_stack = 1
 
 let g:haskell_indent_disable = 1
+
+" easy align haskell. what i'd like to align:
+" * '::' / '->' in type signatures
+" * '<-' / '=' in let / do
+" * maybe lens operators
+let g:easy_align_delimiters = {
+\ 's': { 'pattern': '::\|->', 'left_margin': 1, 'right_margin': 1 },
+\ 'h': { 'pattern': '<-\|=',  'left_margin': 1, 'right_margin': 1 },
+\ 'l': { 'pattern': '[-!#$%&*+./<=>?@\\~\^|]+', 'left_margin': 1, 'right_margin': 1 }
+\ }
 
 " set shell=/usr/local/bin/fish
 set shell=/bin/bash
@@ -106,7 +131,6 @@ set shell=/bin/bash
 " session settings
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 
-let g:airline_powerline_fonts = 1
 set backspace=indent,eol,start
 
 if (has("termguicolors"))
@@ -119,8 +143,8 @@ let g:solarized_termcolors = 16
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 let g:one_allow_italics = 1
-colorscheme solarized8_light
-set background=light
+colorscheme iceberg
+" set background=light
 nnoremap <leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 let mapleader      = ","
@@ -153,6 +177,8 @@ set shellslash
 " Wait less time for commands that have the same first characters
 " eg ,s and ,sv
 set timeoutlen=400
+
+set autochdir
 
 " Change the terminal's title
 set title
@@ -392,6 +418,7 @@ set visualbell
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
+  let g:ackprg = 'ag --vimgrep'
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
@@ -401,17 +428,10 @@ if executable('ag')
 endif
 
 " bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap K :Ack "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " bind \ (backward slash) to grep shortcut
-command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nnoremap \ :Ag<SPACE>
-
-if has("macunix")
-  let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
-else
-  let Tlist_Ctags_Cmd = '/usr/bin/ctags'
-endif
+nnoremap \ :Ack<SPACE>
 
 " Code folding
 set foldmethod=indent
@@ -451,26 +471,14 @@ let g:limelight_paragraph_span = 1
 let g:limelight_priority = -1
 
 function! s:goyo_enter()
-  if has('gui_running')
-    set fullscreen
-    set background=light
-    set linespace=7
-  elseif exists('$TMUX')
-    silent !tmux set status off
-  endif
+  " get rid of weird source-code like indenting:
+  set spell noci nosi noai nolist noshowmode noshowcmd
   Limelight
   let &l:statusline = '%M'
   hi StatusLine ctermfg=red guifg=red cterm=NONE gui=NONE
 endfunction
 
 function! s:goyo_leave()
-  if has('gui_running')
-    set nofullscreen
-    set background=dark
-    set linespace=0
-  elseif exists('$TMUX')
-    silent !tmux set status on
-  endif
   Limelight!
 endfunction
 
@@ -535,3 +543,9 @@ hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 autocmd BufRead,BufNewFile *.md setlocal spell
 
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+
+augroup filetypedetect
+  au BufRead,BufNewFile *?Script.sml let maplocalleader = "h" | source /Users/joel/code/HOL/tools/vim/hol.vim
+  "Uncomment the line below to automatically load Unicode
+  "au BufRead,BufNewFile *?Script.sml source /Users/joel/code/HOL/tools/vim/holabs.vim
+augroup END
