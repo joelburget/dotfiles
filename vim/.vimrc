@@ -4,10 +4,6 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-" snippets
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-
 " colors
 Plug 'lifepillar/vim-solarized8'
 Plug 'rakr/vim-one'
@@ -96,11 +92,8 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
-" noremap <plug>(slash-after) zz
-nmap <Leader>r <Plug>(FNR)
-xmap <Leader>r <Plug>(FNR)
-nmap <Leader>R <Plug>(FNR%)
-xmap <Leader>R <Plug>(FNR%)
+" always use the system clipboard
+set clipboard=unnamedplus
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
@@ -242,16 +235,6 @@ nnoremap <leader>ct :%s///gn<CR>
 
 nnoremap <F6> :GundoToggle<CR>
 nnoremap <F7> :TagbarToggle<CR>
-
-" overwrite default yank commands so they default to the system keyboard,
-" unless another register is explicitly given.
-"
-" http://stackoverflow.com/a/13381286
-nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
-nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
 
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 
