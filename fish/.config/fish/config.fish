@@ -43,6 +43,13 @@ alias e "emacsclient -n"
 alias clone "hub clone"
 alias vim nvim
 alias v nvim
+alias ghci-core 'ghci -ddump-simpl -dsuppress-idinfo \
+  -dsuppress-coercions -dsuppress-type-applications \
+  -dsuppress-uniques -dsuppress-module-prefixes'
+
+function stack-ghcid --wraps ghcid --description 'ghcid + stack'
+  ghcid --command='stack ghci --test $(basename $(pwd))'
+end
 
 # silence "gpg-agent: a gpg-agent is already running - not starting a new one"
 gpg-agent --daemon 2> /dev/null
