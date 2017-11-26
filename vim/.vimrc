@@ -44,6 +44,16 @@ Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'rhysd/conflict-marker.vim'
 
+" ,m -- mark word
+" ,r -- regex mark
+" ,n -- clear mark under cursor or all highlighted marks
+" ,* -- jump to next occurrence of current mark
+" ,/ -- jump to next occurrence of any mark
+Plug 'vim-scripts/Mark'
+
+" highlight colors (eg #123456) that appear in buffer
+Plug 'lilydjwg/colorizer'
+
 " basics
 " ,,f{char} -- jump to char
 " ,,w{char} -- jump to word
@@ -56,15 +66,13 @@ Plug 'junegunn/vim-peekaboo'
 " flash yanked text
 Plug 'kana/vim-operator-user'
 Plug 'haya14busa/vim-operator-flashy'
-map y <Plug>(operator-flashy)
-nmap Y <Plug>(operator-flashy)$
 
 " writing mode
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
 " Plug 'valloric/YouCompleteMe'
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " haskell
 Plug 'neovimhaskell/haskell-vim'
@@ -81,10 +89,13 @@ Plug 'ElmCast/elm-vim'
 Plug 'raichoo/purescript-vim'
 Plug 'derekelkins/agda-vim'
 " Plug 'reasonml/vim-reason'
-Plug 'derekelkins/agda-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'j16180339887/Global.vim'
+
+" language server
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/echodoc.vim'
 
 call plug#end()
 
@@ -94,12 +105,6 @@ syntax enable
 
 " always use the system clipboard
 set clipboard=unnamedplus
-
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
 
 " let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
@@ -137,15 +142,9 @@ let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 let g:one_allow_italics = 1
 colorscheme iceberg
-" set background=light
-nnoremap <leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 let mapleader      = ","
 let maplocalleader = ","
-
-" Map jk / fd to escape
-imap jk <Esc>
-imap fd <Esc>
 
 " :W saves
 cnoreabbrev W w
@@ -181,23 +180,6 @@ set number
 
 " set it so we always have a few lines below the cursor
 set scrolloff=5
-nnoremap <C-e> 3<C-e>
-nnoremap <C-y> 3<C-y>
-
-nnoremap j gj
-nnoremap k gk
-
-nnoremap ' `
-nnoremap ` '
-
-" Yank from cursor to end of line
-nnoremap Y y$
-
-" Search and replace word under cursor (,*)
-nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
-
-" Rainbow Parenthesis
-"nnoremap <leader>rp :RainbowParenthesesToggle<CR>
 
 " show the current line position
 set ruler
@@ -229,12 +211,6 @@ set autoindent
 
 " Don't enable showmarks by default
 let g:showmarks_enable=0
-
-" Count the number of occurrences of the currently highlighted word
-nnoremap <leader>ct :%s///gn<CR>
-
-nnoremap <F6> :GundoToggle<CR>
-nnoremap <F7> :TagbarToggle<CR>
 
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 
@@ -284,16 +260,6 @@ augroup END
 
 " Show whitespace
 set listchars=tab:>-,trail:·,eol:$
-nmap <silent> <leader>s :set nolist!<CR>
-
-nmap <silent> <leader>d :NERDTreeToggle<CR>
-
-" nmap <silent> <leader>t :TlistToggle<CR>
-
-" Edit .vimrc
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-" Reload .vimrc
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 augroup configgroup
   " clear all autocmds for the current group
@@ -315,74 +281,12 @@ augroup configgroup
   au BufRead,BufNewFile *.less set filetype=less
   au BufRead,BufNewFile *.hsc set filetype=haskell
   au BufRead,BufNewFile *.md set filetype=markdown
+  au BufRead,BufNewFile *.md setlocal spell
 
   autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
   autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
   autocmd Syntax * call matchadd('Underlined', 'joel', 9)
 augroup END
-
-" Clear highlighted searches with ,/ instead of /sdfjlafl
-nmap <silent> <leader>/ :let @/=""<CR>:call clearmatches()<CR>
-
-" For those times you forgot to sudo
-cmap w!! w !sudo tee % >/dev/null
-
-" Tabs!
-" set showtabline=2               " File tabs always visible
-" :nmap <C-S-tab> :tabprevious<cr>
-" :nmap <C-tab> :tabnext<cr>
-" :nmap <C-t> :tabnew<cr>
-" :map <C-t> :tabnew<cr>
-" :map <C-S-tab> :tabprevious<cr>
-" :map <C-tab> :tabnext<cr>
-" :map <C-w> :tabclose<cr>
-" :imap <C-S-tab> <ESC>:tabprevious<cr>i
-" :imap <C-tab> <ESC>:tabnext<cr>i
-" :imap <C-t> <ESC>:tabnew<cr>
-
-" Here are a bunch of awesome commands from Derek Wyatt
-" (www.derekwyatt.org) for window navigation
-
-" Move the cursor to the window left of the current one
-noremap <silent> <leader>h :wincmd h<cr>
-
-" Move the cursor to the window below the current one
-noremap <silent> <leader>j :wincmd j<cr>
-
-" Move the cursor to the window above the current one
-noremap <silent> <leader>k :wincmd k<cr>
-
-" Move the cursor to the window right of the current one
-noremap <silent> <leader>l :wincmd l<cr>
-
-" Close the window below this one
-noremap <silent> <leader>cj :wincmd j<cr>:close<cr>
-
-" Close the window above this one
-noremap <silent> <leader>ck :wincmd k<cr>:close<cr>
-
-" Close the window to the left of this one
-noremap <silent> <leader>ch :wincmd h<cr>:close<cr>
-
-" Close the window to the right of this one
-noremap <silent> <leader>cl :wincmd l<cr>:close<cr>
-
-" Close the current window
-noremap <silent> <leader>cc :close<cr>
-
-" Move the current window to the right of the main Vim window
-noremap <silent> <leader>ml <C-W>L
-
-" Move the current window to the top of the main Vim window
-noremap <silent> <leader>mk <C-W>K
-
-" Move the current window to the left of the main Vim window
-" (unmap because showmarks defines the same keymap)
-" unmap! <leader>mh
-" noremap <silent> <leader>mh <C-W>H
-
-" Move the current window to the bottom of the main Vim window
-noremap <silent> <leader>mj <C-W>J
 
 set visualbell
 
@@ -410,38 +314,11 @@ if executable('ag')
   " let g:ctrlp_use_caching = 0
 endif
 
-" bind K to grep word under cursor
-nnoremap K :Ack "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-" bind \ (backward slash) to grep shortcut
-nnoremap \ :Ack<SPACE>
-
 " Code folding
 set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=1
-
-" fzf
-nmap ;b :Buffers<CR>
-nmap ;f :FZF<CR>
-nmap ;g :GFiles<CR>
-nmap ;t :Tags<CR>
-nmap ;r :Colors<CR>
-nmap ;c :Commands<CR>
-nmap ;h :Helptags<CR>
-nmap ;m :Commands<CR>
-
-" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " purescript
 let g:purescript_indent_if = 0
@@ -467,8 +344,6 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-nnoremap <Leader>G :Goyo<CR>
 
 " Highlight Word {{{
 "
@@ -502,28 +377,140 @@ function! HiInterestingWord(n) " {{{
     normal! `z
 endfunction " }}}
 
-" Mappings {{{
+augroup mappings
+  autocmd!
 
-nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
-nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
-nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
-nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
-nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
-nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+  " insert mode
 
-" }}}
-" Default Highlights {{{
+  " Map jk / fd to escape
+  imap jk <Esc>
+  imap fd <Esc>
 
-hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
-hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
-hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
-hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
-hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
-hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+  " Insert mode completion
+  imap <c-x><c-k> <plug>(fzf-complete-word)
+  imap <c-x><c-f> <plug>(fzf-complete-path)
+  imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+  imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" }}}
+  " command mode
 
-autocmd BufRead,BufNewFile *.md setlocal spell
+  " For those times you forgot to sudo
+  cmap w!! w !sudo tee % >/dev/null
+
+  " normal mode
+
+  nnoremap <C-e> 3<C-e>
+  nnoremap <C-y> 3<C-y>
+
+  nnoremap <leader>tu :MundoToggle<CR>
+  nnoremap <leader>tt :TagbarToggle<CR>
+
+  nnoremap j gj
+  nnoremap k gk
+
+  nnoremap ' `
+  nnoremap ` '
+
+  " Yank from cursor to end of line
+  nnoremap Y y$
+
+  nnoremap <leader>tb :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+
+  " Search and replace word under cursor (,*)
+  nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
+
+  " Count the number of occurrences of the currently highlighted word
+  nnoremap <leader>sn :%s///gn<CR>
+
+  " Here are a bunch of awesome commands from Derek Wyatt
+  " (www.derekwyatt.org) for window navigation
+
+  " Move the cursor to the window left of the current one
+  noremap <silent> <leader>h :wincmd h<cr>
+
+  " Move the cursor to the window below the current one
+  noremap <silent> <leader>j :wincmd j<cr>
+
+  " Move the cursor to the window above the current one
+  noremap <silent> <leader>k :wincmd k<cr>
+
+  " Move the cursor to the window right of the current one
+  noremap <silent> <leader>l :wincmd l<cr>
+
+  " Close the window below this one
+  noremap <silent> <leader>cj :wincmd j<cr>:close<cr>
+
+  " Close the window above this one
+  noremap <silent> <leader>ck :wincmd k<cr>:close<cr>
+
+  " Close the window to the left of this one
+  noremap <silent> <leader>ch :wincmd h<cr>:close<cr>
+
+  " Close the window to the right of this one
+  noremap <silent> <leader>cl :wincmd l<cr>:close<cr>
+
+  " Close the current window
+  noremap <silent> <leader>cc :close<cr>
+
+  " Move the current window to the right of the main Vim window
+  noremap <silent> <leader>ml <C-W>L
+
+  " Move the current window to the top of the main Vim window
+  noremap <silent> <leader>mk <C-W>K
+
+  " Move the current window to the left of the main Vim window
+  " (unmap because showmarks defines the same keymap)
+  " unmap! <leader>mh
+  " noremap <silent> <leader>mh <C-W>H
+
+  " Move the current window to the bottom of the main Vim window
+  noremap <silent> <leader>mj <C-W>J
+
+  " bind K to grep word under cursor
+  nnoremap K :Ack "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+  " bind \ (backward slash) to grep shortcut
+  nnoremap \ :Ack<SPACE>
+
+  nnoremap <Leader>G :Goyo<CR>
+
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
+
+  " Start interactive EasyAlign in visual mode (e.g. vipga)
+  xmap ga <Plug>(EasyAlign)
+
+  " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+  nmap ga <Plug>(EasyAlign)
+
+  nmap <silent> <leader>s :set nolist!<CR>
+
+  nmap <silent> <leader>d :NERDTreeToggle<CR>
+
+  " nmap <silent> <leader>t :TlistToggle<CR>
+
+  " Edit .vimrc
+  nmap <silent> <leader>ev :e $MYVIMRC<CR>
+  " Reload .vimrc
+  nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+  " Clear highlighted searches
+  nmap <silent> <leader>sc :let @/=""<CR>:call clearmatches()<CR>
+
+  " fzf
+  nmap ;b :Buffers<CR>
+  nmap ;f :FZF<CR>
+  nmap ;g :GFiles<CR>
+  nmap ;t :Tags<CR>
+  nmap ;c :Colors<CR>
+  nmap ;h :Helptags<CR>
+  nmap ;m :Commands<CR>
+
+  " Mapping selecting mappings
+  nmap <leader><tab> <plug>(fzf-maps-n)
+  xmap <leader><tab> <plug>(fzf-maps-x)
+  omap <leader><tab> <plug>(fzf-maps-o)
+augroup END
 
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 
