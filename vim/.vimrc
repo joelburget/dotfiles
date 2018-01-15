@@ -27,7 +27,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'sjl/gundo.vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'Shougo/vimproc.vim', {'build' : 'make'}
-" Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
 Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
@@ -112,6 +112,10 @@ let g:deoplete#enable_refresh_always = 1
 " let g:necoghc_use_stack = 1
 
 let g:haskell_indent_disable = 1
+
+let g:ale_linters = {
+\   'haskell': [],
+\}
 
 " easy align haskell. what i'd like to align:
 " * '::' / '->' in type signatures
@@ -227,6 +231,8 @@ set lazyredraw
 " For regular expressions turn magic on
 set magic
 
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+
 " when we reload, tell vim to restore the cursor to the saved position
 augroup JumpCursorOnEdit
  au!
@@ -282,6 +288,7 @@ augroup configgroup
   au BufRead,BufNewFile *.hsc set filetype=haskell
   au BufRead,BufNewFile *.md set filetype=markdown
   au BufRead,BufNewFile *.md setlocal spell
+  au BufRead,BufNewFile *?Script.sml let maplocalleader = "h" | source /Users/joel/code/HOL/tools/vim/hol.vim
 
   autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
   autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
@@ -402,9 +409,6 @@ augroup mappings
   nnoremap <C-e> 3<C-e>
   nnoremap <C-y> 3<C-y>
 
-  nnoremap <leader>tu :MundoToggle<CR>
-  nnoremap <leader>tt :TagbarToggle<CR>
-
   nnoremap j gj
   nnoremap k gk
 
@@ -414,13 +418,28 @@ augroup mappings
   " Yank from cursor to end of line
   nnoremap Y y$
 
-  nnoremap <leader>tb :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
 
-  " Search and replace word under cursor (,*)
-  nnoremap <leader>* :%s/\<<C-r><C-w>\>//<Left>
+  " let g:lmap = {}
+  " " call leaderGuide#register_prefix_descriptions(",", "g:lmap")
+  " nnoremap <localleader> :<c-u>LeaderGuide  ','<CR>
+  " vnoremap <localleader> :<c-u>LeaderGuideVisual  ','<CR>
 
-  " Count the number of occurrences of the currently highlighted word
-  nnoremap <leader>sn :%s///gn<CR>
+  " t / toggle ->
+  noremap <silent> <leader>tu :MundoToggle<cr>
+  noremap <silent> <leader>tt :TagbarToggle<cr>
+  noremap <silent> <leader>td :NERDTreeToggle<cr>
+  noremap <silent> <leader>tq :ccl<cr>
+  noremap <silent> <leader>tw :set nolist!<cr>
+
+  " s / search ->
+
+      " Count the number of occurrences of the currently highlighted word
+      nnoremap <leader>sn :%s///gn<CR>
+
+      " Clear highlighted searches
+      nmap <silent> <leader>sc :let @/=""<CR>:call clearmatches()<CR>
 
   " Here are a bunch of awesome commands from Derek Wyatt
   " (www.derekwyatt.org) for window navigation
@@ -474,28 +493,16 @@ augroup mappings
 
   nnoremap <Leader>G :Goyo<CR>
 
-  map y <Plug>(operator-flashy)
-  nmap Y <Plug>(operator-flashy)$
-
   " Start interactive EasyAlign in visual mode (e.g. vipga)
   xmap ga <Plug>(EasyAlign)
 
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
 
-  nmap <silent> <leader>s :set nolist!<CR>
-
-  nmap <silent> <leader>d :NERDTreeToggle<CR>
-
-  " nmap <silent> <leader>t :TlistToggle<CR>
-
   " Edit .vimrc
   nmap <silent> <leader>ev :e $MYVIMRC<CR>
   " Reload .vimrc
   nmap <silent> <leader>sv :so $MYVIMRC<CR>
-
-  " Clear highlighted searches
-  nmap <silent> <leader>sc :let @/=""<CR>:call clearmatches()<CR>
 
   " fzf
   nmap ;b :Buffers<CR>
@@ -510,12 +517,4 @@ augroup mappings
   nmap <leader><tab> <plug>(fzf-maps-n)
   xmap <leader><tab> <plug>(fzf-maps-x)
   omap <leader><tab> <plug>(fzf-maps-o)
-augroup END
-
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-
-augroup filetypedetect
-  au BufRead,BufNewFile *?Script.sml let maplocalleader = "h" | source /Users/joel/code/HOL/tools/vim/hol.vim
-  "Uncomment the line below to automatically load Unicode
-  "au BufRead,BufNewFile *?Script.sml source /Users/joel/code/HOL/tools/vim/holabs.vim
 augroup END
