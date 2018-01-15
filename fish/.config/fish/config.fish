@@ -14,9 +14,9 @@ set -x HOLDIR $HOME/code/HOL
 
 set -x PATH \
   $HOME/.cargo/bin \
-  $HOME/.installed-ghc/ghc-8.2.1-hq/bin \
-  $HOME/.installed-ghc/bin \
-  $HOME/code/kframework/k/k-distribution/target/release/k/bin \
+  # $HOME/.installed-ghc/ghc-8.2.1-hq/bin \
+  # $HOME/.installed-ghc/bin \
+  # $HOME/code/kframework/k/k-distribution/target/release/k/bin \
   $HOME/.local/bin \
   $HOME/.cabal/bin \
   $HOLDIR/bin \
@@ -29,7 +29,8 @@ set -x PATH \
   /usr/bin \
   /bin \
   /usr/sbin \
-  /sbin
+  /sbin \
+  /opt/gcc-4.9.1/bin
 set -x PAGER less
 set -x MANPAGER "nvim -c 'set ft=man' -"
 set -x EDITOR /usr/local/bin/nvim
@@ -38,11 +39,13 @@ set -x EDITOR /usr/local/bin/nvim
 
 alias gg "git grep"
 alias ggi "git grep -i"
-alias diff "git diff --no-index"
+alias df "git diff --no-index"
 alias e "emacsclient -n"
 alias clone "hub clone"
 alias vim nvim
 alias v nvim
+alias conf "nvim ~/.config/fish/config.fish"
+alias config 'git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias ghci-core 'ghci -ddump-simpl -dsuppress-idinfo \
   -dsuppress-coercions -dsuppress-type-applications \
   -dsuppress-uniques -dsuppress-module-prefixes'
@@ -103,4 +106,4 @@ else
 end
 
 # OPAM configuration
-# . /Users/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null or true
+. /Users/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null or true
