@@ -1,12 +1,12 @@
 [core]
   precomposeunicode = true
   editor = nvim
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = diff-so-fancy | less --tabs=4 -RFX
 
 [user]
   name = Joel Burget
   email = joelburget@gmail.com
-	signingkey = 075F8C88
+  signingkey = 075F8C88
 
 [color]
   status = auto
@@ -56,7 +56,8 @@
 [merge]
   # Always show a diffstat at the end of a merge
   stat = true
-
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [diff]
   # Use mnemonic prefixes (index, work tree, commit, object) instead of the standard a and b notation
   mnemonicprefix = true
@@ -91,3 +92,16 @@
 	newHighlight = green bold 22
 [diff-so-fancy]
 	markEmptyLines = false
+[rerere]
+	enabled = 1
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustexitcode = true
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[difftool "sourcetree"]
+	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
