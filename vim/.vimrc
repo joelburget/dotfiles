@@ -43,6 +43,7 @@ Plug 'tpope/vim-sensible'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'rhysd/conflict-marker.vim'
+Plug 'urbainvaes/vim-remembrall'
 
 " ,m -- mark word
 " ,r -- regex mark
@@ -92,6 +93,7 @@ Plug 'derekelkins/agda-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'j16180339887/Global.vim'
+Plug 'fatih/vim-go'
 
 " language server
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
@@ -116,6 +118,8 @@ let g:haskell_indent_disable = 1
 let g:ale_linters = {
 \   'haskell': [],
 \}
+
+let NERDTreeIgnore = ['\~$', '\.png$','\.jpg$','\.gif$','\.mp3$','\.flac$', '\.ogg$', '\.mp4$','\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$', '\.rar$', '\.mli.d$', '\.ml.d$', '\.o$', '\.cm[ix]a?$']
 
 " easy align haskell. what i'd like to align:
 " * '::' / '->' in type signatures
@@ -145,7 +149,8 @@ let g:solarized_termcolors = 16
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 let g:one_allow_italics = 1
-colorscheme iceberg
+" colorscheme iceberg
+colorscheme solarized8_light
 
 let mapleader      = ","
 let maplocalleader = ","
@@ -425,6 +430,14 @@ augroup mappings
   " " call leaderGuide#register_prefix_descriptions(",", "g:lmap")
   " nnoremap <localleader> :<c-u>LeaderGuide  ','<CR>
   " vnoremap <localleader> :<c-u>LeaderGuideVisual  ','<CR>
+
+  " Show ',' normal mode mappings when key ',' is pressed
+  nnoremap <silent> , :call remembrall#remind('n', ',')<cr>
+
+  " Show ',' normal mode mappings when the key combination ',?' is pressed,
+  " so we don't have to wait for the timeout.
+  nnoremap <silent> ,? :call remembrall#remind('n', ',')<cr>
+  vnoremap <silent> ? :call remembrall#remind('n', '')<cr>
 
   " t / toggle ->
   noremap <silent> <leader>tu :MundoToggle<cr>
