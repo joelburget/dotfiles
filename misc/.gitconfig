@@ -29,7 +29,7 @@
   st = status
   s  = status --short
   ci = commit
-  br = branch
+  br = "!git for-each-ref --sort='-committerdate' --format='%(refname)%09%(committerdate)' refs/heads | sed -e 's-refs/heads/--' | column -t"
   df = diff
   dfs = diff --staged
   ix = diff --cached # same as dfs
@@ -64,6 +64,7 @@
 
   # Detect renames as well as copies
   renames = copies
+	tool = vimdiff
 [push]
   default = simple
 [credential]

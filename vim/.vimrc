@@ -2,12 +2,15 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+let base16colorspace=256
+
 call plug#begin('~/.vim/plugged')
 
 " colors
 Plug 'lifepillar/vim-solarized8'
 Plug 'rakr/vim-one'
 Plug 'cocopon/iceberg.vim'
+Plug 'chriskempson/base16-vim'
 
 " text manipulation
 Plug 'junegunn/vim-easy-align'
@@ -17,8 +20,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 
 " git
-Plug 'airblade/vim-gitgutter'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
 
@@ -34,7 +37,7 @@ Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
 Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
-Plug 'zerowidth/vim-copy-as-rtf'
+" Plug 'zerowidth/vim-copy-as-rtf'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
@@ -65,8 +68,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-peekaboo'
 
 " flash yanked text
-Plug 'kana/vim-operator-user'
-Plug 'haya14busa/vim-operator-flashy'
+" Plug 'kana/vim-operator-user'
+" Plug 'haya14busa/vim-operator-flashy'
 
 " writing mode
 Plug 'junegunn/goyo.vim'
@@ -94,9 +97,10 @@ Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'j16180339887/Global.vim'
 Plug 'fatih/vim-go'
+Plug 'rgrinberg/vim-ocaml'
 
 " language server
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/echodoc.vim'
 
 call plug#end()
@@ -106,7 +110,7 @@ filetype plugin indent on
 syntax enable
 
 " always use the system clipboard
-set clipboard=unnamedplus
+set clipboard=unnamed,unnamedplus
 
 " let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
@@ -116,8 +120,13 @@ let g:deoplete#enable_refresh_always = 1
 let g:haskell_indent_disable = 1
 
 let g:ale_linters = {
-\   'haskell': [],
+\   'haskell': ['stack-ghc']
 \}
+
+let g:LanguageClient_serverCommands = {
+  \ 'reason': ['ocaml-language-server', '--stdio'],
+  \ 'ocaml': ['ocaml-language-server', '--stdio'],
+  \ }
 
 let NERDTreeIgnore = ['\~$', '\.png$','\.jpg$','\.gif$','\.mp3$','\.flac$', '\.ogg$', '\.mp4$','\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$', '\.rar$', '\.mli.d$', '\.ml.d$', '\.o$', '\.cm[ix]a?$']
 
@@ -132,22 +141,19 @@ let g:easy_align_delimiters = {
 \ }
 
 " set shell=/usr/local/bin/fish
-set shell=/bin/bash
+set shell=bash
 
 " session settings
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 
 set backspace=indent,eol,start
 
-if (has("termguicolors"))
-  set termguicolors
-endif
+" if (has("termguicolors"))
+"   set termguicolors
+" endif
 
 " http://stackoverflow.com/a/7278548/2121468
 let g:solarized_termtrans = 1
-let g:solarized_termcolors = 16
-let g:solarized_visibility = "high"
-let g:solarized_contrast = "high"
 let g:one_allow_italics = 1
 " colorscheme iceberg
 colorscheme solarized8_light
@@ -236,7 +242,8 @@ set lazyredraw
 " For regular expressions turn magic on
 set magic
 
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+set rtp+=/nix/store/m2nfbl6rxdv54gy64dr7nr8lcz9kh96s-merlin-3.0.5/share/ocamlmerlin/vim
+set rtp^="/nix/store/l22c51kqrhicnfs3ja40bdykxlgx98if-ocp-indent-1.6.1/share/ocp-indent/vim"
 
 " when we reload, tell vim to restore the cursor to the saved position
 augroup JumpCursorOnEdit
@@ -389,6 +396,13 @@ function! HiInterestingWord(n) " {{{
     normal! `z
 endfunction " }}}
 
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
 augroup mappings
   autocmd!
 
@@ -423,8 +437,8 @@ augroup mappings
   " Yank from cursor to end of line
   nnoremap Y y$
 
-  map y <Plug>(operator-flashy)
-  nmap Y <Plug>(operator-flashy)$
+  " map y <Plug>(operator-flashy)
+  " nmap Y <Plug>(operator-flashy)$
 
   " let g:lmap = {}
   " " call leaderGuide#register_prefix_descriptions(",", "g:lmap")
@@ -530,4 +544,11 @@ augroup mappings
   nmap <leader><tab> <plug>(fzf-maps-n)
   xmap <leader><tab> <plug>(fzf-maps-x)
   omap <leader><tab> <plug>(fzf-maps-o)
+
+  nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
+  nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
+  nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
+  nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
+  nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
+  nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
 augroup END

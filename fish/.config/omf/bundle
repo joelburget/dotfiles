@@ -1,5 +1,6 @@
 package osx
 package peco
+package vcs
 package z
 theme agnoster
 theme chain

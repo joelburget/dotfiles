@@ -11,6 +11,12 @@
       ./keybase.nix
     ];
 
+  # This value determines the NixOS release with which your system is to be
+  # compatible, in order to avoid breaking some software such as database
+  # servers. You should change this only after NixOS release notes say you
+  # should.
+  system.stateVersion = "18.03"; # Did you read the comment?
+
   nix = {
     binaryCaches = [ https://pact.cachix.org https://nixcache.reflex-frp.org https://cache.nixos.org ];
     binaryCachePublicKeys = [
@@ -20,16 +26,10 @@
     ];
   };
 
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "18.03"; # Did you read the comment?
-
-  services.locate.enable = true;
-
-  # services.thinkfan.enable = true;
-  services.acpid.enable = true;
+  hardware = {
+    opengl.driSupport32Bit = true;
+    bluetooth.enable = true;
+  };
 
   # re nvidia stuff (`modeset=0` in particular):
   # I'm trying to fix the freezes that sometimes happen.
@@ -45,13 +45,29 @@
   # consistent with what's reported at this forum:
   # https://forum.level1techs.com/t/threadripper-pcie-bus-errors/118977/65
 
-  boot.kernelModules = [ "kvm-amd" "coretemp" "amd_iommu_v2" "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
-  boot.extraModprobeConfig = "options nvidia-drm modeset=0";
-  boot.kernelParams = [ "amd_iommu=on" "iommu=soft" "pcie_aspm=off" ];
+  boot = {
+    kernelModules = [
+      "kvm-amd"
+      "coretemp"
+      "amd_iommu_v2"
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
+    ];
+    extraModprobeConfig = "options nvidia-drm modeset=0";
+    kernelParams = [
+      "amd_iommu=on"
+      "iommu=soft"
+      "pcie_aspm=off"
+    ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+    # Use the systemd-boot EFI boot loader.
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+  };
 
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -66,6 +82,88 @@
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
+
+  nixpkgs.config.allowUnfree = true;
+  virtualisation.virtualbox.host.enable = true;
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+
+  # List services that you want to enable:
+
+  services = {
+    locate.enable = true;
+
+    # thinkfan.enable = true;
+    acpid.enable = true;
+
+    # Enable the OpenSSH daemon.
+    openssh.enable = true;
+
+    xserver = {
+      enable = true;
+      videoDrivers = [ "nvidia" ];
+      layout = "us";
+      xkbModel = "kinesis";
+      xkbOptions = "caps:escape";
+
+      # # Enable touchpad support.
+      # libinput = {
+      #   enable = true;
+      #   # not sure if working: check after reboot
+      #   buttonMapping = "1 2 3 5 4 6 7 8";
+      # };
+      # # not sure if working: check after reboot
+      # multitouch.invertScroll = true;
+
+      # TODO: figure out how to use
+      # * github.com/adi1090x/slim_themes
+      # * github.com/MarianArlt/nixos-sddm-theme
+      # displayManager = {
+      #   slim = {
+      #     enable = true;
+      #     defaultUser = "joel";
+      #     theme = pkgs.fetchurl {
+      #       url = "https://github.com/edwtjo/nixos-black-theme/archive/v1.0.tar.gz";
+      #       sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
+      #     };
+      #   };
+      # };
+
+      windowManager.bspwm.enable = true;
+    };
+
+    compton = {
+      enable = true;
+      fade = true;
+      shadow = true;
+      shadowOpacity = "0.25";
+      shadowExclude = [ "polybar" ];
+    };
+
+    redshift = {
+      enable = true;
+      latitude = "33.9915";
+      longitude = "-118.4656";
+      temperature.day = 6500;
+      temperature.night = 2700;
+    };
+  };
+
+  users.extraUsers.joel = {
+    name = "joel";
+    description = "Joel Burget";
+    group = "users";
+    extraGroups = [ "wheel" ];
+    isNormalUser = true;
+    uid = 1000;
+    createHome = true;
+    home = "/home/joel";
+    shell = "/run/current-system/sw/bin/fish";
+  };
+
+  security.sudo.wheelNeedsPassword = false;
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -109,52 +207,6 @@
     '';
   };
 
-  nixpkgs.config.allowUnfree = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.driSupport32Bit = true;
-  hardware.bluetooth.enable = true;
-  virtualisation.virtualbox.host.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.xkbModel = "kinesis";
-  services.xserver.xkbOptions = "caps:escape";
-
-  # # Enable touchpad support.
-  # services.xserver.libinput = {
-  #   enable = true;
-  #   # not sure if working: check after reboot
-  #   buttonMapping = "1 2 3 5 4 6 7 8";
-  # };
-  # # not sure if working: check after reboot
-  # services.xserver.multitouch.invertScroll = true;
-
-  # TODO: figure out how to use
-  # * github.com/adi1090x/slim_themes
-  # * github.com/MarianArlt/nixos-sddm-theme
-  # services.xserver.displayManager = {
-  #   slim = {
-  #     enable = true;
-  #     defaultUser = "joel";
-  #     theme = pkgs.fetchurl {
-  #       url = "https://github.com/edwtjo/nixos-black-theme/archive/v1.0.tar.gz";
-  #       sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
-  #     };
-  #   };
-  # };
-
-  services.xserver.windowManager.bspwm.enable = true;
-
   fonts = {
     enableFontDir = true;
     enableGhostscriptFonts = true;
@@ -178,89 +230,70 @@
     ];
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.joel = {
-    name = "joel";
-    description = "Joel Burget";
-    group = "users";
-    extraGroups = [ "wheel" ];
-    isNormalUser = true;
-    uid = 1000;
-    createHome = true;
-    home = "/home/joel";
-    shell = "/run/current-system/sw/bin/fish";
-  };
+  systemd.user.services = {
+    udiskie = {
+      enable = true;
+      description = "udiskie to automount removable media";
+      wantedBy = [ "default.target" ];
+      path = with pkgs; [
+        gnome3.defaultIconTheme
+        gnome3.gnome_themes_standard
+        pythonPackages.udiskie
+      ];
+      environment.XDG_DATA_DIRS="${pkgs.gnome3.defaultIconTheme}/share:${pkgs.gnome3.gnome_themes_standard}/share";
+      serviceConfig = {
+        Restart = "always";
+        RestartSec = 2;
+        ExecStart = "${pkgs.python27Packages.udiskie}/bin/udiskie -a -t -n -F ";
+      };
+    };
 
-  security.sudo.wheelNeedsPassword = false;
+    autocutsel = {
+      enable = true;
+      description = "AutoCutSel";
+      wantedBy = [ "default.target" ];
+      serviceConfig = {
+        Type = "forking";
+        Restart = "always";
+        RestartSec = 2;
+        ExecStartPre = "${pkgs.autocutsel}/bin/autocutsel -fork";
+        ExecStart = "${pkgs.autocutsel}/bin/autocutsel -selection PRIMARY -fork";
+      };
+    };
 
-  services.compton = {
-    enable = true;
-    fade = true;
-    shadow = true;
-    shadowOpacity = "0.25";
-    shadowExclude = [ "polybar" ];
-  };
+    dunst = {
+      enable = true;
+      description = "";
+      wantedBy = [ "default.target" ];
+      serviceConfig = {
+        Restart = "always";
+        RestartSec = 2;
+        ExecStart = "${pkgs.dunst}/bin/dunst";
+      };
+    };
 
-  systemd.user.services."udiskie" = {
-    enable = true;
-    description = "udiskie to automount removable media";
-    wantedBy = [ "default.target" ];
-    path = with pkgs; [
-      gnome3.defaultIconTheme
-      gnome3.gnome_themes_standard
-      pythonPackages.udiskie
-    ];
-    environment.XDG_DATA_DIRS="${pkgs.gnome3.defaultIconTheme}/share:${pkgs.gnome3.gnome_themes_standard}/share";
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.python27Packages.udiskie}/bin/udiskie -a -t -n -F ";
-  };
+    unclutter = {
+      enable = true;
+      description = "hide cursor after X seconds idle";
+      wantedBy = [ "default.target" ];
+      serviceConfig = {
+        Restart = "always";
+        RestartSec = 2;
+        ExecStart = "${pkgs.unclutter}/bin/unclutter";
+      };
+    };
 
-  systemd.user.services."autocutsel" = {
-    enable = true;
-    description = "AutoCutSel";
-    wantedBy = [ "default.target" ];
-    serviceConfig.Type = "forking";
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStartPre = "${pkgs.autocutsel}/bin/autocutsel -fork";
-    serviceConfig.ExecStart = "${pkgs.autocutsel}/bin/autocutsel -selection PRIMARY -fork";
-  };
-
-  systemd.user.services."dunst" = {
-    enable = true;
-    description = "";
-    wantedBy = [ "default.target" ];
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
-  };
-
-  systemd.user.services."unclutter" = {
-    enable = true;
-    description = "hide cursor after X seconds idle";
-    wantedBy = [ "default.target" ];
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.unclutter}/bin/unclutter";
-  };
-
-  systemd.user.services."urxvtd" = {
-    enable = true;
-    description = "rxvt unicode daemon";
-    wantedBy = [ "default.target" ];
-    path = [ pkgs.rxvt_unicode ];
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -o";
-  };
-
-  services.redshift = {
-    enable = true;
-    latitude = "33.9915";
-    longitude = "-118.4656";
-    temperature.day = 6500;
-    temperature.night = 2700;
+    urxvtd = {
+      enable = true;
+      description = "rxvt unicode daemon";
+      wantedBy = [ "default.target" ];
+      path = [ pkgs.rxvt_unicode ];
+      serviceConfig = {
+        Restart = "always";
+        RestartSec = 2;
+        ExecStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -o";
+      };
+    };
   };
 
 }
