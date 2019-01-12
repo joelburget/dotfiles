@@ -33,6 +33,16 @@ function stack-ghcid --wraps ghcid --description 'ghcid + stack'
   ghcid --command='stack ghci --test $(basename $(pwd))'
 end
 
+function dark
+  echo -e "^\033]1337;SetColors=preset=Solarized Dark\a"
+  osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to true'
+end
+
+function light
+  echo -e "^\033]1337;SetColors=preset=Solarized Light\a"
+  osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to false'
+end
+
 # silence "gpg-agent: a gpg-agent is already running - not starting a new one"
 gpg-agent --daemon 2> /dev/null
 
