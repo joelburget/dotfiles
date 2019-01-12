@@ -513,10 +513,10 @@ augroup mappings
   noremap <silent> <leader>mj <C-W>J
 
   " bind K to grep word under cursor
-  nnoremap K :Ack "\b<C-R><C-W>\b"<CR>:cw<CR>
+  nnoremap K :Rg "\b<C-R><C-W>\b"<CR>:cw<CR>
 
   " bind \ (backward slash) to grep shortcut
-  nnoremap \ :Ack<SPACE>
+  nnoremap \ :Rg<SPACE>
 
   nnoremap <Leader>G :Goyo<CR>
 
