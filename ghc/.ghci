@@ -1,5 +1,4 @@
 :set -Wall
--- :set -XNoMonomorphismRestriction
 :set prompt "\ESC[34mλ> \ESC[m"
 :set -fno-print-bind-result
 :set -freverse-errors
