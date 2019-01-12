@@ -1,6 +1,7 @@
 [core]
   precomposeunicode = true
   editor = nvim
+  excludesfile = /Users/joel/.gitignore_global
   pager = diff-so-fancy | less --tabs=4 -RFX
 
 [user]
