@@ -4,6 +4,9 @@ endif
 
 let base16colorspace=256
 
+set encoding=utf-8
+scriptencoding utf-8
+
 call plug#begin('~/.vim/plugged')
 
 " colors
@@ -11,6 +14,7 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'rakr/vim-one'
 Plug 'cocopon/iceberg.vim'
 Plug 'chriskempson/base16-vim'
+Plug 'soft-aesthetic/soft-era-vim'
 
 " text manipulation
 Plug 'junegunn/vim-easy-align'
@@ -44,9 +48,10 @@ Plug 'mhinz/vim-startify'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sensible'
 Plug 'mileszs/ack.vim'
+Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-eunuch'
 Plug 'rhysd/conflict-marker.vim'
-Plug 'urbainvaes/vim-remembrall'
+" Plug 'urbainvaes/vim-remembrall'
 
 " ,m -- mark word
 " ,r -- regex mark
@@ -98,6 +103,7 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'j16180339887/Global.vim'
 Plug 'fatih/vim-go'
 Plug 'rgrinberg/vim-ocaml'
+" Plug 'reasonml-editor/vim-reason-plus'
 
 " language server
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
@@ -112,6 +118,9 @@ syntax enable
 " always use the system clipboard
 set clipboard=unnamed,unnamedplus
 
+let g:redprl_path = '/Users/joel/code/github/sml-redprl/bin/redprl'
+let g:redprl_trace = 1
+
 " let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_refresh_always = 1
@@ -124,9 +133,16 @@ let g:ale_linters = {
 \}
 
 let g:LanguageClient_serverCommands = {
-  \ 'reason': ['ocaml-language-server', '--stdio'],
-  \ 'ocaml': ['ocaml-language-server', '--stdio'],
-  \ }
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'ocaml': ['/usr/local/bin/ocaml-language-server', '--stdio'],
+    \ }
+
+    " 'reason': ['/usr/local/bin/ocaml-language-server', '--stdio'],
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 let NERDTreeIgnore = ['\~$', '\.png$','\.jpg$','\.gif$','\.mp3$','\.flac$', '\.ogg$', '\.mp4$','\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$', '\.rar$', '\.mli.d$', '\.ml.d$', '\.o$', '\.cm[ix]a?$']
 
@@ -156,7 +172,7 @@ set backspace=indent,eol,start
 let g:solarized_termtrans = 1
 let g:one_allow_italics = 1
 " colorscheme iceberg
-colorscheme solarized8_light
+colorscheme solarized8
 
 let mapleader      = ","
 let maplocalleader = ","
@@ -229,6 +245,34 @@ let g:showmarks_enable=0
 
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
+
 " Show matching parens, braces
 set showmatch
 
@@ -242,8 +286,9 @@ set lazyredraw
 " For regular expressions turn magic on
 set magic
 
-set rtp+=/nix/store/m2nfbl6rxdv54gy64dr7nr8lcz9kh96s-merlin-3.0.5/share/ocamlmerlin/vim
-set rtp^="/nix/store/l22c51kqrhicnfs3ja40bdykxlgx98if-ocp-indent-1.6.1/share/ocp-indent/vim"
+" let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+" execute "set rtp+=" . g:opamshare . "/merlin/vim"
+" execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
 
 " when we reload, tell vim to restore the cursor to the saved position
 augroup JumpCursorOnEdit
@@ -277,7 +322,7 @@ augroup END
 " <CR> prevents us having to type enter
 
 " Show whitespace
-set listchars=tab:>-,trail:·,eol:$
+set listchars=tab:>-,trail:_,eol:$,nbsp:+
 
 augroup configgroup
   " clear all autocmds for the current group
