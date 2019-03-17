@@ -4,7 +4,9 @@
 
 { config, pkgs, lib, ... }:
 
-{
+let
+  unstable = import <unstable> { config.allowUnfree = true; };
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -18,7 +20,11 @@
   system.stateVersion = "18.03"; # Did you read the comment?
 
   nix = {
-    binaryCaches = [ https://pact.cachix.org https://nixcache.reflex-frp.org https://cache.nixos.org ];
+    binaryCaches = [
+      https://pact.cachix.org
+      https://nixcache.reflex-frp.org
+      https://cache.nixos.org
+    ];
     binaryCachePublicKeys = [
       "pact.cachix.org-1:cg1bsryGrHnQzqEp52NcHq4mBBL+R25XbR2Q/I/vQ8Y="
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
@@ -29,7 +35,18 @@
   hardware = {
     opengl.driSupport32Bit = true;
     bluetooth.enable = true;
+    pulseaudio = {
+      enable = true;
+      support32Bit = true;
+    };
   };
+  hardware.nvidia.modesetting.enable = true;
+  # = {
+  #     enable = true;
+  #     nvidiaBusId = "PCI:8:0:0";
+  #   };
+
+  sound.enable = true;
 
   # re nvidia stuff (`modeset=0` in particular):
   # I'm trying to fix the freezes that sometimes happen.
@@ -46,16 +63,15 @@
   # https://forum.level1techs.com/t/threadripper-pcie-bus-errors/118977/65
 
   boot = {
+    # note currently failing to build due to https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1651523.html
+    # kernelPackages = unstable.linuxPackages_4_20;
+
     kernelModules = [
       "kvm-amd"
       "coretemp"
       "amd_iommu_v2"
-      "nvidia"
-      "nvidia_modeset"
-      "nvidia_uvm"
-      "nvidia_drm"
     ];
-    extraModprobeConfig = "options nvidia-drm modeset=0";
+    extraModprobeConfig = "options modeset=0";
     kernelParams = [
       "amd_iommu=on"
       "iommu=soft"
@@ -83,8 +99,11 @@
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
-  nixpkgs.config.allowUnfree = true;
-  virtualisation.virtualbox.host.enable = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    pulseaudio = true;
+  };
+  # virtualisation.virtualbox.host.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -120,16 +139,12 @@
       # TODO: figure out how to use
       # * github.com/adi1090x/slim_themes
       # * github.com/MarianArlt/nixos-sddm-theme
-      # displayManager = {
-      #   slim = {
-      #     enable = true;
-      #     defaultUser = "joel";
-      #     theme = pkgs.fetchurl {
-      #       url = "https://github.com/edwtjo/nixos-black-theme/archive/v1.0.tar.gz";
-      #       sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
-      #     };
-      #   };
-      # };
+      displayManager = {
+        slim = {
+          enable = true;
+          defaultUser = "joel";
+        };
+      };
 
       windowManager.bspwm.enable = true;
     };
@@ -155,7 +170,7 @@
     name = "joel";
     description = "Joel Burget";
     group = "users";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "audio" ];
     isNormalUser = true;
     uid = 1000;
     createHome = true;
@@ -169,7 +184,6 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; with pkgs.haskellPackages; [
     wget neovim gitFull
-    # openbox
     fish rxvt_unicode tree firefox chromium feh unzip
     bspwm sxhkd
     z3 file emacs ranger
@@ -178,14 +192,23 @@
     s-tui
     ripgrep silver-searcher
     keybase kbfs
-    stack ghc ghcid cabal-install happy
+    unstable.stack
+    cudatoolkit
+
+    # haskell.compiler.ghc7103
+    # haskell.compiler.ghc802
+    haskell.compiler.ghc822
+    unstable.haskell.compiler.ghc844
+    unstable.haskell.compiler.ghc863
+
+    ghcid cabal-install happy
     tint2 compton lxappearance obconf polybar
     materia-theme
     gtk-engine-murrine
     paper-icon-theme
     gnome3.adwaita-icon-theme
     dropbox
-    bluez5_28 # for hcitool (can remove)
+    # bluez5_28 # for hcitool (can remove)
     m4
     xsel xclip
     peco
@@ -207,6 +230,45 @@
     '';
   };
 
+  environment.etc."X11/xorg.conf.d/90-magictrackpad.conf" = {
+    text = ''
+      Section "InputClass"
+        Identifier      "Touchpads"
+        Driver          "mtrack"
+        MatchProduct    "Trackpad"
+        MatchDevicePath "/dev/input/event*"
+        # options...
+          Option "Sensitivity" "0.55"
+          Option "FingerHigh" "10"
+          Option "FingerLow" "10"
+          Option "TapButton1" "1"
+          Option "TapButton2" "3"
+          Option "TapButton3" "2"
+          Option "TapButton4" "0"
+          Option "ButtonIntegrated" "true"
+          Option "ClickTime" "25"
+          Option "ScrollDistance" "75"
+          Option "ScrollSmooth" "1"
+          Option "TapDragEnable" "false"
+
+      # natural scroll
+          Option "ScrollDownButton" "4"
+          Option "ScrollUpButton" "5"
+          Option "ScrollLeftButton" "7"
+          Option "ScrollRightButton" "6"
+
+      # three finger drag:
+          Option "SwipeDistance" "1"
+          Option "SwipeLeftButton" "1"
+          Option "SwipeRightButton" "1"
+          Option "SwipeUpButton" "1"
+          Option "SwipeDownButton" "1"
+          Option "SwipeClickTime" "0"
+          Option "SwipeSensitivity" "1000"
+      EndSection
+    '';
+  };
+
   fonts = {
     enableFontDir = true;
     enableGhostscriptFonts = true;
@@ -214,7 +276,7 @@
       anonymousPro
       corefonts
       dejavu_fonts
-      font-droid
+      # font-droid
       freefont_ttf
       google-fonts
       inconsolata
@@ -231,22 +293,22 @@
   };
 
   systemd.user.services = {
-    udiskie = {
-      enable = true;
-      description = "udiskie to automount removable media";
-      wantedBy = [ "default.target" ];
-      path = with pkgs; [
-        gnome3.defaultIconTheme
-        gnome3.gnome_themes_standard
-        pythonPackages.udiskie
-      ];
-      environment.XDG_DATA_DIRS="${pkgs.gnome3.defaultIconTheme}/share:${pkgs.gnome3.gnome_themes_standard}/share";
-      serviceConfig = {
-        Restart = "always";
-        RestartSec = 2;
-        ExecStart = "${pkgs.python27Packages.udiskie}/bin/udiskie -a -t -n -F ";
-      };
-    };
+    # udiskie = {
+    #   enable = true;
+    #   description = "udiskie to automount removable media";
+    #   wantedBy = [ "default.target" ];
+    #   path = with pkgs; [
+    #     gnome3.defaultIconTheme
+    #     gnome3.gnome_themes_standard
+    #     pythonPackages.udiskie
+    #   ];
+    #   environment.XDG_DATA_DIRS="${pkgs.gnome3.defaultIconTheme}/share:${pkgs.gnome3.gnome_themes_standard}/share";
+    #   serviceConfig = {
+    #     Restart = "always";
+    #     RestartSec = 2;
+    #     ExecStart = "${pkgs.python27Packages.udiskie}/bin/udiskie -a -t -n -F ";
+    #   };
+    # };
 
     autocutsel = {
       enable = true;
