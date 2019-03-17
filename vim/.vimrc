@@ -46,7 +46,7 @@ Plug 'tpope/vim-sensible'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'rhysd/conflict-marker.vim'
-Plug 'urbainvaes/vim-remembrall'
+Plug 'nelstrom/vim-visual-star-search'
 
 " ,m -- mark word
 " ,r -- regex mark
@@ -227,7 +227,49 @@ set autoindent
 " Don't enable showmarks by default
 let g:showmarks_enable=0
 
-let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+let g:tagbar_ctags_bin='/home/joel/.nix-profile/bin/ctags'
+let g:tagbar_type_haskell = {
+    \ 'ctagsbin'    : 'hasktags',
+    \ 'ctagsargs'   : '-x -c -o-',
+    \ 'kinds'       : [
+        \  'm:modules:0:1',
+        \  'd:data:0:1',
+        \  'd_gadt:data gadt:0:1',
+        \  'nt:newtype:0:1',
+        \  'c:classes:0:1',
+        \  'i:instances:0:1',
+        \  'cons:constructors:0:1',
+        \  'c_gadt:constructor gadt:0:1',
+        \  'c_a:constructor accessors:1:1',
+        \  't:type names:0:1',
+        \  'pt:pattern types:0:1',
+        \  'pi:pattern implementations:0:1',
+        \  'ft:function types:0:1',
+        \  'fi:function implementations:0:1',
+        \  'o:others:0:1'
+    \ ],
+    \ 'sro'          : '.',
+    \ 'kind2scope'   : {
+        \ 'm'        : 'module',
+        \ 'd'        : 'data',
+        \ 'd_gadt'   : 'd_gadt',
+        \ 'c_gadt'   : 'c_gadt',
+        \ 'nt'       : 'newtype',
+        \ 'cons'     : 'cons',
+        \ 'c_a'      : 'accessor',
+        \ 'c'        : 'class',
+        \ 'i'        : 'instance'
+    \ },
+    \ 'scope2kind'   : {
+        \ 'module'   : 'm',
+        \ 'data'     : 'd',
+        \ 'newtype'  : 'nt',
+        \ 'cons'     : 'c_a',
+        \ 'd_gadt'   : 'c_gadt',
+        \ 'class'    : 'ft',
+        \ 'instance' : 'ft'
+    \ }
+\ }
 
 " Show matching parens, braces
 set showmatch
@@ -277,7 +319,7 @@ augroup END
 " <CR> prevents us having to type enter
 
 " Show whitespace
-set listchars=tab:>-,trail:·,eol:$
+set listchars=tab:>-,trail:_,eol:$
 
 augroup configgroup
   " clear all autocmds for the current group
