@@ -1,9 +1,13 @@
 set -x GOPATH $HOME/go
 set -x HOLDIR $HOME/code/HOL
 
-set -x PATH $PATH \
+set -x PATH \
+  /opt/ghc/bin \
   $HOME/.cabal/bin \
-  $HOME/.local/bin
+  $HOME/.local/bin \
+  $HOME/.nix-profile/bin \
+  (yarn global bin) \
+  $PATH
   # $HOME/.cargo/bin \
   # $HOME/.installed-ghc/ghc-8.2.1-hq/bin \
   # $HOME/.installed-ghc/bin \
@@ -55,3 +59,6 @@ function fish_user_key_bindings
 
     bind \cr peco_select_history
 end
+
+# OPAM configuration
+source /home/joel/.opam/opam-init/init.fish > /dev/null 2> /dev/null or true

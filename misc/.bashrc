@@ -34,3 +34,10 @@ parse_git_branch() {
 export PS1="\[\033[00m\]\u@\h\[\033[01;34m\] \W \[\033[31m\]\$(parse_git_branch) \[\033[00m\]$\[\033[00m\] "
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+source $HOME/.nix-profile/etc/profile.d/nix.sh
+export NIX_PATH="nixpkgs=$HOME/.nix-defexpr/channels/nixpkgs"
+
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+gpg-connect-agent updatestartuptty /bye

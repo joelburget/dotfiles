@@ -36,3 +36,4 @@ echo -ne "${COLOR_GRAY}Server time is: "; date
 # in this order:
 #     bashrc
 #     .bashrc
+if [ -e /home/joel/.nix-profile/etc/profile.d/nix.sh ]; then . /home/joel/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
