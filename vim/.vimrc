@@ -51,7 +51,8 @@ Plug 'mileszs/ack.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-eunuch'
 Plug 'rhysd/conflict-marker.vim'
-" Plug 'urbainvaes/vim-remembrall'
+Plug 'sbdchd/neoformat'
+Plug 'mbbill/undotree'
 
 " ,m -- mark word
 " ,r -- regex mark
@@ -97,13 +98,12 @@ Plug 'idris-hackers/idris-vim'
 Plug 'ElmCast/elm-vim'
 Plug 'raichoo/purescript-vim'
 Plug 'derekelkins/agda-vim'
-" Plug 'reasonml/vim-reason'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'j16180339887/Global.vim'
 Plug 'fatih/vim-go'
 Plug 'rgrinberg/vim-ocaml'
-" Plug 'reasonml-editor/vim-reason-plus'
+Plug 'reasonml-editor/vim-reason-plus'
 
 " language server
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
@@ -139,10 +139,20 @@ let g:LanguageClient_serverCommands = {
 
     " 'reason': ['/usr/local/bin/ocaml-language-server', '--stdio'],
 
+let g:neoformat_ocaml_ocamlformat = {
+  \ 'exe': 'ocamlformat',
+  \ 'no_append': 1,
+  \ 'stdin': 1,
+  \ 'args': ['--disable-outside-detected-project', '--name', '"%:p"', '-']
+  \ }
+
+let g:neoformat_enabled_ocaml = ['ocamlformat']
+
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> f :Neoformat<CR>
 
 let NERDTreeIgnore = ['\~$', '\.png$','\.jpg$','\.gif$','\.mp3$','\.flac$', '\.ogg$', '\.mp4$','\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$', '\.rar$', '\.mli.d$', '\.ml.d$', '\.o$', '\.cm[ix]a?$']
 
@@ -286,8 +296,8 @@ set lazyredraw
 " For regular expressions turn magic on
 set magic
 
-" let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-" execute "set rtp+=" . g:opamshare . "/merlin/vim"
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
 " execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
 
 " when we reload, tell vim to restore the cursor to the saved position
@@ -348,7 +358,7 @@ augroup configgroup
   au BufRead,BufNewFile *?Script.sml let maplocalleader = "h" | source /Users/joel/code/HOL/tools/vim/hol.vim
 
   autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
-  autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
+  autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\|Q\)')
   autocmd Syntax * call matchadd('Underlined', 'joel', 9)
 augroup END
 
@@ -489,14 +499,6 @@ augroup mappings
   " " call leaderGuide#register_prefix_descriptions(",", "g:lmap")
   " nnoremap <localleader> :<c-u>LeaderGuide  ','<CR>
   " vnoremap <localleader> :<c-u>LeaderGuideVisual  ','<CR>
-
-  " Show ',' normal mode mappings when key ',' is pressed
-  nnoremap <silent> , :call remembrall#remind('n', ',')<cr>
-
-  " Show ',' normal mode mappings when the key combination ',?' is pressed,
-  " so we don't have to wait for the timeout.
-  nnoremap <silent> ,? :call remembrall#remind('n', ',')<cr>
-  vnoremap <silent> ? :call remembrall#remind('n', '')<cr>
 
   " t / toggle ->
   noremap <silent> <leader>tu :MundoToggle<cr>
