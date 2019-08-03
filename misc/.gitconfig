@@ -59,6 +59,8 @@
 [merge]
   # Always show a diffstat at the end of a merge
   stat = true
+	tool = vimdiff
+	conflictstyle = diff3
 [mergetool "vimdiff"]
   cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [diff]
@@ -107,3 +109,5 @@
 [mergetool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
+[mergetool]
+	prompt = false
