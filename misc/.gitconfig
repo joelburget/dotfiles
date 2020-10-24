@@ -1,8 +1,20 @@
 [core]
   precomposeunicode = true
-  editor = nvim
+  editor = vim
   excludesfile = /Users/joel/.gitignore_global
-  pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+
+# [delta "decorations"]
+#     commit-decoration-style = bold yellow box ul
+#     file-style = bold yellow ul
+#     file-decoration-style = none
 
 [user]
   name = Joel Burget
@@ -62,7 +74,7 @@
 	tool = vimdiff
 	conflictstyle = diff3
 [mergetool "vimdiff"]
-  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+  cmd = vim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [diff]
   # Use mnemonic prefixes (index, work tree, commit, object) instead of the standard a and b notation
   mnemonicprefix = true
