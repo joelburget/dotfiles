@@ -85,7 +85,6 @@ Plug 'junegunn/limelight.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " haskell
-Plug 'neovimhaskell/haskell-vim'
 Plug 'eagletmt/ghcmod-vim'
 Plug 'eagletmt/neco-ghc'
 Plug 'Twinside/vim-hoogle'
@@ -105,10 +104,6 @@ Plug 'fatih/vim-go'
 Plug 'rgrinberg/vim-ocaml'
 Plug 'reasonml-editor/vim-reason-plus'
 
-" language server
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'Shougo/echodoc.vim'
-
 call plug#end()
 
 " Required:
@@ -117,9 +112,6 @@ syntax enable
 
 " always use the system clipboard
 set clipboard=unnamed,unnamedplus
-
-let g:redprl_path = '/Users/joel/code/github/sml-redprl/bin/redprl'
-let g:redprl_trace = 1
 
 " let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
@@ -132,13 +124,6 @@ let g:ale_linters = {
 \   'haskell': ['stack-ghc']
 \}
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'ocaml': ['/usr/local/bin/ocaml-language-server', '--stdio'],
-    \ }
-
-    " 'reason': ['/usr/local/bin/ocaml-language-server', '--stdio'],
-
 let g:neoformat_ocaml_ocamlformat = {
   \ 'exe': 'ocamlformat',
   \ 'no_append': 1,
@@ -148,10 +133,6 @@ let g:neoformat_ocaml_ocamlformat = {
 
 let g:neoformat_enabled_ocaml = ['ocamlformat']
 
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> gf :call LanguageClient_textDocument_formatting()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 nnoremap <silent> f :Neoformat<CR>
 
 let NERDTreeIgnore = ['\~$', '\.png$','\.jpg$','\.gif$','\.mp3$','\.flac$', '\.ogg$', '\.mp4$','\.avi$','.webm$','.mkv$','\.pdf$', '\.zip$', '\.tar.gz$', '\.rar$', '\.mli.d$', '\.ml.d$', '\.o$', '\.cm[ix]a?$']
