@@ -2,7 +2,7 @@ set -x GOPATH $HOME/go
 set -x HOLDIR $HOME/code/HOL
 
 set -x PATH $PATH \
-  $HOME/.cabal/bin \
+  # $HOME/.cabal/bin \
   $HOME/.local/bin
   # $HOME/.cargo/bin \
   # $HOME/.installed-ghc/ghc-8.2.1-hq/bin \
@@ -12,8 +12,8 @@ set -x PATH $PATH \
   # $GOPATH/bin
 
 set -x PAGER less
-set -x MANPAGER "nvim -c 'set ft=man' -"
-set -x EDITOR nvim
+set -x MANPAGER "vim -c 'set ft=man' -"
+set -x EDITOR vim
 set -x TERM xterm-256color
 
 alias gg "git grep"
@@ -21,9 +21,8 @@ alias ggi "git grep -i"
 alias df "git diff --no-index"
 alias e emacs
 alias clone "hub clone"
-alias vim nvim
-alias v nvim
-alias conf "nvim ~/.config/fish/config.fish"
+alias v vim
+alias conf "vim ~/.config/fish/config.fish"
 alias config 'git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias ghci-core 'ghci -ddump-simpl -dsuppress-idinfo \
   -dsuppress-coercions -dsuppress-type-applications \
