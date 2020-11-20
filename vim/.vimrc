@@ -101,7 +101,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'j16180339887/Global.vim'
 Plug 'fatih/vim-go'
-Plug 'rgrinberg/vim-ocaml'
+Plug 'ocaml/vim-ocaml'
 Plug 'reasonml-editor/vim-reason-plus'
 
 call plug#end()
@@ -561,12 +561,14 @@ augroup mappings
 
   " fzf
   nmap ;b :Buffers<CR>
+  nmap ;r :History<CR>
   nmap ;f :FZF<CR>
   nmap ;g :GFiles<CR>
   nmap ;t :Tags<CR>
   nmap ;c :Colors<CR>
   nmap ;h :Helptags<CR>
-  nmap ;m :Commands<CR>
+  " nmap ;m :Commands<CR>
+  nmap ;m :marks<CR>
 
   " Mapping selecting mappings
   nmap <leader><tab> <plug>(fzf-maps-n)
