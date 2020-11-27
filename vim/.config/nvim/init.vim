@@ -223,6 +223,8 @@ set laststatus=2
 
 " Give 80 column warnings
 set colorcolumn=80
+autocmd FileType ocaml set colorcolumn=90
+autocmd FileType ocaml set textwidth=90
 
 set winwidth=84
 set winminwidth=10
@@ -347,8 +349,8 @@ augroup configgroup
   au BufRead,BufNewFile *.md setlocal spell
   au BufRead,BufNewFile *?Script.sml let maplocalleader = "h" | source /Users/joel/code/HOL/tools/vim/hol.vim
 
-  autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
   autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\)')
+  autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\|failwith "TODO"\)')
   autocmd Syntax * call matchadd('Underlined', 'joel', 9)
 augroup END
 
