@@ -332,6 +332,9 @@ augroup configgroup
   au BufRead,BufNewFile *.md setlocal spell
   au BufRead,BufNewFile *?Script.sml let maplocalleader = "h" | source /Users/joel/code/HOL/tools/vim/hol.vim
 
+  au BufRead,BufNewFile *.ml set colorcolumn=90
+  au BufRead,BufNewFile *.mli set colorcolumn=90
+
   autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
   autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\|Q\)')
   autocmd Syntax * call matchadd('Underlined', 'joel', 9)
