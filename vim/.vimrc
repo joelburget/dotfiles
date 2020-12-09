@@ -533,10 +533,10 @@ augroup mappings
   xmap <leader><tab> <plug>(fzf-maps-x)
   omap <leader><tab> <plug>(fzf-maps-o)
 
-  nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
-  nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
-  nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
-  nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
-  nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
-  nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+  let g:interestingWordsDefaultMappings = 0
+  nnoremap <silent> <leader>m :call InterestingWords('n')<cr>
+  vnoremap <silent> <leader>m :call InterestingWords('v')<cr>
+  nnoremap <silent> <leader>M :call UncolorAllWords()<cr>
+  nnoremap <silent> n :call WordNavigation(1)<cr>
+  nnoremap <silent> N :call WordNavigation(0)<cr>
 augroup END
