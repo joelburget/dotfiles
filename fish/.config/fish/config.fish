@@ -1,18 +1,7 @@
 set -x GOPATH $HOME/go
-set -x HOLDIR $HOME/code/HOL
-
-set -x PATH $PATH \
-  # $HOME/.cabal/bin \
-  $HOME/.local/bin
-  # $HOME/.cargo/bin \
-  # $HOME/.installed-ghc/ghc-8.2.1-hq/bin \
-  # $HOME/.installed-ghc/bin \
-  # $HOME/code/kframework/k/k-distribution/target/release/k/bin \
-  # $HOLDIR/bin \
-  # $GOPATH/bin
-
+set -x PATH $PATH $HOME/.local/bin
 set -x PAGER less
-set -x MANPAGER "vim -c 'set ft=man' -"
+set -x MANPAGER "/bin/sh -c \"col -b | vim --noplugin -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 set -x EDITOR vim
 set -x TERM xterm-256color
 
@@ -24,13 +13,6 @@ alias clone "hub clone"
 alias v vim
 alias conf "vim ~/.config/fish/config.fish"
 alias config 'git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias ghci-core 'ghci -ddump-simpl -dsuppress-idinfo \
-  -dsuppress-coercions -dsuppress-type-applications \
-  -dsuppress-uniques -dsuppress-module-prefixes'
-
-function stack-ghcid --wraps ghcid --description 'ghcid + stack'
-  ghcid --command='stack ghci --test $(basename $(pwd))'
-end
 
 function dark
   echo -e "^\033]1337;SetColors=preset=Solarized Dark\a"
