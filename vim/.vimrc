@@ -53,6 +53,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'rhysd/conflict-marker.vim'
 Plug 'sbdchd/neoformat'
 Plug 'mbbill/undotree'
+Plug 'kana/vim-altr'
 
 " highlight colors (eg #123456) that appear in buffer
 Plug 'lilydjwg/colorizer'
@@ -527,6 +528,8 @@ augroup mappings
   nmap ;h :Helptags<CR>
   " nmap ;m :Commands<CR>
   nmap ;m :marks<CR>
+
+  nnoremap <leader>a :call altr#forward()<CR>
 
   " Mapping selecting mappings
   nmap <leader><tab> <plug>(fzf-maps-n)
