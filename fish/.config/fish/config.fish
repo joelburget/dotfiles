@@ -14,16 +14,6 @@ alias v vim
 alias conf "vim ~/.config/fish/config.fish"
 alias config 'git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-function dark
-  echo -e "^\033]1337;SetColors=preset=Solarized Dark\a"
-  osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to true'
-end
-
-function light
-  echo -e "^\033]1337;SetColors=preset=Solarized Light\a"
-  osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to false'
-end
-
 # silence "gpg-agent: a gpg-agent is already running - not starting a new one"
 gpg-agent --daemon 2> /dev/null
 
