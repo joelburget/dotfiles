@@ -26,3 +26,6 @@ function fish_user_key_bindings
 
     bind \cr peco_select_history
 end
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
