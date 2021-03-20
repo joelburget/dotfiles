@@ -318,7 +318,7 @@ augroup configgroup
   " autocmd BufEnter * cd %:p:h
 
   " Strip trailing whitespace on write
-  autocmd BufWritePre * :%s/\s\+$//e
+  autocmd BufWritePre * :let _s=@/ | :%s/\s\+$//e | :let @/=_s
 
   " Automatically reload vimrc if it has been saved
   autocmd bufwritepost .vimrc source $MYVIMRC
