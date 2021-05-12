@@ -337,7 +337,7 @@ augroup configgroup
   au BufRead,BufNewFile *.mli set colorcolumn=90
 
   autocmd Syntax * call matchadd('Error', '\(STOPSHIP\|XXX\)')
-  autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\|Q\)')
+  autocmd Syntax * call matchadd('Todo', '\(TODO\|FIXME\|HACK\|\<Q\>\)')
   autocmd Syntax * call matchadd('Underlined', 'joel', 9)
 augroup END
 
