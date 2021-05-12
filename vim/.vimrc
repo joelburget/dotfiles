@@ -272,7 +272,7 @@ set lazyredraw
 " For regular expressions turn magic on
 set magic
 
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+let g:opamshare = substitute(system('opam var share'),'\n$','','''')
 execute "set rtp+=" . g:opamshare . "/merlin/vim"
 " execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
 
