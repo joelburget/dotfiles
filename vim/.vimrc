@@ -39,7 +39,7 @@ Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
 Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
 Plug 'itchyny/lightline.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'majutsushi/tagbar'
 " Plug 'zerowidth/vim-copy-as-rtf'
 Plug 'ConradIrwin/vim-bracketed-paste'
