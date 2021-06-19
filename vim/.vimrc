@@ -25,7 +25,7 @@ Plug 'tpope/vim-repeat'
 
 " git
 " Plug 'airblade/vim-gitgutter'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
 
