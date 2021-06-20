@@ -7,7 +7,7 @@ let base16colorspace=256
 set encoding=utf-8
 scriptencoding utf-8
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/site/plugged')
 
 " colors
 Plug 'lifepillar/vim-solarized8'
@@ -36,8 +36,6 @@ Plug 'simnalamburt/vim-mundo'
 Plug 'Shougo/vimproc.vim', {'build' : 'make'}
 Plug 'w0rp/ale'
 Plug 'ervandew/supertab'
-Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
-Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'majutsushi/tagbar'
@@ -97,6 +95,11 @@ Plug 'j16180339887/Global.vim'
 Plug 'fatih/vim-go'
 Plug 'ocaml/vim-ocaml'
 Plug 'reasonml-editor/vim-reason-plus'
+
+" Telescope
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'lfv89/vim-interestingwords'
 call plug#end()
@@ -316,8 +319,8 @@ augroup configgroup
   " Strip trailing whitespace on write
   autocmd BufWritePre * :let _s=@/ | :%s/\s\+$//e | :let @/=_s
 
-  " Automatically reload vimrc if it has been saved
-  autocmd bufwritepost .vimrc source $MYVIMRC
+  " Automatically reload init.vim if it has been saved
+  autocmd bufwritepost init.vim source $MYVIMRC
 
   " automatically use leaders in literate haskell
   " http://stackoverflow.com/a/18572190
@@ -407,12 +410,6 @@ augroup mappings
   " Map jk / fd to escape
   imap jk <Esc>
   imap fd <Esc>
-
-  " Insert mode completion
-  imap <c-x><c-k> <plug>(fzf-complete-word)
-  imap <c-x><c-f> <plug>(fzf-complete-path)
-  imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-  imap <c-x><c-l> <plug>(fzf-complete-line)
 
   " command mode
 
@@ -514,28 +511,22 @@ augroup mappings
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
 
-  " Edit .vimrc
+  " Edit init.vim
   nmap <silent> <leader>ev :e $MYVIMRC<CR>
-  " Reload .vimrc
+  " Reload init.vim
   nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
-  " fzf
-  nmap ;b :Buffers<CR>
-  nmap ;r :History<CR>
-  nmap ;f :FZF<CR>
-  nmap ;g :GFiles<CR>
-  nmap ;t :Tags<CR>
-  nmap ;c :Colors<CR>
-  nmap ;h :Helptags<CR>
-  " nmap ;m :Commands<CR>
-  nmap ;m :marks<CR>
+  nmap ;b <cmd>Telescope buffers<cr>
+  nmap ;r <cmd>Telescope command_history<cr>
+  nmap ;f <cmd>Telescope find_files<cr>
+  nmap ;g <cmd>Telescope git_files<cr>
+  nmap ;t <cmd>Telescope tags<cr>
+  nmap ;c <cmd>Telescope colorscheme<cr>
+  nmap ;h <cmd>Telescope help_tags<cr>
+  nmap ;m <cmd>Telescope marks<cr>
+  nmap ;g <cmd>Telescope live_grep<cr>
 
   nnoremap <leader>a :call altr#forward()<CR>
-
-  " Mapping selecting mappings
-  nmap <leader><tab> <plug>(fzf-maps-n)
-  xmap <leader><tab> <plug>(fzf-maps-x)
-  omap <leader><tab> <plug>(fzf-maps-o)
 
   let g:interestingWordsDefaultMappings = 0
   nnoremap <silent> <leader>m :call InterestingWords('n')<cr>
