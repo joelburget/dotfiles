@@ -123,3 +123,5 @@
 	trustExitCode = true
 [mergetool]
 	prompt = false
+[init]
+	defaultBranch = main
