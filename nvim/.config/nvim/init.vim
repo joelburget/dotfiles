@@ -97,9 +97,13 @@ Plug 'ocaml/vim-ocaml'
 Plug 'reasonml-editor/vim-reason-plus'
 
 " Telescope
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
+
+" fzf
+Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
+Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
 
 Plug 'lfv89/vim-interestingwords'
 call plug#end()
@@ -516,15 +520,25 @@ augroup mappings
   " Reload init.vim
   nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
-  nmap ;b <cmd>Telescope buffers<cr>
-  nmap ;r <cmd>Telescope command_history<cr>
-  nmap ;f <cmd>Telescope find_files<cr>
-  nmap ;g <cmd>Telescope git_files<cr>
-  nmap ;t <cmd>Telescope tags<cr>
-  nmap ;c <cmd>Telescope colorscheme<cr>
-  nmap ;h <cmd>Telescope help_tags<cr>
-  nmap ;m <cmd>Telescope marks<cr>
-  nmap ;g <cmd>Telescope live_grep<cr>
+  " fzf
+  nmap ;b :Buffers<CR>
+  nmap ;r :History<CR>
+  nmap ;f :FZF<CR>
+  nmap ;g :GFiles<CR>
+  nmap ;t :Tags<CR>
+  nmap ;c :Colors<CR>
+  nmap ;h :Helptags<CR>
+  " nmap ;m :Commands<CR>
+  nmap ;m :marks<CR>
+
+  " nmap ;b <cmd>Telescope buffers<cr>
+  " nmap ;r <cmd>Telescope command_history<cr>
+  " nmap ;f <cmd>Telescope find_files<cr>
+  " nmap ;g <cmd>Telescope git_files<cr>
+  " nmap ;t <cmd>Telescope tags<cr>
+  " nmap ;c <cmd>Telescope colorscheme<cr>
+  " nmap ;h <cmd>Telescope help_tags<cr>
+  " nmap ;m <cmd>Telescope marks<cr>
 
   nnoremap <leader>a :call altr#forward()<CR>
 
