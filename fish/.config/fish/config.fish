@@ -1,5 +1,5 @@
 set -x GOPATH $HOME/go
-set -x PATH $PATH $HOME/.local/bin
+set -x PATH $PATH $HOME/.local/bin $HOME/.cabal/bin $HOME/.emacs.d/bin
 set -x PAGER less
 set -x MANPAGER "/bin/sh -c \"col -b | vim --noplugin -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 set -x EDITOR vim
