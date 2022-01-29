@@ -23,9 +23,15 @@ function fish_user_key_bindings
     # * with a non-empty line, navigates through the line
     bind \033f nextd-or-forward-word
     bind \033b prevd-or-backward-word
-
-    bind \cr peco_select_history
 end
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
+eval (opam env)
+
+zoxide init fish | source
+
+set -gx MCFLY_LIGHT TRUE
+set -gx MCFLY_FUZZY true
+set -gx MCFLY_RESULTS 50
+mcfly init fish | source
