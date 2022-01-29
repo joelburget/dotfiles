@@ -1,8 +1,8 @@
 set -x GOPATH $HOME/go
 set -x PATH $PATH $HOME/.local/bin $HOME/.cabal/bin $HOME/.emacs.d/bin
 set -x PAGER less
-set -x MANPAGER "/bin/sh -c \"col -b | vim --noplugin -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
-set -x EDITOR vim
+set -x MANPAGER "/bin/sh -c \"col -b | nvim --noplugin -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
+set -x EDITOR nvim
 set -x TERM xterm-256color
 
 alias gg "git grep"
@@ -10,8 +10,9 @@ alias ggi "git grep -i"
 alias df "git diff --no-index"
 alias e emacs
 alias clone "hub clone"
-alias v vim
-alias conf "vim ~/.config/fish/config.fish"
+alias vim nvim
+alias v nvim
+alias conf "nvim ~/.config/fish/config.fish"
 alias config 'git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # silence "gpg-agent: a gpg-agent is already running - not starting a new one"
